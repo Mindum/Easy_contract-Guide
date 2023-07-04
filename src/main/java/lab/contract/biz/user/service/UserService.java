@@ -1,2 +1,3 @@
-package lab.contract.biz.user.service;public class UserService {
+package lab.contract.biz.user.service;
+public class UserService {
 }
