@@ -1,6 +1,7 @@
 package lab.contract.biz.user.service;
 
 import lab.contract.biz.user.controller.dto.request.UserRequestDto;
+import lab.contract.biz.user.controller.dto.response.UserResponse;
 import lab.contract.biz.user.persistence.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -36,7 +36,8 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity signup(@RequestBody @Valid UserRequestDto userRequestDto) {
 
-        userService.saveUser(userRequestDto);
+        Long saveId = userService.saveUser(userRequestDto);
+        userRequestDto.setId(saveId);
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.CREATED_USER, userRequestDto), HttpStatus.OK);
     }
 
