@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiResponses;
 import lab.contract.biz.user.controller.dto.request.UserRequestDto;
 import lab.contract.biz.user.controller.dto.response.UserResponse;
 import lab.contract.biz.user.persistence.entity.User;
-import lab.contract.biz.user.presentation.ApiResponse;
 import lab.contract.biz.user.service.UserService;
 import lab.contract.infrastructure.exception.DefaultRes;
 import lab.contract.infrastructure.exception.ResponseMessage;
@@ -37,7 +36,8 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity signup(@RequestBody @Valid UserRequestDto userRequestDto) {
 
-        userService.saveUser(userRequestDto);
+        Long saveId = userService.saveUser(userRequestDto);
+        userRequestDto.setId(saveId);
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.CREATED_USER, userRequestDto), HttpStatus.OK);
     }
 
