@@ -33,6 +33,14 @@ public class UserRequestDto {
                 .build();
     }
 
+    public UserRequestDto toService() {
+        return new UserRequestDto(
+                this.username,
+                this.password,
+                this.email,
+                this.privacy_agreement_yn
+        );
+    }
     @Builder
     public UserRequestDto(String username,String email,String password, String privacy_agreement_yn) {
         this.username = username;
