@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiResponses;
 import lab.contract.biz.user.controller.dto.request.UserRequestDto;
 import lab.contract.biz.user.controller.dto.response.UserResponse;
 import lab.contract.biz.user.persistence.entity.User;
-import lab.contract.biz.user.presentation.ApiResponse;
 import lab.contract.biz.user.service.UserService;
 import lab.contract.infrastructure.exception.DefaultRes;
 import lab.contract.infrastructure.exception.ResponseMessage;
