@@ -29,9 +29,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         log.info("======================================");
 
         //회원가입 페이지(join) & 회원가입 기능(user/join)에 대한 권한 체크 풀어줌
-        http.authorizeRequests()
-                .antMatchers("/join").permitAll()
-                .antMatchers("/user/join").permitAll()
+        http.csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/signup").permitAll()
                 .anyRequest().authenticated();
     }
 

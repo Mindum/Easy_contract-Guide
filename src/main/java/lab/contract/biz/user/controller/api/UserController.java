@@ -1,13 +1,15 @@
 package lab.contract.biz.user.controller.api;
 
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import lab.contract.biz.user.controller.dto.request.UserRequestDto;
 import lab.contract.biz.user.persistence.entity.User;
 import lab.contract.biz.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
@@ -25,9 +27,13 @@ public class UserController {
     }
 
     // 회원가입 처리
+    @ApiResponses(value = {
+            @ApiResponse(code = 403, message = "unauthorized")
+    })
     @PostMapping("/signup")
-    public String signup() {
-        return "redirect:/loginForm";
+    public ResponseEntity signup(@RequestBody UserRequestDto userRequestDto) {
+        userService.saveUser(userRequestDto);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 }

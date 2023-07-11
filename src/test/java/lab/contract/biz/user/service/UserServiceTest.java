@@ -41,11 +41,23 @@ public class UserServiceTest {
     public void 회원가입_테스트() {
         //given
         UserRequestDto userRequestDto = createUser();
-        System.out.println(userRequestDto);
         //when
         Long saveId = userService.saveUser(userRequestDto);
         String saveEmail = userRepository.findById(saveId).get().getEmail();
         //then
         assertThat(userRequestDto.getEmail()).isEqualTo(saveEmail);
+    }
+    @Test
+    public void 중복회원예외() {
+        //given
+        UserRequestDto userRequestDto1 = createUser();
+        UserRequestDto userRequestDto2 = createUser();
+        userService.saveUser(userRequestDto1);
+
+        //when
+        IllegalArgumentException returnStatusMessage = assertThrows(IllegalArgumentException.class,
+                ()->userService.saveUser(userRequestDto2));
+        //then
+        assertThat(returnStatusMessage.getMessage()).isEqualTo("이미 가입된 회원입니다.");
     }
 }

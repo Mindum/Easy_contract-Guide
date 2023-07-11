@@ -22,7 +22,7 @@ public class UserService{
     @Transactional
     public Long saveUser(UserRequestDto requestDto) {
         if (userRepository.existsByEmail(requestDto.getEmail())) {
-            throw new IllegalStateException("이미 가입된 회원입니다.");
+            throw new IllegalArgumentException("이미 가입된 회원입니다.");
         }
 
         requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
