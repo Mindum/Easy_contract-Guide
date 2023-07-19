@@ -6,7 +6,6 @@ import lombok.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Getter
@@ -33,14 +32,7 @@ public class UserRequestDto {
                 .build();
     }
 
-    public UserRequestDto toService() {
-        return new UserRequestDto(
-                this.username,
-                this.password,
-                this.email,
-                this.privacy_agreement_yn
-        );
-    }
+
     @Builder
     public UserRequestDto(String username,String email,String password, String privacy_agreement_yn) {
         this.username = username;

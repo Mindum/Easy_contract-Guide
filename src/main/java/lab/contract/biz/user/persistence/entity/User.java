@@ -1,5 +1,6 @@
 package lab.contract.biz.user.persistence.entity;
 
+import lab.contract.biz.user.controller.dto.response.UserResponse;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,6 @@ public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
 
     @Column(nullable = false)
     private String username;
@@ -30,6 +30,16 @@ public class User {
         this.email = email;
         this.password = password;
         this.privacy_agreement_yn = privacy_agreement_yn;
+    }
+
+    public UserResponse toResponse() {
+        return UserResponse.builder()
+                .id(id)
+                .username(username)
+                .email(email)
+                .password(password)
+                .privacy_agreement_yn(privacy_agreement_yn)
+                .build();
     }
 
 }
