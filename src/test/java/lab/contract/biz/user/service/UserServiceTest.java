@@ -1,8 +1,10 @@
 package lab.contract.biz.user.service;
 
 import lab.contract.biz.user.controller.dto.request.UserRequestDto;
+import lab.contract.biz.user.persistence.entity.User;
 import lab.contract.biz.user.service.UserService;
 import lab.contract.biz.user.persistence.repository.UserRepository;
+import lab.contract.infrastructure.exception.user.DuplicatedUserException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,22 +44,20 @@ public class UserServiceTest {
         //given
         UserRequestDto userRequestDto = createUser();
         //when
-        Long saveId = userService.saveUser(userRequestDto);
-        String saveEmail = userRepository.findById(saveId).get().getEmail();
+        User saveUser = userService.saveUser(userRequestDto);
+        String saveEmail = saveUser.getEmail();
         //then
         assertThat(userRequestDto.getEmail()).isEqualTo(saveEmail);
     }
     @Test
-    public void 중복회원예외() {
+    public void 중복회원예외_테스트() {
         //given
         UserRequestDto userRequestDto1 = createUser();
         UserRequestDto userRequestDto2 = createUser();
         userService.saveUser(userRequestDto1);
 
-        //when
-        IllegalArgumentException returnStatusMessage = assertThrows(IllegalArgumentException.class,
+        //when then
+        assertThrows(DuplicatedUserException.class,
                 ()->userService.saveUser(userRequestDto2));
-        //then
-        assertThat(returnStatusMessage.getMessage()).isEqualTo("이미 가입된 회원입니다.");
     }
 }
