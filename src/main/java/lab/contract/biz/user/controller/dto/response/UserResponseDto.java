@@ -3,15 +3,13 @@ package lab.contract.biz.user.controller.dto.response;
 import lombok.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
 
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @Valid
-public class UserResponse {
+public class UserResponseDto {
 
     private Long id;
     private String username;
@@ -20,7 +18,7 @@ public class UserResponse {
     private String privacy_agreement_yn;
 
     @Builder
-    public UserResponse(Long id, String username,String email,String password, String privacy_agreement_yn) {
+    public UserResponseDto(Long id, String username, String email, String password, String privacy_agreement_yn) {
         this.id = id;
         this.username = username;
         this.email = email;
