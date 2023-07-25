@@ -1,4 +1,4 @@
-package lab.contract.biz.contract_img.persistence.service;
+package lab.contract.biz.contract_img.service;
 
 import lab.contract.biz.contract_img.persistence.entity.ContractImg;
 import lab.contract.biz.contract_img.persistence.repository.ContractImgRepository;

@@ -8,6 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ContractImgRepository extends JpaRepository<ContractImg,Long> {
-
     List<ContractImg> findByContractIdAndPage(Long contract_id, Integer page);
 }

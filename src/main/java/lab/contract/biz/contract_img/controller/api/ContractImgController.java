@@ -1,22 +1,15 @@
-package lab.contract.biz.contract_img.persistence.controller.api;
+package lab.contract.biz.contract_img.controller.api;
 
-import lab.contract.biz.contract_img.persistence.entity.ContractImg;
 import lab.contract.biz.contract_img.persistence.repository.ContractImgRepository;
-import lab.contract.biz.contract_img.persistence.service.ContractImgService;
-import lab.contract.biz.user.session.SessionConstant;
-import lab.contract.infrastructure.exception.DefaultRes;
+import lab.contract.biz.contract_img.service.ContractImgService;
 import lab.contract.infrastructure.exception.ResponseMessage;
-import lab.contract.infrastructure.exception.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 @RestController
