@@ -1,10 +1,13 @@
 package lab.contract.biz.user.persistence.entity;
 
+import lab.contract.biz.user.controller.dto.response.UserResponse;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@NoArgsConstructor
 @Getter
 @Entity
 public class User {
@@ -15,7 +18,7 @@ public class User {
 
     @Column(nullable = false)
     private String username;
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String email;
     @Column(nullable = false)
     private String password;
@@ -28,6 +31,16 @@ public class User {
         this.email = email;
         this.password = password;
         this.privacy_agreement_yn = privacy_agreement_yn;
+    }
+
+    public UserResponse toResponse() {
+        return UserResponse.builder()
+                .id(id)
+                .username(username)
+                .email(email)
+                .password(password)
+                .privacy_agreement_yn(privacy_agreement_yn)
+                .build();
     }
 
 }
