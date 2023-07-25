@@ -1,7 +1,10 @@
 package lab.contract.biz.user.persistence.repository;
 
 import lab.contract.biz.user.persistence.entity.User;
+<<<<<<< Updated upstream
 import lab.contract.biz.user.presentation.repository.UserRepository;
+=======
+>>>>>>> Stashed changes
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;

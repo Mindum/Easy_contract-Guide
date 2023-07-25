@@ -3,7 +3,11 @@ package lab.contract.biz.contract.service;
 import lab.contract.biz.contract.persistence.entity.Contract;
 import lab.contract.biz.contract.persistence.repository.ContractRepository;
 import lab.contract.biz.user.persistence.entity.User;
+<<<<<<< Updated upstream
 import lab.contract.biz.user.presentation.repository.UserRepository;
+=======
+import lab.contract.biz.user.persistence.repository.UserRepository;
+>>>>>>> Stashed changes
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +19,11 @@ import javax.transaction.Transactional;
 
 import java.util.Optional;
 
+<<<<<<< Updated upstream
+=======
+import static org.junit.jupiter.api.Assertions.*;
+
+>>>>>>> Stashed changes
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional

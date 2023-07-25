@@ -4,7 +4,12 @@ import lab.contract.biz.contract.persistence.entity.Contract;
 import lab.contract.biz.contract.persistence.repository.ContractRepository;
 import lab.contract.biz.contract_img.persistence.entity.ContractImg;
 import lab.contract.biz.user.persistence.entity.User;
+<<<<<<< Updated upstream
 import lab.contract.biz.user.presentation.repository.UserRepository;
+=======
+import lab.contract.biz.user.persistence.repository.UserRepository;
+import org.junit.After;
+>>>>>>> Stashed changes
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

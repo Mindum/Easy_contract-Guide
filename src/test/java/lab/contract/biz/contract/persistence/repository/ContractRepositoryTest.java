@@ -2,7 +2,11 @@ package lab.contract.biz.contract.persistence.repository;
 
 import lab.contract.biz.contract.persistence.entity.Contract;
 import lab.contract.biz.user.persistence.entity.User;
+<<<<<<< Updated upstream
 import lab.contract.biz.user.presentation.repository.UserRepository;
+=======
+import lab.contract.biz.user.persistence.repository.UserRepository;
+>>>>>>> Stashed changes
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+<<<<<<< Updated upstream
+=======
+import java.time.LocalDateTime;
+>>>>>>> Stashed changes
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
