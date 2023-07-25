@@ -16,7 +16,7 @@ public class ConvertAPI {
         Config.setDefaultSecret("G62G8OZLpyIHRu4A");
         ConvertApi.convert("pdf","png",
                 new Param("File", Paths.get("C:/contract/getpdf/"+pdfname)),
-                new Param("FileName","png")
+                new Param("FileName",pdfname)
         ).get().saveFilesSync(Paths.get("C:/contract/savepng"));
     }
 
