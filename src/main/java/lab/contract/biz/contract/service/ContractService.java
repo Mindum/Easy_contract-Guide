@@ -3,7 +3,7 @@ package lab.contract.biz.contract.service;
 import lab.contract.biz.contract.persistence.entity.Contract;
 import lab.contract.biz.contract.persistence.repository.ContractRepository;
 import lab.contract.biz.user.persistence.entity.User;
-import lab.contract.biz.user.presentation.repository.UserRepository;
+import lab.contract.biz.user.persistence.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,14 +29,13 @@ public class ContractService {
                 .user(user.get())
                 .contract_name("untitled")
                 .build();
-        contractRepository.save(saveContract);
-        return saveContract.getId();
+        return contractRepository.save(saveContract).getId();
     }
-    public void savePdfFile(MultipartFile pdfFile) throws IOException {
+    public String savePdfFile(MultipartFile pdfFile) throws IOException {
         String pdfFileName = UUID.randomUUID() + "_" + pdfFile.getOriginalFilename();
-        String path = "C:/JavaStudy/pdfFile/";
+        String path = "C:/contract/getpdf/";
         File saveFile = new File(path, pdfFileName);
         pdfFile.transferTo(saveFile);
-
+        return pdfFileName;
     }
 }

@@ -1,4 +1,4 @@
-package lab.contract.biz.user.presentation.repository;
+package lab.contract.biz.user.persistence.repository;
 
 import lab.contract.biz.user.persistence.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

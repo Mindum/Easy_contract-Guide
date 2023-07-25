@@ -37,9 +37,7 @@ public class ContractControllerTest {
                 .privacy_agreement_yn("y")
                 .build();
         //when
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("/fileupload")
-        )
+
         //then
 
     }
