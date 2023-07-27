@@ -29,6 +29,7 @@ public class ContractController {
         Long saveId = contractService.saveContract(uploadRequestDto.getUserId());
         String fileName = contractService.savePdfFile(uploadRequestDto.getPdfFile());
         contractImgService.convertPdfToPng(fileName);
-        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS,"save contract id :"+saveId), HttpStatus.OK);
+        int page = contractImgService.savaContractImg(saveId,fileName);
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS,"save contract id :"+saveId +"\npage :"+page), HttpStatus.OK);
     }
 }

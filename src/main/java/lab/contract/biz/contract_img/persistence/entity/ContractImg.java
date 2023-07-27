@@ -16,8 +16,8 @@ public class ContractImg {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "contract_id", insertable=false, updatable=false)
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "contract_id")
     private Contract contract;
 
     @Column(nullable = false)

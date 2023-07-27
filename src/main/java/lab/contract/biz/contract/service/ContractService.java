@@ -4,6 +4,7 @@ import lab.contract.biz.contract.persistence.entity.Contract;
 import lab.contract.biz.contract.persistence.repository.ContractRepository;
 import lab.contract.biz.user.persistence.entity.User;
 import lab.contract.biz.user.persistence.repository.UserRepository;
+import lab.contract.infrastructure.exception.ResponseMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
