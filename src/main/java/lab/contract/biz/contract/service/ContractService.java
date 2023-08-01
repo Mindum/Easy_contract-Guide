@@ -22,6 +22,7 @@ public class ContractService {
 
     private final ContractRepository contractRepository;
     private final UserRepository userRepository;
+    private static final String UPLOAD_PATH = "C:/contract/getpdf/";
 
     public Long saveContract(
             Long userId) {
@@ -34,8 +35,7 @@ public class ContractService {
     }
     public String savePdfFile(MultipartFile pdfFile) throws IOException {
         String pdfFileName = UUID.randomUUID() + "_" + pdfFile.getOriginalFilename();
-        String path = "C:/contract/getpdf/";
-        File saveFile = new File(path, pdfFileName);
+        File saveFile = new File(UPLOAD_PATH, pdfFileName);
         pdfFile.transferTo(saveFile);
         return pdfFileName;
     }

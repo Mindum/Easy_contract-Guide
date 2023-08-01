@@ -11,13 +11,14 @@ import java.util.concurrent.ExecutionException;
 
 @Service
 public class ConvertAPI {
+    private static final String UPLOAD_PATH = "C:/contract/getpdf/";
+    private static final String DOWNLOAD_PATH = "C:/contract/savepng/";
 
-    public void convert(String pdfname) throws IOException, ExecutionException, InterruptedException {
+    public void convertApi(String pdfname) throws IOException, ExecutionException, InterruptedException {
         Config.setDefaultSecret("G62G8OZLpyIHRu4A");
         ConvertApi.convert("pdf","png",
-                new Param("File", Paths.get("C:/contract/getpdf/"+pdfname)),
+                new Param("File", Paths.get(UPLOAD_PATH+pdfname)),
                 new Param("FileName",pdfname)
-        ).get().saveFilesSync(Paths.get("C:/contract/savepng"));
+        ).get().saveFilesSync(Paths.get(DOWNLOAD_PATH));
     }
-
 }

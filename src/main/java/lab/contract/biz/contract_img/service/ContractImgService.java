@@ -23,26 +23,34 @@ public class ContractImgService {
     private final ContractImgRepository contractImgRepository;
     private final ContractRepository contractRepository;
     private final ConvertAPI convertAPI;
+    private static final String UPLOAD_PATH = "C:/contract/getpdf/";
+    private static final String DOWNLOAD_PATH = "C:/contract/savepng/";
+
 
     public void convertPdfToPng(String pdfFileName) throws IOException, ExecutionException, InterruptedException {
-        convertAPI.convert(pdfFileName);
+        convertAPI.convertApi(pdfFileName);
     }
     public int savaContractImg(Long contractId, String pdfFileName) throws IOException {
+
         Optional<Contract> contract = contractRepository.findById(contractId);
-        File source = new File("C:/contract/getpdf/"+pdfFileName);
+        if (!contract.isPresent()) {
+            // contract 예외 처리
+        }
+        File source = new File(UPLOAD_PATH + pdfFileName);
         PDDocument document = PDDocument.load(source);
         int pagesOfPdf = document.getNumberOfPages();
-        for (int i=1; i<=pagesOfPdf; i++) {
-            if (i==1) {
+
+        for (int i = 1; i <= pagesOfPdf; i++) {
+            if (i == 1) {
                 contractImgRepository.save(ContractImg.builder()
                         .contract(contract.get())
                         .page(i)
-                        .url("C:/contract/getpdf/"+pdfFileName).build());
+                        .url(DOWNLOAD_PATH + pdfFileName).build());
             } else {
                 contractImgRepository.save(ContractImg.builder()
                         .contract(contract.get())
                         .page(i)
-                        .url("C:/contract/getpdf/" + pdfFileName + "_" + i).build());
+                        .url(DOWNLOAD_PATH + pdfFileName + "_" + i).build());
             }
         }
         return pagesOfPdf;
