@@ -1,18 +1,25 @@
+package lab.contract.biz.contract_img.persistence.service;
+
+
+import static org.assertj.core.api.Assertions.assertThat;
 import lab.contract.biz.contract_img.persistence.entity.ContractImg;
 import lab.contract.biz.contract_img.persistence.repository.ContractImgRepository;
 import lab.contract.biz.contract_img.persistence.service.ContractImgService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
+import java.io.ByteArrayOutputStream;
 import javax.transaction.Transactional;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
