@@ -36,6 +36,4 @@ public class ContractImgServiceTest {
     @Autowired
     ContractRepository contractRepository;
 
-
-
 }

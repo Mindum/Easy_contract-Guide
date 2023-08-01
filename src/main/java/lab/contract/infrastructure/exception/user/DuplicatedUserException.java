@@ -11,8 +11,5 @@ public class DuplicatedUserException extends RuntimeException{
         super(message);
         this.responseMessage = responseMessage;
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> master
+

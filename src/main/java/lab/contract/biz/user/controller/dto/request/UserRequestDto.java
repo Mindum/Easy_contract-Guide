@@ -32,7 +32,6 @@ public class UserRequestDto {
                 .build();
     }
 
-
     @Builder
     public UserRequestDto(String username,String email,String password, String privacy_agreement_yn) {
         this.username = username;

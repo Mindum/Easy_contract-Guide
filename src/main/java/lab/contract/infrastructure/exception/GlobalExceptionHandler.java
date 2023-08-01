@@ -33,8 +33,5 @@ public class GlobalExceptionHandler {
         log.info("비밀번호가 일치하지 않습니다.");
         return new ResponseEntity(DefaultRes.res(StatusCode.PASSWORD_MISMATCH, e.getResponseMessage()), HttpStatus.BAD_REQUEST);
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> master
+

@@ -1,9 +1,5 @@
 package lab.contract.biz.contract.service;
 
-<<<<<<< HEAD
-public class ContractServiceTest {
-}
-=======
 import lab.contract.biz.contract.persistence.entity.Contract;
 import lab.contract.biz.contract.persistence.repository.ContractRepository;
 import lab.contract.biz.user.persistence.entity.User;
@@ -49,4 +45,3 @@ public class ContractServiceTest {
 
     }
 }
->>>>>>> master

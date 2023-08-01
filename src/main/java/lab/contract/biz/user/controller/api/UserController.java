@@ -9,20 +9,14 @@ import lab.contract.biz.user.session.SessionConstant;
 import lab.contract.infrastructure.exception.DefaultRes;
 import lab.contract.infrastructure.exception.ResponseMessage;
 import lab.contract.infrastructure.exception.StatusCode;
-import lab.contract.infrastructure.exception.user.DoesNotExistUserException;
-import lab.contract.infrastructure.exception.user.DuplicatedUserException;
-import lab.contract.infrastructure.exception.user.PasswordMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
 
 @CrossOrigin(originPatterns = "*")
 @RestController
@@ -81,9 +75,5 @@ public class UserController {
         }
         return "";
     }
+}
 
-<<<<<<< HEAD
-}
-=======
-}
->>>>>>> master
