@@ -1,3 +1,4 @@
+/*
 package lab.contract.biz.contract_img.controller.api;
 
 import lab.contract.biz.contract_img.persistence.repository.ContractImgRepository;
@@ -11,7 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
-
+*/
+/*
 @RestController
 public class ContractImgController {
     private final ContractImgRepository contractImgRepository;
@@ -38,3 +40,4 @@ public class ContractImgController {
         }
     }
 }
+*/

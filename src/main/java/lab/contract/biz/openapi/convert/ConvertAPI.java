@@ -7,32 +7,38 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Service
 public class ConvertAPI {
 
-    public static String convert(String pdfname) throws IOException, ExecutionException, InterruptedException {
+    private static final String UPLOAD_PATH = "C:/contract/getpdf/";
+    private static final String DOWNLOAD_PATH = "C:/contract/savepng/";
+
+    public void convertApi(String pdfname) throws IOException, ExecutionException, InterruptedException {
         Config.setDefaultSecret("G62G8OZLpyIHRu4A");
-        String pdfSourcePath = "C:/Users/rhkr0/OneDrive/바탕 화면/get/";
-        String pngDestinationPath = "C:/Users/rhkr0/OneDrive/바탕 화면/save/";
-
         ConvertApi.convert("pdf", "png",
-                new Param("File", Paths.get(pdfSourcePath + pdfname + ".pdf")),
-                new Param("FileName", "png")
-        ).get().saveFilesSync(Paths.get(pngDestinationPath));
+                new Param("File", Paths.get(UPLOAD_PATH + pdfname)),
+                new Param("FileName", pdfname)
+        ).get().saveFilesSync(Paths.get(DOWNLOAD_PATH));
 
-        return pngDestinationPath;
-        //ConvertApi.convert("pdf","png",
-        //        new Param("File", Paths.get("C:/PDF가져올 파일 경로"+pdfname+".pdf")),
-        //        new Param("FileName","png")
-        //).get().saveFilesSync(Paths.get("C:/PNG저장할 파일 경로"));
+
+
+
+        //String pdfSourcePath = "C:/contract/getpdf/";
+        //String pngDestinationPath = "C:/contract/savepng/";
+
+        //ConvertApi.convert("pdf", "png",
+        //        new Param("File", Paths.get(pdfSourcePath + pdfname + ".pdf")),
+        //        new Param("FileName", "png")
+        //).get().saveFilesSync(Paths.get(pngDestinationPath));
 
         //return "C:/PNG저장할 파일 경로";
     }
 
-    public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
-        String pdfname = "건축물대장-아리관";
-        convert(pdfname);
-    }
+    //public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
+   //     String pdfname = "건축물대장-아리관";
+    //    convert(pdfname);
+    //}
 }

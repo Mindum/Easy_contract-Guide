@@ -1,57 +1,62 @@
 package lab.contract.biz.contract_img.service;
 
+import lab.contract.biz.contract.persistence.entity.Contract;
+import lab.contract.biz.contract.persistence.repository.ContractRepository;
+import lab.contract.biz.contract.service.ContractService;
 import lab.contract.biz.contract_img.persistence.entity.ContractImg;
 import lab.contract.biz.contract_img.persistence.repository.ContractImgRepository;
 import lab.contract.biz.openapi.convert.ConvertAPI;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.apache.pdfbox.pdmodel.PDDocument;
 
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.UUID;
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class ContractImgService {
 
-    private final ConvertAPI convertAPI;
     private final ContractImgRepository contractImgRepository;
+    private final ContractRepository contractRepository;
+    private final ConvertAPI convertAPI;
+    private static final String UPLOAD_PATH = "C:/contract/getpdf/";
+    private static final String DOWNLOAD_PATH = "C:/contract/savepng/";
 
-    @Autowired
-    public ContractImgService(ConvertAPI convertAPI, ContractImgRepository contractImgRepository) {
-        this.convertAPI = convertAPI;
-        this.contractImgRepository = contractImgRepository;
+
+    public void convertPdfToPng(String pdfFileName) throws IOException, ExecutionException, InterruptedException {
+        convertAPI.convertApi(pdfFileName);
     }
+    public int saveContractImg(Long contractId, String pdfFileName) throws IOException {
 
-    public String uploadFile(Long contract_id, Integer page, MultipartFile file) throws IOException, ExecutionException, InterruptedException {
-        try {
-
-            String originalFileName = file.getOriginalFilename();
-            String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-            String uniqueFileName = UUID.randomUUID().toString() + fileExtension;
-
-            String filePath = "C:/Users/rhkr0/OneDrive/바탕 화면/get/" + uniqueFileName;
-            Path path = Paths.get(filePath);
-
-            Files.write(path, file.getBytes());
-
-            String convertedFileName = convertAPI.convert(filePath);
-
-            // ContractImg 엔티티 생성 및 저장
-            ContractImg contractImg = ContractImg.builder()
-                    .contract_id(contract_id)
-                    .page(page)
-                    .url(convertedFileName) // 변환된 파일의 저장된 경로를 DB에 저장
-                    .build();
-            contractImgRepository.save(contractImg);
-
-            return "파일 업로드 성공";
-        } catch (IOException | InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-            return "파일 업로드 실패";
+        Optional<Contract> contract = contractRepository.findById(contractId);
+        if (!contract.isPresent()) {
+            // contract 예외 처리
         }
+        File source = new File(UPLOAD_PATH + pdfFileName);
+        PDDocument document = PDDocument.load(source);
+        int pagesOfPdf = document.getNumberOfPages();
+
+        for (int i = 1; i <= pagesOfPdf; i++) {
+            if (i == 1) {
+                contractImgRepository.save(ContractImg.builder()
+                        .contract(contract.get())
+                        .page(i)
+                        .url(DOWNLOAD_PATH + pdfFileName).build());
+            } else {
+                contractImgRepository.save(ContractImg.builder()
+                        .contract(contract.get())
+                        .page(i)
+                        .url(DOWNLOAD_PATH + pdfFileName + "_" + i).build());
+            }
+        }
+        return pagesOfPdf;
     }
 }
