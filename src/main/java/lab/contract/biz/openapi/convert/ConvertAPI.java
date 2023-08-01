@@ -7,17 +7,24 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+<<<<<<< HEAD
 import java.util.List;
+=======
+>>>>>>> master
 import java.util.concurrent.ExecutionException;
 
 @Service
 public class ConvertAPI {
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
     private static final String UPLOAD_PATH = "C:/contract/getpdf/";
     private static final String DOWNLOAD_PATH = "C:/contract/savepng/";
 
     public void convertApi(String pdfname) throws IOException, ExecutionException, InterruptedException {
         Config.setDefaultSecret("G62G8OZLpyIHRu4A");
+<<<<<<< HEAD
         ConvertApi.convert("pdf", "png",
                 new Param("File", Paths.get(UPLOAD_PATH + pdfname)),
                 new Param("FileName", pdfname)
@@ -41,4 +48,11 @@ public class ConvertAPI {
    //     String pdfname = "건축물대장-아리관";
     //    convert(pdfname);
     //}
+=======
+        ConvertApi.convert("pdf","png",
+                new Param("File", Paths.get(UPLOAD_PATH+pdfname)),
+                new Param("FileName",pdfname)
+        ).get().saveFilesSync(Paths.get(DOWNLOAD_PATH));
+    }
+>>>>>>> master
 }

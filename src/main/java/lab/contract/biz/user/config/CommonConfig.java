@@ -11,5 +11,9 @@ public class CommonConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+<<<<<<< HEAD
     }
 }
+=======
+    }}
+>>>>>>> master

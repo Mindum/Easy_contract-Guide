@@ -1,15 +1,25 @@
 package lab.contract.biz.user.persistence.repository;
 
 import lab.contract.biz.user.persistence.entity.User;
+<<<<<<< HEAD
 import lab.contract.biz.user.persistence.repository.UserRepository;
+=======
+
+>>>>>>> master
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+<<<<<<< HEAD
 import java.util.List;
 
+=======
+
+import java.util.Optional;
+import java.util.List;
+>>>>>>> master
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -41,6 +51,7 @@ public class UserRepositoryTest {
                 .build());
 
         //when
+<<<<<<< HEAD
         List<User> users = userRepository.findAll();
 
         //then
@@ -48,3 +59,11 @@ public class UserRepositoryTest {
         assertThat(user.getUsername()).isEqualTo(username);
     }
 }
+=======
+        Optional<User> finduser = userRepository.findByEmail(email);
+
+        //then
+        assertThat(finduser.get().getUsername()).isEqualTo(username);
+    }
+}
+>>>>>>> master

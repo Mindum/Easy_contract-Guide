@@ -13,6 +13,10 @@ import javax.persistence.*;
 public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+<<<<<<< HEAD
+=======
+    @Column(name = "user_id")
+>>>>>>> master
     private Long id;
 
     @Column(nullable = false)

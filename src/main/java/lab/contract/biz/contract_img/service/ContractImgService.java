@@ -2,11 +2,15 @@ package lab.contract.biz.contract_img.service;
 
 import lab.contract.biz.contract.persistence.entity.Contract;
 import lab.contract.biz.contract.persistence.repository.ContractRepository;
+<<<<<<< HEAD
 import lab.contract.biz.contract.service.ContractService;
+=======
+>>>>>>> master
 import lab.contract.biz.contract_img.persistence.entity.ContractImg;
 import lab.contract.biz.contract_img.persistence.repository.ContractImgRepository;
 import lab.contract.biz.openapi.convert.ConvertAPI;
 import lombok.RequiredArgsConstructor;
+<<<<<<< HEAD
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +20,14 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+=======
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.io.File;
+import java.io.IOException;
+>>>>>>> master
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
@@ -34,7 +46,11 @@ public class ContractImgService {
     public void convertPdfToPng(String pdfFileName) throws IOException, ExecutionException, InterruptedException {
         convertAPI.convertApi(pdfFileName);
     }
+<<<<<<< HEAD
     public int saveContractImg(Long contractId, String pdfFileName) throws IOException {
+=======
+    public int savaContractImg(Long contractId, String pdfFileName) throws IOException {
+>>>>>>> master
 
         Optional<Contract> contract = contractRepository.findById(contractId);
         if (!contract.isPresent()) {
@@ -59,4 +75,9 @@ public class ContractImgService {
         }
         return pagesOfPdf;
     }
+<<<<<<< HEAD
 }
+=======
+
+}
+>>>>>>> master
