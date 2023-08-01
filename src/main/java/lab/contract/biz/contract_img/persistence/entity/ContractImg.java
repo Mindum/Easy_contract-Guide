@@ -1,5 +1,6 @@
 package lab.contract.biz.contract_img.persistence.entity;
 
+import lab.contract.biz.contract.persistence.entity.Contract;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,8 +16,9 @@ public class ContractImg {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long contract_id;
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "contract_id")
+    private Contract contract;
 
     @Column(nullable = false)
     private Integer page;
@@ -25,8 +27,8 @@ public class ContractImg {
     private String url;
 
     @Builder
-    public ContractImg(Long contract_id,Integer page, String url) {
-        this.contract_id = contract_id;
+    public ContractImg(Contract contract,Integer page, String url) {
+        this.contract = contract;
         this.page = page;
         this.url = url;
     }

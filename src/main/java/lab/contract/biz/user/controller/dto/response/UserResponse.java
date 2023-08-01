@@ -9,7 +9,7 @@ import javax.validation.Valid;
 @ToString
 @NoArgsConstructor
 @Valid
-public class UserResponseDto {
+public class UserResponse {
 
     private Long id;
     private String username;
@@ -18,7 +18,7 @@ public class UserResponseDto {
     private String privacy_agreement_yn;
 
     @Builder
-    public UserResponseDto(Long id, String username, String email, String password, String privacy_agreement_yn) {
+    public UserResponse(Long id, String username, String email, String password, String privacy_agreement_yn) {
         this.id = id;
         this.username = username;
         this.email = email;
