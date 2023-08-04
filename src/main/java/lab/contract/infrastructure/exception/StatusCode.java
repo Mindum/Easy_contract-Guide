@@ -4,7 +4,7 @@ public class StatusCode {
     public static final int OK = 200;
 
     public static final int BAD_REQUEST =  400;
-    public static final int  DUPLICATED_USER=  401;
+    public static final int DUPLICATED_USER =  401;
     public static final int DOES_NOT_EXIST_USER =  401;
     public static final int PASSWORD_MISMATCH =  404;
 

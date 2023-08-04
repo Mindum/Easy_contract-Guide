@@ -34,4 +34,3 @@ public class GlobalExceptionHandler {
         return new ResponseEntity(DefaultRes.res(StatusCode.PASSWORD_MISMATCH, e.getResponseMessage()), HttpStatus.BAD_REQUEST);
     }
 }
-
