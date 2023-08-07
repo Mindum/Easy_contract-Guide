@@ -1,11 +1,11 @@
 package lab.contract.biz.contract_img.persistence.repository;
 
-import lab.contract.biz.contract.persistence.entity.Contract;
-import lab.contract.biz.contract.persistence.repository.ContractRepository;
-import lab.contract.biz.contract_img.persistence.entity.ContractImg;
+import lab.contract.biz.allcontract.contract.persistence.entity.Contract;
+import lab.contract.biz.allcontract.contract.persistence.repository.ContractRepository;
+import lab.contract.biz.allcontract.contract_img.persistence.entity.ContractImg;
+import lab.contract.biz.allcontract.contract_img.persistence.repository.ContractImgRepository;
 import lab.contract.biz.user.persistence.entity.User;
 import lab.contract.biz.user.persistence.repository.UserRepository;
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

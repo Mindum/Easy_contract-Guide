@@ -1,7 +1,8 @@
 package lab.contract.biz.contract.service;
 
-import lab.contract.biz.contract.persistence.entity.Contract;
-import lab.contract.biz.contract.persistence.repository.ContractRepository;
+import lab.contract.biz.allcontract.contract.persistence.entity.Contract;
+import lab.contract.biz.allcontract.contract.persistence.repository.ContractRepository;
+import lab.contract.biz.allcontract.contract.service.ContractService;
 import lab.contract.biz.user.persistence.entity.User;
 import lab.contract.biz.user.persistence.repository.UserRepository;
 import org.assertj.core.api.Assertions;

@@ -3,7 +3,7 @@ package lab.contract.biz.contract.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import lab.contract.biz.contract.controller.api.ContractController;
+import lab.contract.biz.allcontract.contract.controller.api.ContractController;
 import lab.contract.biz.user.persistence.entity.User;
 import org.junit.Before;
 import org.junit.Test;
