@@ -28,10 +28,15 @@ public class Contract {
     @Column(nullable = false)
     private String contract_name;
 
+    @Column(length = 10000)
     private String contract_content;
     @CreatedDate
     @Column(nullable = false)
     private LocalDateTime created_at;
+
+    public void update(String contract_content) {
+        this.contract_content = contract_content;
+    }
 
     @Builder
     public Contract(User user,String contract_name,LocalDateTime created_at) {

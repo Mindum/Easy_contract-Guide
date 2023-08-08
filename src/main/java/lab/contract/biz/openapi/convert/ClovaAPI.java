@@ -19,6 +19,7 @@ public class ClovaAPI {
         //String imagename = "왜.png";
         String imagePath = Paths.get("C:/contract/savepng").toString();
         String imageFile = imagePath + "/" + imagename;
+        StringBuilder sb = new StringBuilder();
 
         try {
             URL url = new URL(apiURL);
@@ -71,11 +72,11 @@ public class ClovaAPI {
             JSONArray imgArray = jsonObject.getJSONArray("images");
             JSONObject img = imgArray.getJSONObject(0);
             JSONArray fieldArray = img.getJSONArray("fields");
-            StringBuilder sb = new StringBuilder();
+            //StringBuilder sb = new StringBuilder();
             for (int i = 0; i < fieldArray.length(); i++) {
                 JSONObject object = fieldArray.getJSONObject(i);
                 String content = object.getString("inferText");
-                sb.append(content).append("\n");
+                sb.append(content).append(" ");
             }
 
             File textFile = new File("C:/contract/writeFile.txt");
@@ -86,12 +87,12 @@ public class ClovaAPI {
             BufferedWriter writer = new BufferedWriter(fw);
             writer.write(sb.toString());
             writer.close();
-            return sb.toString();
+            //return sb.toString();
 
         } catch (Exception e) {
             System.out.println(e);
         }
-        return "?";
+        return sb.toString();
     }
 
     private static void writeMultiPart(OutputStream out, String jsonMessage, File file, String boundary) throws

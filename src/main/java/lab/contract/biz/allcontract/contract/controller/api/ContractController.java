@@ -32,8 +32,8 @@ public class ContractController implements HandlerExceptionResolver {
         Long saveId = contractService.saveContract(contractRequestDto.getUserId());
         String fileName = contractService.savePdfFile(contractRequestDto.getPdfFile());
         contractImgService.convertPdfToPng(fileName);
-        contractImgService.saveContractImg(saveId,fileName);
-        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS), HttpStatus.OK);
+        String con  = contractImgService.saveContractImg(saveId,fileName);
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS,con), HttpStatus.OK);
     }
     @Override
     public ModelAndView resolveException(HttpServletRequest request,

@@ -1,7 +1,5 @@
 package lab.contract.biz.allcertified.certifiedcopy_img.service;
 
-import lab.contract.biz.allbuilding.building_register.persistence.entity.BuildingRegister;
-import lab.contract.biz.allbuilding.building_register_img.persistence.entity.BuildingRegisterImg;
 import lab.contract.biz.allcertified.certifiedcopy.persistence.entity.Certifiedcopy;
 import lab.contract.biz.allcertified.certifiedcopy.persistence.repository.CertifiedcopyRepository;
 import lab.contract.biz.allcertified.certifiedcopy_img.persistence.enitty.CertifiedcopyImg;

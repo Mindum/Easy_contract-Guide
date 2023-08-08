@@ -19,7 +19,7 @@ public class BuildingRegister {
     @Column(name = "building_register_id")
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @OneToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "contract_id")
     private Contract contract;
 

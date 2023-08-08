@@ -2,6 +2,7 @@ package lab.contract.biz.allcontract.contract.service;
 
 import lab.contract.biz.allcontract.contract.persistence.entity.Contract;
 import lab.contract.biz.allcontract.contract.persistence.repository.ContractRepository;
+import lab.contract.biz.openapi.convert.ClovaAPI;
 import lab.contract.biz.user.persistence.entity.User;
 import lab.contract.biz.user.persistence.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

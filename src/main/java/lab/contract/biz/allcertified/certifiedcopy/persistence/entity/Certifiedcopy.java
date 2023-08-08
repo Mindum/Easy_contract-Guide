@@ -19,7 +19,7 @@ public class Certifiedcopy {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "certifiedcopy_id")
     private Long id;
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @OneToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "contract_id")
     private Contract contract;
     @CreatedDate
