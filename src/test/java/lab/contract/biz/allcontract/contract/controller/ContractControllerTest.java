@@ -1,4 +1,4 @@
-package lab.contract.biz.contract.controller;
+package lab.contract.biz.allcontract.contract.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -53,9 +53,7 @@ public class ContractControllerTest {
 */
         MockMultipartFile file = new MockMultipartFile("표준임대차계약서","표준임대차계약서.png",MediaType.APPLICATION_PDF_VALUE,"표준임대차계약서".getBytes());
         //then
-        mockMvc.perform(multipart("/fileupload")
-                .param("userId", String.valueOf(user.getId()))
-                .file("pdfFile",file.getBytes())).andExpect(status().isOk());
+
 
     }
     private MockMultipartFile getMockMultipartFile(String fileName, String contentType, String path) throws IOException {

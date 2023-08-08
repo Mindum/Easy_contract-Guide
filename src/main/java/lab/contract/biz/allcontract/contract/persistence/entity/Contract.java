@@ -28,6 +28,7 @@ public class Contract {
     @Column(nullable = false)
     private String contract_name;
 
+    private String contract_content;
     @CreatedDate
     @Column(nullable = false)
     private LocalDateTime created_at;

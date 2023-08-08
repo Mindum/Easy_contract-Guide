@@ -1,4 +1,4 @@
-package lab.contract.biz.contract.service;
+package lab.contract.biz.allcontract.contract.service;
 
 import lab.contract.biz.allcontract.contract.persistence.entity.Contract;
 import lab.contract.biz.allcontract.contract.persistence.repository.ContractRepository;
