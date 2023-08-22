@@ -15,5 +15,4 @@ public class StatusCode {
     public static final int FILE_SIZE_LIMIT_EXCEEDED = 413;
     public static final int INVALID_FILE_EXTENSION = 415;
     public static final int FILE_CONVERSION_FAILED = 816;
-
 }
