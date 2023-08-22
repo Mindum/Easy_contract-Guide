@@ -77,7 +77,7 @@ public class ContractContentService {
                 return Purpose;
             }
         }
-        return ""; // 매칭되지 않은 경우
+        return "";
     }
 
     private String extractRentalPart(String contractText) {
@@ -93,7 +93,7 @@ public class ContractContentService {
                 return RentalPart;
             }
         }
-        return ""; // 매칭되지 않은 경우
+        return "";
     }
 
     private String extractDeposit(String contractText) {
@@ -109,7 +109,7 @@ public class ContractContentService {
                 return Deposit;
             }
         }
-        return ""; // 매칭되지 않은 경우
+        return "";
     }
 
     private String extractSpecialOption(String contractText) {
@@ -125,7 +125,7 @@ public class ContractContentService {
                 return SpecialOption;
             }
         }
-        return ""; // 매칭되지 않은 경우
+        return "";
     }
 
     private String extractLessorAddress(String contractText) {
@@ -141,7 +141,7 @@ public class ContractContentService {
                 return LessorAddress;
             }
         }
-        return ""; // 매칭되지 않은 경우
+        return "";
     }
 
     private String extractLessorResidentNumber(String contractText) {
@@ -157,7 +157,7 @@ public class ContractContentService {
                 return LessorResidentNumber;
             }
         }
-        return ""; // 매칭되지 않은 경우
+        return "";
     }
 
     private String extractLessorName(String contractText) {
@@ -173,6 +173,6 @@ public class ContractContentService {
                 return LessorName;
             }
         }
-        return ""; // 매칭되지 않은 경우
+        return "";
     }
 }
