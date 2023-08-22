@@ -34,6 +34,7 @@ public class ContractController implements HandlerExceptionResolver {
         contractImgService.saveContractImg(saveId,fileName);
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS, saveId), HttpStatus.OK);
     }
+
     @Override
     public ModelAndView resolveException(HttpServletRequest request,
                                          HttpServletResponse response,
