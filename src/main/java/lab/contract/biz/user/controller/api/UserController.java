@@ -31,7 +31,7 @@ public class UserController {
     private final UserService userService;
 
     public UserController(UserService userService) {
-           this.userService = userService;
+        this.userService = userService;
     }
 
     // 회원가입 페이지
@@ -53,7 +53,7 @@ public class UserController {
     //로그인 페이지
     @GetMapping("/login")
     public String login() {
-       return "";
+        return "";
     }
 
     //로그인 처리

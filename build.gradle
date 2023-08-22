@@ -32,6 +32,8 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.security:spring-security-crypto:5.7.1'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'com.convertapi.client:convertapi:2.9'
+	implementation 'org.apache.pdfbox:pdfbox:2.0.8'
 }
 
 tasks.named('test') {

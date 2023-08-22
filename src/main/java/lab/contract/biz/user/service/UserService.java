@@ -1,7 +1,6 @@
 package lab.contract.biz.user.service;
 
 import lab.contract.biz.user.controller.dto.request.UserRequestDto;
-import lab.contract.biz.user.controller.dto.response.UserResponse;
 import lab.contract.biz.user.persistence.entity.User;
 import lab.contract.biz.user.persistence.repository.UserRepository;
 import lab.contract.infrastructure.exception.ResponseMessage;
