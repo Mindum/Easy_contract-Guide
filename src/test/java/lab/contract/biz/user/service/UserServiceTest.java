@@ -1,9 +1,9 @@
 package lab.contract.biz.user.service;
 
-import lab.contract.biz.user.controller.dto.request.UserRequestDto;
-import lab.contract.biz.user.persistence.entity.User;
-import lab.contract.biz.user.service.UserService;
-import lab.contract.biz.user.persistence.repository.UserRepository;
+import lab.contract.user.controller.UserRequestDto;
+import lab.contract.user.persistence.User;
+import lab.contract.user.service.UserService;
+import lab.contract.user.persistence.UserRepository;
 import lab.contract.infrastructure.exception.user.DuplicatedUserException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
