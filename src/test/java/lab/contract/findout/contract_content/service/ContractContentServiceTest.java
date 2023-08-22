@@ -54,11 +54,11 @@ public class ContractContentServiceTest {
         Long contentId = contractContentService.saveContractContent(contract);
         Optional<ContractContent> content = contractContentRepository.findById(contentId);
         //then
-        String location = "소재지 경기도 안양시 만안구 안양동 708-113 안양대학교 엔동";
-        String purpose = "구조·용도 다세대주택";
-        String rentalPart ="임대할부분 경기도 안양시 만안구 삼덕로 37번길 22(안양동) 1층";
-        String deposit = "보증금 금 일천오백만원정 (₩ 15,000,000원)";
-        String specialOption ="특약사항 이를 위반 시 계약은 즉시 무효가 되며 임대인은 임차인에게 위약금을 지불한다. 임차인이 목적물에 입주하기 전일까지의 공과금 및 관리비는 임대인이 정산한다. 임대인은 별도의 사전 협의가 없는 경우, 임대계약 만료시 새 임대차 여부와 관계없이 임대차보증금을 즉시 임차인에게 반환한다. 임대인은 임차인의 전세자금대출 및 전세보증보험가입을 위한 절차에 동의하고 협조하며, 대출상환 및 부대비용은 임차인이 부담한 다. 전세자금대출 심사과정에서 진행이 불가한 경우, 해당 임대차 계약은 무효로 하며 임대인은 임차인에게 계약금을 전액 반환하지 않 는다. 임차인이 입주하기 전에 발생한 임차 상가건물의 하자는 임차인이 직접 수리한다.";
+        String location = "경기도 안양시 만안구 안양동 708-113 안양대학교 엔동";
+        String purpose = "다세대주택";
+        String rentalPart ="경기도 안양시 만안구 삼덕로 37번길 22(안양동) 1층";
+        String deposit = "일천오백만원정 (₩ 15,000,000원)";
+        String specialOption ="이를 위반 시 계약은 즉시 무효가 되며 임대인은 임차인에게 위약금을 지불한다. 임차인이 목적물에 입주하기 전일까지의 공과금 및 관리비는 임대인이 정산한다. 임대인은 별도의 사전 협의가 없는 경우, 임대계약 만료시 새 임대차 여부와 관계없이 임대차보증금을 즉시 임차인에게 반환한다. 임대인은 임차인의 전세자금대출 및 전세보증보험가입을 위한 절차에 동의하고 협조하며, 대출상환 및 부대비용은 임차인이 부담한 다. 전세자금대출 심사과정에서 진행이 불가한 경우, 해당 임대차 계약은 무효로 하며 임대인은 임차인에게 계약금을 전액 반환하지 않 는다. 임차인이 입주하기 전에 발생한 임차 상가건물의 하자는 임차인이 직접 수리한다.";
         String lessorAddress = "인천광역시 연수구";
         String lessorNumber = "000508-4034567";
         String lessorName = "곽희선";
