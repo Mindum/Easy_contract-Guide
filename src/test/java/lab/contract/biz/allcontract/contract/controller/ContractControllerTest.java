@@ -3,8 +3,8 @@ package lab.contract.biz.allcontract.contract.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import lab.contract.biz.allcontract.contract.controller.api.ContractController;
-import lab.contract.biz.user.persistence.entity.User;
+import lab.contract.allcontract.contract.controller.ContractController;
+import lab.contract.user.persistence.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -19,7 +19,6 @@ import java.io.IOException;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ContractController.class)
 public class ContractControllerTest {

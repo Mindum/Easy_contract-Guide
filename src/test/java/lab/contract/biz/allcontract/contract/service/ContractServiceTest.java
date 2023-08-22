@@ -1,10 +1,10 @@
 package lab.contract.biz.allcontract.contract.service;
 
-import lab.contract.biz.allcontract.contract.persistence.entity.Contract;
-import lab.contract.biz.allcontract.contract.persistence.repository.ContractRepository;
-import lab.contract.biz.allcontract.contract.service.ContractService;
-import lab.contract.biz.user.persistence.entity.User;
-import lab.contract.biz.user.persistence.repository.UserRepository;
+import lab.contract.allcontract.contract.persistence.Contract;
+import lab.contract.allcontract.contract.persistence.ContractRepository;
+import lab.contract.allcontract.contract.service.ContractService;
+import lab.contract.user.persistence.User;
+import lab.contract.user.persistence.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,9 +1,9 @@
 package lab.contract.biz.allcontract.contract.persistence.repository;
 
-import lab.contract.biz.allcontract.contract.persistence.entity.Contract;
-import lab.contract.biz.allcontract.contract.persistence.repository.ContractRepository;
-import lab.contract.biz.user.persistence.entity.User;
-import lab.contract.biz.user.persistence.repository.UserRepository;
+import lab.contract.allcontract.contract.persistence.Contract;
+import lab.contract.allcontract.contract.persistence.ContractRepository;
+import lab.contract.user.persistence.User;
+import lab.contract.user.persistence.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
