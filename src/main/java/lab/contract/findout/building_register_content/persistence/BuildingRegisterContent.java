@@ -22,10 +22,10 @@ public class BuildingRegisterContent {
     @JoinColumn(name = "building_register_id")
     private BuildingRegister buildingRegister;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String title;  // 명칭
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String ho_title;  // 호명칭
 
     @Column(nullable = false)
