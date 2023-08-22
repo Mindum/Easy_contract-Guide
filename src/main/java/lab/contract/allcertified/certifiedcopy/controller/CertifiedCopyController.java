@@ -25,7 +25,7 @@ public class CertifiedCopyController {
     @PostMapping("/file/certifiedcopy")
     public ResponseEntity fileUpload(
             CertifiedCopyUploadRequestDto certifiedCopyUploadRequestDto) throws IOException, ExecutionException, InterruptedException {
-        Long saveId = certifiedCopyService.saveCertifiedCopy(certifiedCopyUploadRequestDto.getUserId(), certifiedCopyUploadRequestDto.getContractId());
+        Long saveId = certifiedCopyService.saveCertifiedCopy(certifiedCopyUploadRequestDto.getContractId());
         String fileName = certifiedCopyService.saveCertifiedCopyPdfFile(certifiedCopyUploadRequestDto.getPdfFile());
         certifiedCopyImgService.convertPdfToPng(fileName);
         certifiedCopyImgService.saveCertifiedCopyImg(saveId, fileName);

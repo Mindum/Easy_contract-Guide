@@ -68,10 +68,6 @@ public class ContractImgService {
 
         return content.toString();
     }
-
-    /*public void ocrPngToTxt(String pdfFileName) throws IOException, ExecutionException, InterruptedException {
-        clovaOcrAPI.OcrService(pdfFileName);
-    }*/
 }
 
 

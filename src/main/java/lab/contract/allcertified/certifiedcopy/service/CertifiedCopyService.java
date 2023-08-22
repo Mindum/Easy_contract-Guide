@@ -26,11 +26,9 @@ public class CertifiedCopyService {
 
     private static final String UPLOAD_PATH = "C:/contract/getpdf/";
 
-    public Long saveCertifiedCopy(Long userId, Long contractId){
-        Optional<User> user = userRepository.findById(userId);
+    public Long saveCertifiedCopy(Long contractId){
         Optional<Contract> contract = contractRepository.findById(contractId);
         CertifiedCopy saveCertifiedCopy = CertifiedCopy.builder()
-                .user(user.get())
                 .contract(contract.get())
                 .build();
         certifiedCopyRepository.save(saveCertifiedCopy);

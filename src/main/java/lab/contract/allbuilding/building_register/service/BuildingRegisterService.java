@@ -26,11 +26,9 @@ public class BuildingRegisterService {
 
     private static final String UPLOAD_PATH = "C:/contract/getpdf/";
 
-    public Long saveBuildingRegister(Long userId, Long contractId){
-        Optional<User> user = userRepository.findById(userId);
+    public Long saveBuildingRegister(Long contractId){
         Optional<Contract> contract = contractRepository.findById(contractId);
         BuildingRegister saveBuildingRegister = BuildingRegister.builder()
-                .user(user.get())
                 .contract(contract.get())
                 .build();
         buildingRegisterRepository.save(saveBuildingRegister);

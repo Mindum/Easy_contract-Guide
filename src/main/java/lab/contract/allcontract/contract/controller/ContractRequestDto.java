@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
-public class UploadRequestDto {
+public class ContractRequestDto {
     private Long userId;
     private MultipartFile pdfFile;
 }

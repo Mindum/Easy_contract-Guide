@@ -25,7 +25,7 @@ public class BuildingRegisterController {
     @PostMapping("/file/building-register")
     public ResponseEntity fileUpload(
             BuildingUploadRequestDto buildingUploadRequestDto) throws IOException, ExecutionException, InterruptedException {
-        Long saveId = buildingRegisterService.saveBuildingRegister(buildingUploadRequestDto.getUserId(), buildingUploadRequestDto.getContractId());
+        Long saveId = buildingRegisterService.saveBuildingRegister(buildingUploadRequestDto.getContractId());
         String fileName = buildingRegisterService.saveBuildingRegisterPdfFile(buildingUploadRequestDto.getPdfFile());
         buildingRegisterImgService.convertPdfToPng(fileName);
         buildingRegisterImgService.saveBuildingRegisterImg(saveId, fileName);

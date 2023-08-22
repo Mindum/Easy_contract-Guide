@@ -1,6 +1,5 @@
 package lab.contract.allcontract.contract.persistence;
 
-
 import lab.contract.user.persistence.User;
 import lombok.Builder;
 import lombok.Getter;

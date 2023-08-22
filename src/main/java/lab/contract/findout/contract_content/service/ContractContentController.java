@@ -22,7 +22,7 @@ public class ContractContentController {
     @PostMapping("/file/contract-content")
     public ResponseEntity contractContentInfo(
             ContractContentRequestDto contractContentRequestDto) throws IOException, ExecutionException, InterruptedException {
-        contractContentService.saveContractContent(contractContentRequestDto.getContractId());
+        contractContentService.saveContractContent(contractContentRequestDto.getContract());
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS), HttpStatus.OK);
     }
 
