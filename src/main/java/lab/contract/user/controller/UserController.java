@@ -1,29 +1,31 @@
 package lab.contract.user.controller;
 
+import lab.contract.infrastructure.exception.user.SessionNullException;
 import lab.contract.user.persistence.User;
 import lab.contract.user.service.UserService;
-import lab.contract.user.session.SessionConstant;
 import lab.contract.infrastructure.exception.DefaultRes;
 import lab.contract.infrastructure.exception.ResponseMessage;
 import lab.contract.infrastructure.exception.StatusCode;
+import lab.contract.user.session.SessionManager;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @CrossOrigin(originPatterns = "*")
 @RestController
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
+    private final SessionManager sessionManager;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     // 회원가입 페이지
     @GetMapping("/signup")
@@ -49,7 +51,7 @@ public class UserController {
 
     //로그인 처리
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid LoginForm loginForm, HttpServletRequest request) {
+    public ResponseEntity login(@RequestBody @Valid LoginForm loginForm, HttpServletRequest request, HttpServletResponse response) {
 
 
         String getEmail = loginForm.getEmail();
@@ -57,20 +59,24 @@ public class UserController {
 
         User loginUser = userService.login(getEmail, getPassword);
 
-        HttpSession session = request.getSession();
-        session.setAttribute(SessionConstant.LOGIN_USER, loginUser);
 
-        return new ResponseEntity<>(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS, loginUser),HttpStatus.OK);
+        String sessionId = sessionManager.createSession(loginUser,response);
+        return new ResponseEntity<>(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS, "id : " + sessionId +" "+ loginUser.getUsername()),HttpStatus.OK);
 
     }
 
     @PostMapping("/logout")
     public String logout(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
+        sessionManager.expires(request);
         return "";
+    }
+    @GetMapping("/check")
+    public ResponseEntity check(HttpServletRequest request) {
+        User loginUser = (User) sessionManager.getSession(request);
+        if (loginUser == null) {
+            new SessionNullException("SessionNullException",ResponseMessage.SESSION_NULL);
+        }
+        return new ResponseEntity<>(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS, loginUser.getUsername()),HttpStatus.OK);
     }
 
 }
