@@ -12,7 +12,7 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 public class BuildingRegisterContentService {
 
-    private final BuildingRegisterContentRepository buildingRegisterContentRepository;
+    private final BuildingRegisterContent.BuildingRegisterContentRepository buildingRegisterContentRepository;
 
 
     private Long saveBuildingRegisterContent(BuildingRegister buildingRegister, String[][] buildingRegisterText)  {

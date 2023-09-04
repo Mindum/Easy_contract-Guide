@@ -1,20 +1,25 @@
 package lab.contract.findout.contract_content.service;
 
 import lab.contract.allcontract.contract.persistence.Contract;
+import lab.contract.allcontract.contract.persistence.ContractRepository;
 import lab.contract.findout.contract_content.persistence.ContractContent;
 import lab.contract.findout.contract_content.persistence.ContractContentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
+
 @RequiredArgsConstructor
 @Transactional
 @Service
 public class ContractContentService {
     private final ContractContentRepository contractContentRepository;
+    private final ContractRepository contractRepository;
     static String Text;
 
-    public Long saveContractContent(Contract contract){
+    public Long saveContractContent(Long contractId){
+        Contract contract = contractRepository.findById(contractId).orElseThrow(EntityNotFoundException::new);
         Text = contract.getContract_text();
 
         String address = extractAddress();
@@ -37,6 +42,7 @@ public class ContractContentService {
                 .lessor_resident_number(lessorResidentNumber)
                 .lessor_name(lessorName)
                 .build();
+        contract.setContractContent(saveContractContent);
         return  contractContentRepository.save(saveContractContent).getId();
     }
 
