@@ -26,11 +26,11 @@ public class CertifiedcopyContent {
     String owner_name;
     String owner_resident_number;
     String owner_address;
-    String owner_part;
+    Double owner_part;
     String sharer_name;
     String sharer_resident_number;
     String sharer_address;
-    String sharer_part;
+    Double sharer_part;
     Long mortgage;
     @Builder
     public CertifiedcopyContent(
@@ -41,11 +41,11 @@ public class CertifiedcopyContent {
             String owner_name,
             String owner_address,
             String owner_resident_number,
-            String owner_part,
+            Double owner_part,
             String sharer_name,
             String sharer_resident_number,
             String sharer_address,
-            String sharer_part,
+            Double sharer_part,
             Long mortgage) {
         this.certifiedcopy = certifiedcopy;
         this.total_address = total_address;

@@ -26,11 +26,11 @@ public class BuildingRegisterContentService {
         String ownerName ="";
         String ownerRegisterNumber = "";
         String ownerAddress = "";
-        String ownerPart = "";
+        Double ownerPart = 0.0;
         String sharerName = "";
         String sharerRegisterNumber = "";
         String sharerAddress = "";
-        String sharerPart = "";
+        Double sharerPart = 0.0;
 
         for (int i = 0; i < buildingRegisterText.length; i++) {
             switch (buildingRegisterText[i][0]) {
@@ -81,9 +81,11 @@ public class BuildingRegisterContentService {
 
                     break;
                 case "소유권 지분":
-                    ownerPart = extractContentAfterLineNumber(buildingRegisterText[i][1], 2);
+                    String[] part = extractContentAfterLineNumber(buildingRegisterText[i][1], 2).split("/");
+                    ownerPart = Double.parseDouble(part[1]) / Double.parseDouble(part[0]);
                     System.out.println("ownerPart = " + ownerPart);
-                    sharerPart = extractContentAfterLineNumber(buildingRegisterText[i][1], 3);
+                    String[] part2 = extractContentAfterLineNumber(buildingRegisterText[i][1], 3).split("/");
+                    sharerPart = Double.parseDouble(part2[1]) / Double.parseDouble(part2[0]);
                     System.out.println("sharerPart = " + sharerPart);
                     break;
             }

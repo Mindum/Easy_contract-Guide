@@ -22,11 +22,11 @@ public class CertifiedcopyContentService {
         String ownerName = "";
         String ownerResidentNumber = "";
         String ownerAddress = "";
-        String ownerPart = "";
+        Double ownerPart = 0.0;
         String sharerName = "";
         String sharerResidentNumber = "";
         String sharerAddress = "";
-        String sharerPart = "";
+        Double sharerPart = 0.0;
         long mortgage=0;
 
         for (int i=0;i<certifiedcopyText.length;i++) {
@@ -45,15 +45,15 @@ public class CertifiedcopyContentService {
                     //System.out.println("registerPurpose = " + registerPurpose);
                     break;
                 case "권리자 및 기타사항" :
-                    String[] owner = extractOwner(certifiedcopyText[i][1]);
-                    ownerName = owner[0];
-                    ownerResidentNumber = owner[1];
-                    ownerAddress = owner[2];
-                    ownerPart = owner[3];
-                    sharerName = owner[4];
-                    sharerResidentNumber = owner[5];
-                    sharerAddress = owner[6];
-                    sharerPart = owner[7];
+                    Object[] owner = extractOwner(certifiedcopyText[i][1]);
+                    ownerName = (String) owner[0];
+                    ownerResidentNumber = (String) owner[1];
+                    ownerAddress = (String) owner[2];
+                    ownerPart = (Double) owner[3];
+                    sharerName = (String) owner[4];
+                    sharerResidentNumber = (String) owner[5];
+                    sharerAddress = (String) owner[6];
+                    sharerPart = (Double) owner[7];
                     mortgage = extractMortgage(certifiedcopyText[i][1]);
                     break;
             }
@@ -119,16 +119,16 @@ public class CertifiedcopyContentService {
         return res.trim();
     }
 
-    private static String[] extractOwner(String fullText) {
+    private static Object[] extractOwner(String fullText) {
         String temp = "";
         String ownerName= "";
         String ownerResidentNumber= "";
         String ownerAddress= "";
-        String ownerPart= "";
-        String sharerName= "";
-        String sharerResidentNumber= "";
-        String sharerAddress= "";
-        String sharerPart= "";
+        Double ownerPart = 0.0;
+        String sharerName = "";
+        String sharerResidentNumber = "";
+        String sharerAddress = "";
+        Double sharerPart = 0.0;
 
         int ownerIndex = fullText.lastIndexOf("소유자");
         int sharerIndex = fullText.lastIndexOf("공유자");
@@ -145,15 +145,15 @@ public class CertifiedcopyContentService {
                 ownerAddress += s[i];
             }
             System.out.println("ownerAddress = " + ownerAddress);
-            ownerPart = "1/1";
+            ownerPart = 1.0;
 
         }else {
             if (sharerIndex == -1) return new String[] {"찾는 단어가 존재하지 않습니다."};
             int endIndex = fullText.indexOf("거래가액",ownerIndex);
             temp = fullText.substring(sharerIndex, endIndex);
             String[] s = temp.split("\n");
-            s[0] = s[0].replace("지분 ","").replace("분의 ","");
-            ownerPart = s[0].charAt(0) + "/" +s[0].charAt(1);
+            String[] part = s[1].replace("지분 ","").split("분의 ");
+            ownerPart = Double.parseDouble(part[1])/Double.parseDouble(part[0]);
             ownerName = s[2].substring(0,s[2].length()-15);
             ownerResidentNumber = s[2].substring(s[2].length()-14);
             ownerAddress = "";
@@ -164,8 +164,8 @@ public class CertifiedcopyContentService {
             int sharer2Index = temp.lastIndexOf("지분");
             temp = temp.substring(sharer2Index);
             String[] s2 = temp.split("\n");
-            s[0] = s[0].replace("지분 ","").replace("분의 ","");
-            sharerPart = s[0].charAt(0) + "/" +s[0].charAt(1);
+            String[] part2 = s2[0].replace("지분 ","").split("분의 ");
+            sharerPart = Double.parseDouble(part2[1])/Double.parseDouble(part2[0]);
             sharerName = s2[1].substring(0,s2[1].length()-15);
             sharerResidentNumber = s2[1].substring(s2[1].length()-14);
             sharerAddress = "";
@@ -179,7 +179,7 @@ public class CertifiedcopyContentService {
             System.out.println("sharerResidentNumber = " + sharerResidentNumber);
             System.out.println("sharerAddress = " + sharerAddress);
         }
-        return new String[] {ownerName,ownerResidentNumber,ownerAddress,ownerPart,sharerName,sharerResidentNumber,sharerAddress,sharerPart};
+        return new Object[] {ownerName,ownerResidentNumber,ownerAddress,ownerPart,sharerName,sharerResidentNumber,sharerAddress,sharerPart};
     }
 
 }

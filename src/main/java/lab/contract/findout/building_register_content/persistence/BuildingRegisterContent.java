@@ -49,7 +49,7 @@ public class BuildingRegisterContent {
     private String owner_address;
 
     @Column(name = "owner_part", nullable = false)
-    private String owner_part;
+    private Double owner_part;
 
     @Column(name = "sharer_name")
     private String sharer_name;
@@ -61,7 +61,7 @@ public class BuildingRegisterContent {
     private String sharer_address;
 
     @Column(name = "sharer_part")
-    private String sharer_part;
+    private Double sharer_part;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false)
@@ -78,11 +78,11 @@ public class BuildingRegisterContent {
             String owner_name,
             String owner_resident_number,
             String owner_address,
-            String owner_part,
+            Double owner_part,
             String sharer_name,
             String sharer_resident_number,
             String sharer_address,
-            String sharer_part,
+            Double sharer_part,
             LocalDateTime createdAt
     ) {
         this.buildingRegister = buildingRegister;
