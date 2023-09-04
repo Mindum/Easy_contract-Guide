@@ -11,9 +11,9 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.File;
 import java.io.IOException;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -34,10 +34,7 @@ public class ContractImgService {
     }
     public String saveContractImg(Long contractId, String pdfFileName) throws IOException {
 
-        Optional<Contract> contract = contractRepository.findById(contractId);
-        if (!contract.isPresent()) {
-            // contract 예외 처리
-        }
+        Contract contract = contractRepository.findById(contractId).orElseThrow(EntityNotFoundException::new);
         File source = new File(UPLOAD_PATH + pdfFileName);
         PDDocument document = PDDocument.load(source);
         int pagesOfPdf = document.getNumberOfPages();
@@ -47,20 +44,20 @@ public class ContractImgService {
             if (i == 1) {
                 name = pdfFileName +".png";
                 contractImgRepository.save(ContractImg.builder()
-                        .contract(contract.get())
+                        .contract(contract)
                         .page(i)
                         .url(DOWNLOAD_PATH+name).build());
                 content.append(generalOCR.ocrapi(name));
             } else {
                 name = pdfFileName + "-" + i +".png";
                 contractImgRepository.save(ContractImg.builder()
-                        .contract(contract.get())
+                        .contract(contract)
                         .page(i)
                         .url(DOWNLOAD_PATH+name).build());
                 content.append(generalOCR.ocrapi(name));
             }
         }
-        contract.get().update(content.toString());
+        contract.setContract_text(content.toString());
 
         return content.toString();
     }

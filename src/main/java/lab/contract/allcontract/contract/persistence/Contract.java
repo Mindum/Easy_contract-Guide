@@ -1,5 +1,8 @@
 package lab.contract.allcontract.contract.persistence;
 
+import lab.contract.allbuilding.building_register.persistence.BuildingRegister;
+import lab.contract.allcertified.certifiedcopy.persistence.Certifiedcopy;
+import lab.contract.findout.contract_content.persistence.ContractContent;
 import lab.contract.user.persistence.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,8 +35,27 @@ public class Contract {
     @Column(nullable = false)
     private LocalDateTime created_at;
 
-    public void update(String contract_text) {
+    @OneToOne
+    @JoinColumn(name = "contract_content_id")
+    private ContractContent contract_content;
+    @OneToOne
+    @JoinColumn(name = "certifiedcopy_id")
+    private Certifiedcopy certifiedcopy;
+    @OneToOne
+    @JoinColumn(name = "building_register_id")
+    private BuildingRegister building_register;
+
+    public void setContract_text (String contract_text) {
         this.contract_text = contract_text;
+    }
+    public void setContractContent (ContractContent contract_content) {
+        this.contract_content = contract_content;
+    }
+    public void setCertifiedcopy(Certifiedcopy certifiedcopy) {
+        this.certifiedcopy = certifiedcopy;
+    }
+    public void setBuilding_register(BuildingRegister building_register) {
+        this.building_register = building_register;
     }
 
     @Builder
