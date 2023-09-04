@@ -2,6 +2,7 @@ package lab.contract.findout.building_register_content.service;
 
 import lab.contract.allbuilding.building_register.persistence.BuildingRegister;
 import lab.contract.findout.building_register_content.persistence.BuildingRegisterContent;
+import lab.contract.findout.building_register_content.persistence.BuildingRegisterContentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 public class BuildingRegisterContentService {
 
-    private final BuildingRegisterContent.BuildingRegisterContentRepository buildingRegisterContentRepository;
+    private final BuildingRegisterContentRepository buildingRegisterContentRepository;
 
 
     private Long saveBuildingRegisterContent(BuildingRegister buildingRegister, String[][] buildingRegisterText)  {
