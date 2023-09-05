@@ -1,4 +1,4 @@
-package lab.contract.biz.openapi.convert;
+package lab.contract.openapi.convert;
 
 import lab.contract.openapi.clovaocr.GeneralOCR;
 import org.junit.Test;
@@ -18,7 +18,6 @@ public class GeneralOCRTest {
     @Test
     public void OCR_API_테스트() {
         String res = generalOCR.ocrapi("c2a1ff43-29a6-47da-8333-0423d28616ad_표준임대차계약서.pdf.png");
-        //Assertions.assertThat(res).isEqualTo("왜");
         System.out.println(res);
     }
 }

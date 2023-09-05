@@ -1,4 +1,4 @@
-package lab.contract.biz.user.persistence.repository;
+package lab.contract.user.persistence.repository;
 
 import lab.contract.user.persistence.User;
 

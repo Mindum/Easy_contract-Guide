@@ -1,4 +1,4 @@
-package lab.contract.biz.user.service;
+package lab.contract.user.service;
 
 import lab.contract.user.controller.UserRequestDto;
 import lab.contract.user.persistence.User;

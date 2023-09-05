@@ -1,4 +1,4 @@
-package lab.contract.biz.allcontract.contract_img.persistence.repository;
+package lab.contract.allcontract.contract_img.persistence.repository;
 
 import lab.contract.allcontract.contract.persistence.Contract;
 import lab.contract.allcontract.contract.persistence.ContractRepository;
@@ -29,8 +29,6 @@ public class ContractImgRepositoryTest {
     UserRepository userRepository;
     @Autowired
     ContractRepository contractRepository;
-
-
 
     @Test
     public void 계약서이미지_DB연동_테스트() {

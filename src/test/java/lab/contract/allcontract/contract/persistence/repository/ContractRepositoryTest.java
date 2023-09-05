@@ -1,4 +1,4 @@
-package lab.contract.biz.allcontract.contract.persistence.repository;
+package lab.contract.allcontract.contract.persistence.repository;
 
 import lab.contract.allcontract.contract.persistence.Contract;
 import lab.contract.allcontract.contract.persistence.ContractRepository;
