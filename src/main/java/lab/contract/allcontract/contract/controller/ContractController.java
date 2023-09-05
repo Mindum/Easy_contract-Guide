@@ -2,6 +2,7 @@ package lab.contract.allcontract.contract.controller;
 
 import lab.contract.allcontract.contract.service.ContractService;
 import lab.contract.allcontract.contract_img.service.ContractImgService;
+import lab.contract.findout.contract_content.service.ContractContentService;
 import lab.contract.infrastructure.exception.DefaultRes;
 import lab.contract.infrastructure.exception.ResponseMessage;
 import lab.contract.infrastructure.exception.StatusCode;
@@ -24,6 +25,7 @@ import java.util.concurrent.ExecutionException;
 public class ContractController implements HandlerExceptionResolver {
     private final ContractService contractService;
     private final ContractImgService contractImgService;
+    private final ContractContentService contractContentService;
 
     @PostMapping("/file/contract")
     public ResponseEntity fileUpload(
@@ -31,8 +33,9 @@ public class ContractController implements HandlerExceptionResolver {
         Long saveId = contractService.saveContract(contractRequestDto.getUserId());
         String fileName = contractService.savePdfFile(contractRequestDto.getPdfFile());
         contractImgService.convertPdfToPng(fileName);
-        String con  = contractImgService.saveContractImg(saveId,fileName);
-        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS,con), HttpStatus.OK);
+        contractImgService.saveContractImg(saveId,fileName);
+        contractContentService.saveContractContent(saveId);
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS), HttpStatus.OK);
     }
     @Override
     public ModelAndView resolveException(HttpServletRequest request,
