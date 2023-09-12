@@ -30,6 +30,7 @@ public class ContractController {
         contractImgService.convertPdfToPng(fileName);
         contractImgService.saveContractImg(saveId,fileName);
         //contractContentService.saveContractContent(saveId);
-        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS, saveId), HttpStatus.OK);
+        ContractUploadResponse contractUploadResponse = ContractUploadResponse.builder().contractId(saveId).build();
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS, contractUploadResponse), HttpStatus.OK);
     }
 }
