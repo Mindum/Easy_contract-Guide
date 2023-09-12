@@ -13,8 +13,6 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Valid
 public class UserRequestDto {
-    //@NotBlank(message = "아이디는 필수 입력 값입니다.")
-    private Long id;
     @Size(min = 2,max = 10,message = "최소 2자 이상, 10자 이하의 문자를 입력하세요.")
     private String username;
     @Email

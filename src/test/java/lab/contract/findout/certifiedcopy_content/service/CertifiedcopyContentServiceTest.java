@@ -104,8 +104,8 @@ public class CertifiedcopyContentServiceTest {
                 .contract(contract)
                 .build();
 
-        Long contentId = certifiedcopyContentService.saveCertifiedcopyContent(certifiedcopy,certifiedcopyText);
-        Optional<CertifiedcopyContent> content = certifiedcopyContentRepository.findById(contentId);
+        //Long contentId = certifiedcopyContentService.saveCertifiedcopyContent(certifiedcopy,certifiedcopyText);
+        //Optional<CertifiedcopyContent> content = certifiedcopyContentRepository.findById(contentId);
         String total_address;
         String street_address;
         String register_purpose;

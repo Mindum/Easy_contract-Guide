@@ -69,7 +69,7 @@ public class GeneralOCR {
 
 
             JSONObject jsonObject = new JSONObject(response.toString());
-            System.out.println(jsonObject);
+            //System.out.println(jsonObject);
             JSONArray imgArray = jsonObject.getJSONArray("images");
             JSONObject img = imgArray.getJSONObject(0);
             JSONArray fieldArray = img.getJSONArray("fields");

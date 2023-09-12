@@ -28,15 +28,16 @@ dependencies {
 	testImplementation 'junit:junit:4.13.1'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.security:spring-security-crypto:5.7.1'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'com.convertapi.client:convertapi:2.9'
 	implementation 'org.apache.pdfbox:pdfbox:2.0.8'
 	implementation 'com.vaadin.external.google:android-json:0.0.20131108.vaadin1'
-}
-
-tasks.named('test') {
-	useJUnitPlatform()
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+	implementation 'commons-io:commons-io:2.11.0'
+	implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
+	tasks.named('test') {
+		useJUnitPlatform()
+	}
 }

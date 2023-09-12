@@ -29,7 +29,7 @@ public class ContractController {
         String fileName = contractService.savePdfFile(contractRequestDto.getPdfFile());
         contractImgService.convertPdfToPng(fileName);
         contractImgService.saveContractImg(saveId,fileName);
-        contractContentService.saveContractContent(saveId);
+        //contractContentService.saveContractContent(saveId);
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS, saveId), HttpStatus.OK);
     }
 }

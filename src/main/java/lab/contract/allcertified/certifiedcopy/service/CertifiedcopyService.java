@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
@@ -23,10 +24,11 @@ public class CertifiedcopyService {
     private static final String UPLOAD_PATH = "C:/contract/getpdf/";
 
     public Long saveCertifiedcopy(Long contractId) {
-        Optional<Contract> contract = contractRepository.findById(contractId);
+        Contract contract = contractRepository.findById(contractId).orElseThrow(EntityNotFoundException::new);
         Certifiedcopy saveCertifiedcopy = Certifiedcopy.builder()
-                .contract(contract.get())
+                .contract(contract)
                 .build();
+        contract.setCertifiedcopy(saveCertifiedcopy);
         return certifiedcopyRepository.save(saveCertifiedcopy).getId();
     }
     public String savePdfFile(MultipartFile pdfFile) throws IOException {

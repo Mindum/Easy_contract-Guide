@@ -1,21 +1,26 @@
 package lab.contract.findout.certifiedcopy_content.service;
 
 import lab.contract.allcertified.certifiedcopy.persistence.Certifiedcopy;
+import lab.contract.allcertified.certifiedcopy.persistence.CertifiedcopyRepository;
 import lab.contract.findout.certifiedcopy_content.persistence.CertifiedcopyContent;
 import lab.contract.findout.certifiedcopy_content.persistence.CertifiedcopyContentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+
 @RequiredArgsConstructor
 @Transactional
 @Service
 public class CertifiedcopyContentService {
     private final CertifiedcopyContentRepository certifiedcopyContentRepository;
-    static String[][] certifiedcopyText;
-    public Long saveCertifiedcopyContent(Certifiedcopy certifiedcopy, String[][] text) {
+    private final CertifiedcopyRepository certifiedcopyRepository;
 
-        certifiedcopyText = text;
+    public Long saveCertifiedcopyContent(Long certifiedcopyId, ArrayList<String[]> certifiedcopyText) {
+
+        Certifiedcopy certifiedcopy = certifiedcopyRepository.findById(certifiedcopyId).orElseThrow(EntityNotFoundException::new);
         String totalAddress = "";
         String streetAddress = "";
         String registerPurpose = "";
@@ -29,23 +34,25 @@ public class CertifiedcopyContentService {
         Double sharerPart = 0.0;
         long mortgage=0;
 
-        for (int i=0;i<certifiedcopyText.length;i++) {
-            switch (certifiedcopyText[i][0]) {
+        for (int i=0;i<certifiedcopyText.size();i++) {
+            String key = certifiedcopyText.get(i)[0];
+            String content = certifiedcopyText.get(i)[1];
+            switch (key) {
                 case "전체 지번" :
                     if (!totalAddress.isBlank()) break;
-                    totalAddress = certifiedcopyText[i][1];
+                    totalAddress = content;
                     System.out.println("totalAddress = " + totalAddress);
                     break;
                 case "소재지번과 도로명 주소" :
-                    streetAddress = extractStreetAddress(certifiedcopyText[i][1]);
+                    streetAddress = extractStreetAddress(content);
                     System.out.println("streetAddress = " + streetAddress);
                     break;
                 case "등기목적" :
-                    registerPurpose += certifiedcopyText[i][1];
+                    registerPurpose += content;
                     //System.out.println("registerPurpose = " + registerPurpose);
                     break;
                 case "권리자 및 기타사항" :
-                    Object[] owner = extractOwner(certifiedcopyText[i][1]);
+                    Object[] owner = extractOwner(content);
                     ownerName = (String) owner[0];
                     ownerResidentNumber = (String) owner[1];
                     ownerAddress = (String) owner[2];
@@ -54,7 +61,7 @@ public class CertifiedcopyContentService {
                     sharerResidentNumber = (String) owner[5];
                     sharerAddress = (String) owner[6];
                     sharerPart = (Double) owner[7];
-                    mortgage = extractMortgage(certifiedcopyText[i][1]);
+                    mortgage = extractMortgage(content);
                     break;
             }
         }

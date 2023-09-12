@@ -56,9 +56,10 @@ public class CompareTest {
         CertifiedcopyContent certifiedcopyContent = CertifiedcopyContent.builder()
                 .certifiedcopy(certifiedcopy)
                 .total_address("서울특별시 송파구 신천동 29 롯데월드타워앤드롯데월드몰 제월드타워동 제 46층 제 4605호")
+                .street_address("서울특별시 송파구 올림픽로 300")
                 .build();
         certifiedcopy.setCertifiedcopyContent(certifiedcopyContent);
-        assertThat(compare.compareAddressWithCertified(contract)).isTrue();
+        assertThat(compare.compareAddressWithCertified(contract).isResult()).isTrue();
     }
 
     @Test
@@ -76,11 +77,12 @@ public class CompareTest {
         BuildingRegisterContent buildingRegisterContent = BuildingRegisterContent.builder()
                 .location("서울특별시 송파구 신천동")
                 .location_number("29")
+                .street_address("서울특별시 송파구 올림픽로 300(신천동)")
                 .title("롯데월드타워앤드롯데월드몰 월드타워동")
                 .ho_title("4605")
                 .build();
         buildingRegister.setBuildingRegisterContent(buildingRegisterContent);
-        assertThat(compare.compareAddressWithBuiliding(contract)).isTrue();
+        assertThat(compare.compareAddressWithBuiliding(contract).isResult()).isTrue();
     }
     @Test
     public void 등기부등본_소유자비교() {

@@ -28,8 +28,6 @@ public class ContractContentServiceTest {
     @Autowired
     ContractContentRepository contractContentRepository;
     @Autowired
-    UserRepository userRepository;
-    @Autowired
     ContractRepository contractRepository;
 
     @Test
@@ -42,16 +40,15 @@ public class ContractContentServiceTest {
                 .password("1234")
                 .privacy_agreement_yn("y")
                 .build();
-        userRepository.save(user);
         Contract contract = Contract.builder()
                 .user(user)
                 .contract_name("untitled")
                 .contract_text(contractText)
                 .build();
-        contractRepository.save(contract);
+        Long contractId = contractRepository.save(contract).getId();
 
         //when
-        Long contentId = contractContentService.saveContractContent(contract);
+        Long contentId = contractContentService.saveContractContent(contractId);
         Optional<ContractContent> content = contractContentRepository.findById(contentId);
         //then
         String location = "경기도 안양시 만안구 안양동 708-113 안양대학교 엔동";
@@ -83,16 +80,14 @@ public class ContractContentServiceTest {
                 .password("1234")
                 .privacy_agreement_yn("y")
                 .build();
-        userRepository.save(user);
         Contract contract = Contract.builder()
                 .user(user)
                 .contract_name("untitled")
                 .contract_text(contractText)
                 .build();
-        contractRepository.save(contract);
-
+        Long contractId = contractRepository.save(contract).getId();
         //when
-        Long contentId = contractContentService.saveContractContent(contract);
+        Long contentId = contractContentService.saveContractContent(contractId);
         Optional<ContractContent> content = contractContentRepository.findById(contentId);
         //then
         String location = "서울특별시 송파구 올림픽로 300";

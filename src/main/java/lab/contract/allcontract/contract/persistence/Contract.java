@@ -2,6 +2,7 @@ package lab.contract.allcontract.contract.persistence;
 
 import lab.contract.allbuilding.building_register.persistence.BuildingRegister;
 import lab.contract.allcertified.certifiedcopy.persistence.Certifiedcopy;
+import lab.contract.allcontract.contract_img.persistence.ContractImg;
 import lab.contract.findout.contract_content.persistence.ContractContent;
 import lab.contract.user.persistence.User;
 import lombok.Builder;
@@ -12,6 +13,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
@@ -28,6 +31,8 @@ public class Contract {
 
     @Column(nullable = false)
     private String contract_name;
+    @OneToMany(mappedBy = "contract")
+    private List<ContractImg> contract_imgs = new ArrayList<>();
 
     @Column(length = 10000)
     private String contract_text;
@@ -45,6 +50,9 @@ public class Contract {
     @JoinColumn(name = "building_register_id")
     private BuildingRegister building_register;
 
+    public void addContractImg(ContractImg contractImg) {
+        contract_imgs.add(contractImg);
+    }
     public void setContract_text (String contract_text) {
         this.contract_text = contract_text;
     }

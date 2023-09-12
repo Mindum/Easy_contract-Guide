@@ -1,12 +1,15 @@
 package lab.contract.findout.building_register_content.service;
 
 import lab.contract.allbuilding.building_register.persistence.BuildingRegister;
+import lab.contract.allbuilding.building_register.persistence.BuildingRegisterRepository;
 import lab.contract.findout.building_register_content.persistence.BuildingRegisterContent;
 import lab.contract.findout.building_register_content.persistence.BuildingRegisterContentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 
 @Service
 @Transactional
@@ -14,10 +17,11 @@ import javax.transaction.Transactional;
 public class BuildingRegisterContentService {
 
     private final BuildingRegisterContentRepository buildingRegisterContentRepository;
+    private final BuildingRegisterRepository buildingRegisterRepository;
 
+    public Long saveBuildingRegisterContent(Long buildingRegisterId, ArrayList<String[]> buildingRegisterText)  {
 
-    private Long saveBuildingRegisterContent(BuildingRegister buildingRegister, String[][] buildingRegisterText)  {
-
+        BuildingRegister buildingRegister = buildingRegisterRepository.findById(buildingRegisterId).orElseThrow(EntityNotFoundException::new);
         String title = "";
         String hoTitle ="";
         String location ="";
@@ -32,30 +36,32 @@ public class BuildingRegisterContentService {
         String sharerAddress = "";
         Double sharerPart = 0.0;
 
-        for (int i = 0; i < buildingRegisterText.length; i++) {
-            switch (buildingRegisterText[i][0]) {
+        for (int i = 0; i < buildingRegisterText.size(); i++) {
+            String key = buildingRegisterText.get(i)[0];
+            String content = buildingRegisterText.get(i)[1];
+            switch (key) {
                 case "명칭":
-                    title = extractContent("명칭", buildingRegisterText[i][1]);
+                    title = extractContent("명칭", content);
                     System.out.println("title = " + title);
                     break;
                 case "호명칭":
-                    hoTitle = extractContent("호명칭", buildingRegisterText[i][1]);
+                    hoTitle = extractContent("호명칭", content);
                     System.out.println("hoTitle = " + hoTitle);
                     break;
                 case "대지위치":
-                    location = extractContent("대지위치", buildingRegisterText[i][1]);
+                    location = extractContent("대지위치", content);
                     System.out.println("location = " + location);
                     break;
                 case "지번":
-                    locationNumber = extractContent("지번", buildingRegisterText[i][1]);
+                    locationNumber = extractContent("지번", content);
                     System.out.println("locationNumber = " + locationNumber);
                     break;
                 case "도로명주소":
-                    streetAddress = extractContent("도로명주소", buildingRegisterText[i][1]);
+                    streetAddress = extractContent("도로명주소", content);
                     System.out.println("streetAddress = " + streetAddress);
                     break;
                 case "소유자 성명":
-                    String text = buildingRegisterText[i][1];
+                    String text = content;
                     String[] lines = text.split("\n");
 
                     String[] extractedValues = NameWithNumber(lines);
@@ -69,7 +75,7 @@ public class BuildingRegisterContentService {
                     System.out.println("sharerRegisterNumber = " + sharerRegisterNumber);
                     break;
                 case "소유자 주소":
-                    String alltext = buildingRegisterText[i][1];
+                    String alltext = content;
                     ownerAddress = findAsEndWordContainEndWord(alltext, "주소", ")").trim();
                     ownerAddress = ownerAddress.replace("\n", "");
                     System.out.println("ownerAddress = " + ownerAddress);
@@ -81,10 +87,10 @@ public class BuildingRegisterContentService {
 
                     break;
                 case "소유권 지분":
-                    String[] part = extractContentAfterLineNumber(buildingRegisterText[i][1], 2).split("/");
+                    String[] part = extractContentAfterLineNumber(content, 2).split("/");
                     ownerPart = Double.parseDouble(part[1]) / Double.parseDouble(part[0]);
                     System.out.println("ownerPart = " + ownerPart);
-                    String[] part2 = extractContentAfterLineNumber(buildingRegisterText[i][1], 3).split("/");
+                    String[] part2 = extractContentAfterLineNumber(content, 3).split("/");
                     sharerPart = Double.parseDouble(part2[1]) / Double.parseDouble(part2[0]);
                     System.out.println("sharerPart = " + sharerPart);
                     break;
