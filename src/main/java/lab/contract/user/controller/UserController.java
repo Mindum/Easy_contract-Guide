@@ -8,6 +8,8 @@ import lab.contract.infrastructure.exception.ResponseMessage;
 import lab.contract.infrastructure.exception.StatusCode;
 import lab.contract.user.session.SessionManager;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -35,14 +37,17 @@ public class UserController {
     }
     //로그인 처리
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid LoginForm loginForm, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity login(@RequestBody @Valid LoginForm loginForm, HttpServletRequest request, HttpServletResponse response) throws JSONException {
         String getEmail = loginForm.getEmail();
         String getPassword = loginForm.getPassword();
 
         User loginUser = userService.login(getEmail, getPassword);
 
-        String sessionId = sessionManager.createSession(loginUser,response);
-        return new ResponseEntity<>(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS, "id : " + sessionId +" "+ loginUser.getUsername()),HttpStatus.OK);
+        LoginResponse loginResponse = LoginResponse.builder()
+                .id(loginUser.getId())
+                .username(loginUser.getUsername())
+                .build();
+        return new ResponseEntity<>(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS, loginResponse), HttpStatus.OK);
     }
 
     @PostMapping("/logout")

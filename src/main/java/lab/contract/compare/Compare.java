@@ -227,6 +227,7 @@ public class Compare {
     @Getter @Setter
     public class Result {
         private boolean result;
+        private String message;
         private String targetA;
         private String targetB;
         Result (boolean result,String targetA,String targetB) {

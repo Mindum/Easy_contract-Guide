@@ -1,5 +1,6 @@
 package lab.contract.allcontract.contract.persistence;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lab.contract.allbuilding.building_register.persistence.BuildingRegister;
 import lab.contract.allcertified.certifiedcopy.persistence.Certifiedcopy;
 import lab.contract.allcontract.contract_img.persistence.ContractImg;
@@ -31,6 +32,7 @@ public class Contract {
 
     @Column(nullable = false)
     private String contract_name;
+    @JsonIgnore
     @OneToMany(mappedBy = "contract")
     private List<ContractImg> contract_imgs = new ArrayList<>();
 
