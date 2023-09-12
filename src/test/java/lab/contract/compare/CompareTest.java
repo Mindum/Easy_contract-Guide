@@ -4,6 +4,7 @@ import lab.contract.allbuilding.building_register.persistence.BuildingRegister;
 import lab.contract.allcertified.certifiedcopy.persistence.Certifiedcopy;
 import lab.contract.allcontract.contract.persistence.Contract;
 import lab.contract.allcontract.contract.persistence.ContractRepository;
+import lab.contract.analysis_result.compare.Compare;
 import lab.contract.findout.building_register_content.persistence.BuildingRegisterContent;
 import lab.contract.findout.certifiedcopy_content.persistence.CertifiedcopyContent;
 import lab.contract.findout.contract_content.persistence.ContractContent;

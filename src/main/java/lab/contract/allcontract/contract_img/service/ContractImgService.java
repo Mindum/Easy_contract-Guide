@@ -22,6 +22,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import javax.persistence.EntityNotFoundException;
 import java.io.*;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -42,7 +43,7 @@ public class ContractImgService {
     public void convertPdfToPng(String pdfFileName) throws IOException, ExecutionException, InterruptedException {
         convertAPI.convertApi(pdfFileName);
     }
-    public String saveContractImg(Long contractId, String pdfFileName) throws IOException {
+    public List<String> saveContractImg(Long contractId, String pdfFileName) throws IOException {
 
         Contract contract = contractRepository.findById(contractId).orElseThrow(EntityNotFoundException::new);
         File source = new File(UPLOAD_PATH + pdfFileName);
@@ -50,11 +51,13 @@ public class ContractImgService {
         int pagesOfPdf = document.getNumberOfPages();
         StringBuilder content = new StringBuilder();
         String name;
+        List<String> list = new ArrayList<>();
         for (int i = 1; i <= pagesOfPdf; i++) {
             if (i == 1) {
                 name = pdfFileName +".png";
                 MultipartFile multipartFile = transferMultipart(name);
                 String s3Url = s3UploadService.putPngFile(multipartFile);
+                list.add(s3Url);
                 ContractImg saveContractImg = contractImgRepository.save(ContractImg.builder()
                         .contract(contract)
                         .page(i)
@@ -65,6 +68,7 @@ public class ContractImgService {
                 name = pdfFileName + "-" + i +".png";
                 MultipartFile multipartFile = transferMultipart(name);
                 String s3Url = s3UploadService.putPngFile(multipartFile);
+                list.add(s3Url);
                 ContractImg saveContractImg = contractImgRepository.save(ContractImg.builder()
                         .contract(contract)
                         .page(i)
@@ -75,7 +79,7 @@ public class ContractImgService {
         }
         contract.setContract_text(content.toString());
 
-        return content.toString();
+        return list;
     }
 
     public MultipartFile transferMultipart(String name) throws IOException {

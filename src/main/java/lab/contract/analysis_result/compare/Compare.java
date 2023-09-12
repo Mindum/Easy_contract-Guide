@@ -1,4 +1,4 @@
-package lab.contract.compare;
+package lab.contract.analysis_result.compare;
 
 import lab.contract.allbuilding.building_register.persistence.BuildingRegister;
 import lab.contract.allcertified.certifiedcopy.persistence.Certifiedcopy;

@@ -23,7 +23,7 @@ public class S3UploadServiceTest {
 
     @Test
     public void S3업로드_테스트() throws IOException {
-        MultipartFile multipartFile = contractImgService.transferMultipart("2e041110-5793-42a8-9e4f-d95cc56789cb_한남더힐 등기부등본.pdf.png");
+        MultipartFile multipartFile = contractImgService.transferMultipart("a1397f9c-a8f1-4784-8235-0e1f9001916f_표준임대차계약서.pdf-4.png");
         s3UploadService.putPngFile(multipartFile);
     }
 
