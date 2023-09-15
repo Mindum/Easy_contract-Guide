@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lab.contract.allbuilding.building_register.persistence.BuildingRegister;
 import lab.contract.allcertified.certifiedcopy.persistence.Certifiedcopy;
 import lab.contract.allcontract.contract_img.persistence.ContractImg;
+import lab.contract.analysis_result.result.persistence.AllResult;
 import lab.contract.findout.contract_content.persistence.ContractContent;
 import lab.contract.user.persistence.User;
 import lombok.Builder;
@@ -51,6 +52,9 @@ public class Contract {
     @OneToOne
     @JoinColumn(name = "building_register_id")
     private BuildingRegister building_register;
+    @OneToOne
+    @JoinColumn(name = "all_result_id")
+    private AllResult all_result;
 
     public void addContractImg(ContractImg contractImg) {
         contract_imgs.add(contractImg);
@@ -67,6 +71,7 @@ public class Contract {
     public void setBuilding_register(BuildingRegister building_register) {
         this.building_register = building_register;
     }
+    public void setAllResult(AllResult allResult) { this.all_result = allResult; }
 
     @Builder
     public Contract(User user,String contract_name,String contract_text,LocalDateTime created_at) {

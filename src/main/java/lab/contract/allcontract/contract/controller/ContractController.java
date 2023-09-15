@@ -34,7 +34,7 @@ public class ContractController {
         for (int i=0;i< url.length;i++) {
             url[i] = list.get(i);
         }
-        //contractContentService.saveContractContent(saveId);
+        contractContentService.saveContractContent(saveId);
         ContractUploadResponse contractUploadResponse = ContractUploadResponse.builder()
                 .contractId(saveId)
                 .pages(url.length)
