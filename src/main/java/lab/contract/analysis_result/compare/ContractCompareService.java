@@ -139,7 +139,7 @@ public class ContractCompareService {
 
         Result result = new Result();
         StringBuilder comment = new StringBuilder();
-        comment.append("[건물 용도에 따른 결과]\n\n");
+        comment.append("[특약사항]\n\n");
         comment.append(specialOption + "\n\n");
 
         if (specialOption.contains("수리")) {
