@@ -8,18 +8,20 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.UUID;
 
 @Service
 public class TemplateOCR {
-    public String ocr(String imagename) {
+    public ArrayList<String[]> ocr(String imagename) {
         String apiURL = "https://lvxcocb3a7.apigw.ntruss.com/custom/v1/24325/5bf77f6a9ef3b4c215c5fee42e1743649634e1f002002d284595cfb696634a99/infer";
         String secretKey = "T2ZaTUd0UkJ0YWx1RWtOSWpZWUlNa1dpUklXYlp6WUM=";
 
         //String imagename = "5e7b701b-e91c-453d-9ae5-e2ee989fae1d_근저당권있는 등기부등본.pdf-4.png";
         String imagePath = Paths.get("C:/contract/savepng").toString();
         String imageFile = imagePath + "/" + imagename;
-        StringBuilder sb = new StringBuilder();
+        ArrayList<String[]> text = new ArrayList<>();
+        //String[][] text = new String[20][2];
 
         try {
             URL url = new URL(apiURL);
@@ -71,20 +73,21 @@ public class TemplateOCR {
 
 
             JSONObject jsonObject = new JSONObject(response.toString());
-            System.out.println("jsonObject = " + jsonObject);
+            //System.out.println("jsonObject = " + jsonObject);
             JSONArray imgArray = jsonObject.getJSONArray("images");
             JSONObject img = imgArray.getJSONObject(0);
             JSONArray fieldArray = img.getJSONArray("fields");
             for (int i = 0; i < fieldArray.length(); i++) {
                 JSONObject object = fieldArray.getJSONObject(i);
+                String key = object.getString("name");
                 String content = object.getString("inferText");
-                sb.append(content).append(" ");
+                text.add(new String[]{key,content});
             }
 
         } catch (Exception e) {
             System.out.println(e);
         }
-        return (sb.toString());
+        return text;
     }
 
     private static void writeMultiPart(OutputStream out, String jsonMessage, File file, String boundary) throws

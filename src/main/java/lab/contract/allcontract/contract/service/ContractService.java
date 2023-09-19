@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
@@ -25,9 +26,9 @@ public class ContractService {
 
     public Long saveContract(
             Long userId) {
-        Optional<User> user = userRepository.findById(userId);
+        User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         Contract saveContract = Contract.builder()
-                .user(user.get())
+                .user(user)
                 .contract_name("untitled")
                 .build();
         return contractRepository.save(saveContract).getId();

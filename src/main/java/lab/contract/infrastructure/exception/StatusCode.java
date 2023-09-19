@@ -7,8 +7,8 @@ public class StatusCode {
     public static final int  DUPLICATED_USER=  401;
     public static final int DOES_NOT_EXIST_USER =  401;
     public static final int PASSWORD_MISMATCH =  404;
+    public static final int SESSION_NULL = 405;
 
     public static final int FILE_SIZE_LIMIT = 412;
-    public static final int FORBIDDEN = 403;
     public static final int NOT_FOUND = 404;
 }

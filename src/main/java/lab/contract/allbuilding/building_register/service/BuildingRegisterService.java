@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
@@ -23,10 +24,11 @@ public class BuildingRegisterService {
     private static final String UPLOAD_PATH = "C:/contract/getpdf/";
 
     public Long saveBuildingRegister(Long contractId) {
-        Optional<Contract> contract = contractRepository.findById(contractId);
+        Contract contract = contractRepository.findById(contractId).orElseThrow(EntityNotFoundException::new);
         BuildingRegister saveBuildingRegister = BuildingRegister.builder()
-                .contract(contract.get())
+                .contract(contract)
                 .build();
+        contract.setBuilding_register(saveBuildingRegister);
         return buildingRegisterRepository.save(saveBuildingRegister).getId();
     }
     public String savePdfFile(MultipartFile pdfFile) throws IOException {

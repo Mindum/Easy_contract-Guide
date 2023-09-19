@@ -2,6 +2,7 @@ package lab.contract.allcertified.certifiedcopy.controller;
 
 import lab.contract.allcertified.certifiedcopy.service.CertifiedcopyService;
 import lab.contract.allcertified.certifiedcopy_img.service.CertifiedcopyImgService;
+import lab.contract.findout.certifiedcopy_content.service.CertifiedcopyContentService;
 import lab.contract.infrastructure.exception.DefaultRes;
 import lab.contract.infrastructure.exception.ResponseMessage;
 import lab.contract.infrastructure.exception.StatusCode;
@@ -20,15 +21,16 @@ import java.util.concurrent.ExecutionException;
 @RequiredArgsConstructor
 public class CertifiedcopyController {
 
-    private final CertifiedcopyImgService certifiedcopyImgService;
     private final CertifiedcopyService certifiedcopyService;
+    private final CertifiedcopyImgService certifiedcopyImgService;
+    private final CertifiedcopyContentService certifiedcopyContentService;
     @PostMapping("/file/certifiedcopy")
-    public ResponseEntity buildingRegisterUpload(
+    public ResponseEntity certifiedcopyUpload(
             CertifiedRequestDto certifiedRequestDto) throws IOException, ExecutionException, InterruptedException {
         Long saveId = certifiedcopyService.saveCertifiedcopy(certifiedRequestDto.getContractId());
         String fileName = certifiedcopyService.savePdfFile(certifiedRequestDto.getPdfFile());
         certifiedcopyImgService.convertPdfToPng(fileName);
-        certifiedcopyImgService.saveCertifiedcopyImg(saveId,fileName);
+        certifiedcopyContentService.saveCertifiedcopyContent(saveId, certifiedcopyImgService.saveCertifiedcopyImg(saveId,fileName));
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS), HttpStatus.OK);
     }
 }

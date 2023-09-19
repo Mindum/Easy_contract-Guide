@@ -1,21 +1,29 @@
 package lab.contract.findout.contract_content.service;
 
 import lab.contract.allcontract.contract.persistence.Contract;
+import lab.contract.allcontract.contract.persistence.ContractRepository;
 import lab.contract.findout.contract_content.persistence.ContractContent;
 import lab.contract.findout.contract_content.persistence.ContractContentRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityNotFoundException;
 
 @RequiredArgsConstructor
 @Transactional
 @Service
+@Slf4j
 public class ContractContentService {
     private final ContractContentRepository contractContentRepository;
+    private final ContractRepository contractRepository;
     static String Text;
 
-    public Long saveContractContent(Contract contract){
+    public Long saveContractContent(Long contractId){
+        Contract contract = contractRepository.findById(contractId).orElseThrow(EntityNotFoundException::new);
         Text = contract.getContract_text();
+        System.out.println(Text);
 
         String address = extractAddress();
         String purpose = extractPurpose();
@@ -37,24 +45,22 @@ public class ContractContentService {
                 .lessor_resident_number(lessorResidentNumber)
                 .lessor_name(lessorName)
                 .build();
+        contract.setContractContent(saveContractContent);
         return  contractContentRepository.save(saveContractContent).getId();
     }
 
     private String extractAddress() {
-        String address = findAsNextWord("소재지", "토 지").trim();
-        if (address == "찾는 단어가 존재하지 않습니다.") address = findAsNextWord("소재지", "토지").trim();
-
+        String address = findAsNextWordReplace("소재지", "토 지", "토지").trim();
         return address; // 매칭되지 않은 경우
     }
 
     private String extractPurpose() {
-        String purpose = findAsNextWord("용도", "면 적").trim();
-        if (purpose == "찾는 단어가 존재하지 않습니다.") purpose = findAsNextWord("구조·용도", "면적");
+        String purpose = findAsNextWordReplace("용도", "면 적", "면적").trim();
         return purpose;
     }
     private String extractRentalPart() {
-        String rentalPart = findAsNextWord("임대할부분","면 적").trim();
-        if (rentalPart == "찾는 단어가 존재하지 않습니다.") rentalPart = findAsNextWord("임차할부분", "면적").trim();
+        String rentalPart = findAsNextWordReplace("임대할부분","면 적", "면적").trim();
+        if (rentalPart == "찾는 단어가 존재하지 않습니다.") rentalPart = findAsNextWordReplace("임차할부분", "면적", "면 적").trim();
 
         return rentalPart;
     }
@@ -115,12 +121,41 @@ public class ContractContentService {
         return findValue;
     }
     public String findAsNextWord(String findKey,String nextWord) {
+        if (!containCheck(Text,findKey)) {
+            log.info(" 찾는 단어가 포함되어있지 않습니다.");
+            return "찾는 단어가 존재하지 않습니다.";
+        }
+        if (!containCheck(Text,nextWord)) {
+            log.info("다음 단어가 포함되어있지 않습니다.");
+            return "찾는 단어가 존재하지 않습니다.";
+        }
+
+        int startIndex = Text.indexOf(findKey);
+        if (Text.indexOf(nextWord,startIndex+1)==-1) {
+            return "찾는 단어가 존재하지 않습니다.";
+        }
+        int endIndex = Text.indexOf(nextWord,startIndex+1);
+        String findValue = Text.substring(startIndex+findKey.length(),endIndex);
+        findValue = findValue.replace(findKey,"").trim();
+        return findValue;
+    }
+    public String findAsNextWordReplace(String findKey,String nextWord, String replaceWord) {
         if (!containCheck(Text,findKey)) return "찾는 단어가 존재하지 않습니다.";
         if (!containCheck(Text,nextWord)) return "찾는 단어가 존재하지 않습니다.";
 
+        if(Text.indexOf(findKey)==-1) {
+            return "찾는 단어가 존재하지 않습니다.";
+        }
         int startIndex = Text.indexOf(findKey);
-        int endIndex = Text.indexOf(nextWord,startIndex+1);
 
+        int endIndex = Text.indexOf(nextWord,startIndex+1);
+        int replaceIndex = Text.indexOf(replaceWord,startIndex+1);
+        if (endIndex == -1) {
+            endIndex = replaceIndex;
+        }
+        if (endIndex !=-1 && replaceIndex !=-1){
+            endIndex = endIndex>replaceIndex? replaceIndex : endIndex;
+        }
         String findValue = Text.substring(startIndex+findKey.length(),endIndex);
         findValue = findValue.replace(findKey,"").trim();
         return findValue;

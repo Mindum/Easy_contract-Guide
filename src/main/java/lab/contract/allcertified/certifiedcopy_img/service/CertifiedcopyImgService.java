@@ -11,9 +11,10 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.File;
 import java.io.IOException;
-import java.util.Optional;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -31,35 +32,33 @@ public class CertifiedcopyImgService {
         convertAPI.convertApi(pdfFileName);
     }
 
-    public String saveCertifiedcopyImg(Long certifiedcopyId, String pdfFileName) throws IOException {
+    public ArrayList<String[]> saveCertifiedcopyImg(Long certifiedcopyId, String pdfFileName) throws IOException {
 
-        Optional<Certifiedcopy> certifiedcopy = certifiedcopyRepository.findById(certifiedcopyId);
-        if (!certifiedcopy.isPresent()) {
-            // contract 예외 처리
-        }
+        Certifiedcopy certifiedcopy = certifiedcopyRepository.findById(certifiedcopyId).orElseThrow(EntityNotFoundException::new);
+
         File source = new File(UPLOAD_PATH + pdfFileName);
         PDDocument document = PDDocument.load(source);
         int pagesOfPdf = document.getNumberOfPages();
-        StringBuilder content = new StringBuilder();
+        ArrayList<String[]> content = new ArrayList<>();
         String name;
 
         for (int i = 1; i <= pagesOfPdf; i++) {
             if (i == 1) {
                 name = pdfFileName + ".png";
                 certifiedcopyImgRepository.save(CertifiedcopyImg.builder()
-                        .certifiedcopy(certifiedcopy.get())
+                        .certifiedcopy(certifiedcopy)
                         .page(i)
                         .url(DOWNLOAD_PATH + name).build());
-                content.append(templateOCR.ocr(name));
+                content.addAll(templateOCR.ocr(name));
             } else {
                 name = pdfFileName + "-" + i + ".png";
                 certifiedcopyImgRepository.save(CertifiedcopyImg.builder()
-                        .certifiedcopy(certifiedcopy.get())
+                        .certifiedcopy(certifiedcopy)
                         .page(i)
                         .url(DOWNLOAD_PATH + name).build());
-                content.append(templateOCR.ocr(name));
+                content.addAll(templateOCR.ocr(name));
             }
         }
-        return content.toString();
+        return content;
     }
 }
