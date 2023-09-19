@@ -36,7 +36,9 @@ public class AllResultController {
         contractCompareService.saveContractComment(contractId);
         Contract contract = contractRepository.findById(contractId).orElseThrow(EntityNotFoundException::new);
         List<ResultField> list = contract.getAll_result().getResult_field();
+        int rate = contract.getAll_result().getRate();
         ContractResultResponseDto resultResponseDto = ContractResultResponseDto.builder()
+                .rate(rate)
                 .resultFields(list.toArray())
                 .build();
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS, resultResponseDto), HttpStatus.OK);

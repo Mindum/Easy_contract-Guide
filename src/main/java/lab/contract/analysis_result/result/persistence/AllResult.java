@@ -29,10 +29,13 @@ public class AllResult {
     @OneToMany(mappedBy = "allResult")
     private List<ResultField> result_field = new ArrayList<>();
 
+    private int rate;
+
     public void addResultField (ResultField resultField) { result_field.add(resultField);}
+    public void setRate (int rate) {this.rate = rate;}
 
     @Builder
-    public AllResult(Contract contract){
+    public AllResult (Contract contract){
         this.contract = contract;
     }
 
