@@ -6,9 +6,11 @@ import lombok.Setter;
 
 @Getter@Setter
 public class ContractResultResponseDto {
+    private int rate;
     private Object[] resultFields;
     @Builder
-    public ContractResultResponseDto(Object[] resultFields) {
+    public ContractResultResponseDto(int rate, Object[] resultFields) {
+        this.rate = rate;
         this.resultFields = resultFields;
     }
 
