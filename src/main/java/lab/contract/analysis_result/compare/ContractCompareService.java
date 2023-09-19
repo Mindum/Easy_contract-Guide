@@ -31,11 +31,13 @@ public class ContractCompareService {
         if (!contractOptional.isPresent()) {
             // contract 예외 처리
         }
+        int rate = 0;
 
         Contract contract = contractOptional.get();
         AllResult allResult = contract.getAll_result();
 
         Result result1 = checkFloorAndHo(contract); // 1번
+
         ResultField resultField = ResultField.builder()
                 .comment(result1.comment)
                 .type(result1.result)
@@ -67,7 +69,7 @@ public class ContractCompareService {
                 .build();
         allResult.addResultField(resultField4);
         resultFieldRepository.save(resultField4);
-
+        allResult.setRate(rate);
     }
 
     public Result checkFloorAndHo(Contract contract) {
@@ -92,7 +94,7 @@ public class ContractCompareService {
                     "건축물대장의 명칭, 호명칭, 대지위치, 지번, 도로명주소가 계약서에 작성한 주소와 빠짐없이 같은지 확인해보세요.\n\n\n");
         } else {
             result.setResult(STRONG);
-            comment.append("층과 호수가 명확히 기입되어있지 않을 경우 대항력이 상실 될 수 있습니다.\n\n" +
+            comment.append("<strong>층과 호수가 명확히 기입되어있지 않을 경우 대항력이 상실 될 수 있습니다.</strong>\n\n" +
                     "이 경우 보증금을 돌려받지 못하는 상황이 발생 할 수 있습니다.\n\n" +
                     "등기부등본의 소재지번과 계약서에 작성한 주소가 빠짐없이 같은지 확인해보세요.\n\n" +
                     "건축물대장의 명칭, 호명칭, 대지위치, 지번, 도로명주소가 계약서에 작성한 주소와 빠짐없이 같은지 확인해보세요.\n\n\n");
@@ -139,7 +141,7 @@ public class ContractCompareService {
 
         Result result = new Result();
         StringBuilder comment = new StringBuilder();
-        comment.append("[특약사항]\n\n");
+        comment.append("<b>특약사항</b>\n\n");
         comment.append(specialOption + "\n\n");
 
         if (specialOption.contains("수리")) {
