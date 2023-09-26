@@ -44,15 +44,19 @@ public class Contract {
     private LocalDateTime created_at;
 
     @OneToOne
+    @JsonIgnore
     @JoinColumn(name = "contract_content_id")
     private ContractContent contract_content;
     @OneToOne
+    @JsonIgnore
     @JoinColumn(name = "certifiedcopy_id")
     private Certifiedcopy certifiedcopy;
     @OneToOne
+    @JsonIgnore
     @JoinColumn(name = "building_register_id")
     private BuildingRegister building_register;
     @OneToOne
+    @JsonIgnore
     @JoinColumn(name = "all_result_id")
     private AllResult all_result;
 

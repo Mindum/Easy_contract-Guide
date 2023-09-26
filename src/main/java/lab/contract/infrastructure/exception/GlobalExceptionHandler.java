@@ -1,5 +1,6 @@
 package lab.contract.infrastructure.exception;
 
+import lab.contract.infrastructure.exception.contract.IdNullException;
 import lab.contract.infrastructure.exception.user.DoesNotExistUserException;
 import lab.contract.infrastructure.exception.user.DuplicatedUserException;
 import lab.contract.infrastructure.exception.user.PasswordMismatchException;
@@ -39,5 +40,11 @@ public class GlobalExceptionHandler {
             SessionNullException e) {
         log.info("로그인 사용자가 존재하지 않습니다.");
         return new ResponseEntity(DefaultRes.res(StatusCode.SESSION_NULL, e.getResponseMessage()),HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(IdNullException.class)
+    public final ResponseEntity handleIdNullException (
+            IdNullException e) {
+        log.info("아이디 값이 없습니다.");
+        return new ResponseEntity(DefaultRes.res(StatusCode.ID_NULL, e.getResponseMessage()),HttpStatus.BAD_REQUEST);
     }
 }

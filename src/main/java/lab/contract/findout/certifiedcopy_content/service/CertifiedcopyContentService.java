@@ -5,6 +5,7 @@ import lab.contract.allcertified.certifiedcopy.persistence.CertifiedcopyReposito
 import lab.contract.findout.certifiedcopy_content.persistence.CertifiedcopyContent;
 import lab.contract.findout.certifiedcopy_content.persistence.CertifiedcopyContentRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 @Service
 public class CertifiedcopyContentService {
     private final CertifiedcopyContentRepository certifiedcopyContentRepository;
@@ -43,7 +45,7 @@ public class CertifiedcopyContentService {
                     totalAddress = content;
                     System.out.println("totalAddress = " + totalAddress);
                     break;
-                case "소재지번과 도로명 주소" :
+                case "소재지번과 도로명주소" :
                     streetAddress = extractStreetAddress(content);
                     System.out.println("streetAddress = " + streetAddress);
                     break;
@@ -85,20 +87,27 @@ public class CertifiedcopyContentService {
     }
     private static long extractMortgage(String text) {
         int mortgageIndex = text.indexOf("채권최고액");
-        if (mortgageIndex == -1) return -1;
+        if (mortgageIndex == -1) {
+            log.info("채권최고액이 존재하지 않습니다.");
+            return -1;
+        }
         int endIndex = text.indexOf("원",mortgageIndex);
-        System.out.println("mortgageIndex = " + mortgageIndex);
-        System.out.println("endIndex = " + endIndex);
         text = text.substring(mortgageIndex+7,endIndex).replace(",","");
-        System.out.println("text = " + text);
+        System.out.println("채권최고액 = " + text);
         return Long.valueOf(text);
     }
 
     private static String extractStreetAddress(String text) {
+        System.out.println("도로명주소 찾기");
         int streetAddressIndex = text.indexOf("[도로명주소]");
-        if (streetAddressIndex==-1) return "찾는 단어가 존재하지 않습니다.";
+        System.out.println("streetAddressIndex = " + streetAddressIndex);
+        if (streetAddressIndex==-1) {
+            log.info("도로명주소를 찾을 수 없습니다.");
+            return "찾는 단어가 존재하지 않습니다.";
+        }
 
         text = text.replace("[도로명주소]","").substring(streetAddressIndex).replace("\n"," ");
+        System.out.println("도로명주소 = " + text);
         String[] s = text.split(" ");
         int separateLine = 0; //로 길 구분 라인 인덱스
         String streetNumber = "";

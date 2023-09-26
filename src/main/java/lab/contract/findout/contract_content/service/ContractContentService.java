@@ -140,17 +140,20 @@ public class ContractContentService {
         return findValue;
     }
     public String findAsNextWordReplace(String findKey,String nextWord, String replaceWord) {
-        if (!containCheck(Text,findKey)) return "찾는 단어가 존재하지 않습니다.";
-        if (!containCheck(Text,nextWord)) return "찾는 단어가 존재하지 않습니다.";
-
-        if(Text.indexOf(findKey)==-1) {
+        if (!containCheck(Text,findKey)) {
+            log.info(findKey + "를 찾을 수 없음");
             return "찾는 단어가 존재하지 않습니다.";
         }
+
         int startIndex = Text.indexOf(findKey);
 
         int endIndex = Text.indexOf(nextWord,startIndex+1);
         int replaceIndex = Text.indexOf(replaceWord,startIndex+1);
         if (endIndex == -1) {
+            if (replaceIndex == -1) {
+                log.info(findKey + "를 위한 다음단어를 찾을 수 없음");
+                return "찾는 단어가 존재하지 않습니다.";
+            }
             endIndex = replaceIndex;
         }
         if (endIndex !=-1 && replaceIndex !=-1){

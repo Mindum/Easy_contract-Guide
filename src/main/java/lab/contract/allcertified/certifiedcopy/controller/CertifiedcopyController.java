@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 @CrossOrigin(originPatterns = "*")
@@ -30,7 +31,12 @@ public class CertifiedcopyController {
         Long saveId = certifiedcopyService.saveCertifiedcopy(certifiedRequestDto.getContractId());
         String fileName = certifiedcopyService.savePdfFile(certifiedRequestDto.getPdfFile());
         certifiedcopyImgService.convertPdfToPng(fileName);
-        certifiedcopyContentService.saveCertifiedcopyContent(saveId, certifiedcopyImgService.saveCertifiedcopyImg(saveId,fileName));
-        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS), HttpStatus.OK);
+        ArrayList<String[]> imgContent =certifiedcopyImgService.saveCertifiedcopyImg(saveId,fileName);
+        String[] url = imgContent.remove(0);
+        certifiedcopyContentService.saveCertifiedcopyContent(saveId, imgContent);
+        CertifiedUploadResponse certifiedUploadResponse = CertifiedUploadResponse.builder()
+                .pages(url.length)
+                .urls(url).build();
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS, certifiedUploadResponse), HttpStatus.OK);
     }
 }

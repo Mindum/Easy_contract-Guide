@@ -40,6 +40,7 @@ public class ContractCompareService {
         ResultField resultField = ResultField.builder()
                 .comment(result1.comment)
                 .type(result1.result)
+                .allResult(allResult)
                 .build();
         allResult.addResultField(resultField);
         resultFieldRepository.save(resultField);
@@ -48,6 +49,7 @@ public class ContractCompareService {
         ResultField resultField2 = ResultField.builder()
                 .comment(result2.comment)
                 .type(result2.result)
+                .allResult(allResult)
                 .build();
         allResult.addResultField(resultField2);
         resultFieldRepository.save(resultField2);
@@ -56,6 +58,7 @@ public class ContractCompareService {
         ResultField resultField3 = ResultField.builder()
                 .comment(result3.comment)
                 .type(result3.result)
+                .allResult(allResult)
                 .build();
         allResult.addResultField(resultField3);
         resultFieldRepository.save(resultField3);
@@ -65,10 +68,12 @@ public class ContractCompareService {
         ResultField resultField4 = ResultField.builder()
                 .comment(result4.comment)
                 .type(result4.result)
+                .allResult(allResult)
                 .build();
         allResult.addResultField(resultField4);
         resultFieldRepository.save(resultField4);
         allResult.setRate(RATE);
+        RATE=0;
     }
 
     public Result checkFloorAndHo(Contract contract) {

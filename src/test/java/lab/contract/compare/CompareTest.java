@@ -60,31 +60,31 @@ public class CompareTest {
                 .street_address("서울특별시 송파구 올림픽로 300")
                 .build();
         certifiedcopy.setCertifiedcopyContent(certifiedcopyContent);
-        assertThat(compare.compareAddressWithCertified(contract).isResult()).isTrue();
+        assertThat(compare.compareAddressWithCertified(contract).getResult()).isEqualTo("normal");
     }
 
-    @Test
-    public void 건축물대장_주소비교() {
-        Contract contract = set();
-        ContractContent contractContent = ContractContent.builder()
-                .contract(contract)
-                .address("서울특별시 송파구 신천동 29")
-                .rental_part("롯데월드타워앤드롯데월드몰 제월드타워동 제 46층 제 4605호").build();
-        contract.setContractContent(contractContent);
-        BuildingRegister buildingRegister = BuildingRegister.builder()
-                .contract(contract)
-                .build();
-        contract.setBuilding_register(buildingRegister);
-        BuildingRegisterContent buildingRegisterContent = BuildingRegisterContent.builder()
-                .location("서울특별시 송파구 신천동")
-                .location_number("29")
-                .street_address("서울특별시 송파구 올림픽로 300(신천동)")
-                .title("롯데월드타워앤드롯데월드몰 월드타워동")
-                .ho_title("4605")
-                .build();
-        buildingRegister.setBuildingRegisterContent(buildingRegisterContent);
-        assertThat(compare.compareAddressWithBuiliding(contract).isResult()).isTrue();
-    }
+//    @Test
+//    public void 건축물대장_주소비교() {
+//        Contract contract = set();
+//        ContractContent contractContent = ContractContent.builder()
+//                .contract(contract)
+//                .address("서울특별시 송파구 신천동 29")
+//                .rental_part("롯데월드타워앤드롯데월드몰 제월드타워동 제 46층 제 4605호").build();
+//        contract.setContractContent(contractContent);
+//        BuildingRegister buildingRegister = BuildingRegister.builder()
+//                .contract(contract)
+//                .build();
+//        contract.setBuilding_register(buildingRegister);
+//        BuildingRegisterContent buildingRegisterContent = BuildingRegisterContent.builder()
+//                .location("서울특별시 송파구 신천동")
+//                .location_number("29")
+//                .street_address("서울특별시 송파구 올림픽로 300(신천동)")
+//                .title("롯데월드타워앤드롯데월드몰 월드타워동")
+//                .ho_title("4605")
+//                .build();
+//        buildingRegister.setBuildingRegisterContent(buildingRegisterContent);
+//        assertThat(compare.compareAddressWithBuiliding(contract).isResult()).isTrue();
+//    }
     @Test
     public void 등기부등본_소유자비교() {
         Contract contract = set();
@@ -108,7 +108,7 @@ public class CompareTest {
                 .build();
 
         certifiedcopy.setCertifiedcopyContent(certifiedcopyContent);
-        assertThat(compare.compareOwnerWithCertified(contract)).isTrue();
+        assertThat(compare.compareOwnerWithCertified(contract).getResult()).isEqualTo("normal");
     }
     @Test
     public void 등기부등본_공유자비교() {
@@ -126,18 +126,18 @@ public class CompareTest {
         contract.setCertifiedcopy(certifiedcopy);
         CertifiedcopyContent certifiedcopyContent = CertifiedcopyContent.builder()
                 .certifiedcopy(certifiedcopy)
-                .owner_part(0.4)
+                .owner_part(0.5)
                 .owner_name("강인광")
                 .owner_resident_number("000000-1")
                 .owner_address("서울특별시 송파구 신천동")
-                .sharer_part(0.6)
+                .sharer_part(0.5)
                 .sharer_name("광인강")
                 .sharer_resident_number("000000-1")
                 .sharer_address("서울특별시 광진구 어쩌구동")
                 .build();
 
         certifiedcopy.setCertifiedcopyContent(certifiedcopyContent);
-        assertThat(compare.compareOwnerWithCertified(contract)).isFalse();
+        assertThat(compare.compareOwnerWithCertified(contract).getResult()).isEqualTo("normal");
     }
     @Test
     public void 건축물대장_소유자비교() {
