@@ -8,12 +8,14 @@ import lab.contract.infrastructure.exception.ResponseMessage;
 import lab.contract.infrastructure.exception.StatusCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.lang.reflect.Member;
 
 @CrossOrigin(originPatterns = "*")
 @RestController
@@ -50,8 +52,6 @@ public class UserController {
     //로그인 처리
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid LoginForm loginForm, HttpServletRequest request) {
-
-
         String getEmail = loginForm.getEmail();
         String getPassword = loginForm.getPassword();
 
@@ -62,6 +62,21 @@ public class UserController {
 
         return new ResponseEntity<>(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS, loginUser),HttpStatus.OK);
 
+    }
+
+    @GetMapping("/check")
+    public ResponseEntity check(HttpServletRequest request) {
+        // getSession(true) 를 사용하면 처음 들어온 사용자도 세션이 만들어지기 때문에 false로 받음
+        HttpSession session = request.getSession(false);
+        User loginUser = (User) session.getAttribute(SessionConstant.LOGIN_USER);
+        if (session == null) {
+            return ResponseEntity.badRequest().body("세션 값이 존재하지 않습니다.");
+        }
+        // 세션에 회원 데이터가 없음
+        if (loginUser == null) {
+            return ResponseEntity.badRequest().body("회원 데이터가 존재하지 않습니다.");
+        }
+        return new ResponseEntity<>(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS, loginUser.getUsername()), HttpStatus.OK);
     }
 
     @PostMapping("/logout")

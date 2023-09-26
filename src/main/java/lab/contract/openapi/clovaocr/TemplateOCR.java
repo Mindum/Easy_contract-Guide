@@ -8,18 +8,22 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.UUID;
+
+//import static lab.contract.openapi.clovaocr.GeneralOCR.writeMultiPart;
 
 @Service
 public class TemplateOCR {
-    /*
-    public String templateOCR(String imagename) {
+    public ArrayList<String[]> ocrapi(String imagename) {
         String apiURL = "https://eioype21ok.apigw.ntruss.com/custom/v1/24232/79c0ddfd90257093efc591035359e7b510f32413be6da5fe9244e13476409807/infer";
         String secretKey = "";
+        //String[][] text = new String[20][2];
 
-        //String imagename = "왜.png";
         String imagePath = Paths.get("C:/contract/savepng").toString();
         String imageFile = imagePath + "/" + imagename;
+        ArrayList<String[]> text = new ArrayList<>();
+
         StringBuilder sb = new StringBuilder();
 
         try {
@@ -67,33 +71,25 @@ public class TemplateOCR {
             }
             br.close();
 
-
             JSONObject jsonObject = new JSONObject(response.toString());
-            System.out.println(jsonObject);
+            System.out.println("jsonObject = " + jsonObject);
             JSONArray imgArray = jsonObject.getJSONArray("images");
             JSONObject img = imgArray.getJSONObject(0);
             JSONArray fieldArray = img.getJSONArray("fields");
-            //StringBuilder sb = new StringBuilder();
             for (int i = 0; i < fieldArray.length(); i++) {
                 JSONObject object = fieldArray.getJSONObject(i);
+                String key = object.getString("name");
                 String content = object.getString("inferText");
-                sb.append(content).append(" ");
+                text.add(new String[]{key,content});
+                //text[i][0] = key;
+                //text[i][1] = content;
+                //sb.append(content).append(" ");
             }
-
-            File textFile = new File("C:/contract/content/writeFile.txt");
-            if (!textFile.exists()) {
-                textFile.createNewFile();
-            }
-            FileWriter fw = new FileWriter(textFile);
-            BufferedWriter writer = new BufferedWriter(fw);
-            writer.write(sb.toString());
-            writer.close();
-            //return sb.toString();
-
         } catch (Exception e) {
             System.out.println(e);
         }
-        return sb.toString();
+        //return (sb.toString());
+        return text;
     }
 
     private static void writeMultiPart(OutputStream out, String jsonMessage, File file, String boundary) throws
@@ -130,5 +126,4 @@ public class TemplateOCR {
         }
         out.flush();
     }
-*/
 }

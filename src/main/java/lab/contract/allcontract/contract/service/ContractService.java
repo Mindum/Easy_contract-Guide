@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
@@ -24,9 +25,9 @@ public class ContractService {
     private static final String UPLOAD_PATH = "C:/contract/getpdf/";
 
     public Long saveContract(Long userId){
-        Optional<User> user = userRepository.findById(userId);
+        User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         Contract saveContract = Contract.builder()
-                .user(user.get())
+                .user(user)
                 .contract_name("untitled")
                 .build();
         contractRepository.save(saveContract);
@@ -34,7 +35,7 @@ public class ContractService {
     }
 
     public String savePdfFile(MultipartFile pdfFile) throws IOException {
-        String pdfFileName = UUID.randomUUID() + "_" + pdfFile.getOriginalFilename();
+        String pdfFileName = UUID.randomUUID() + "-" + pdfFile.getOriginalFilename();
         File saveFile = new File(UPLOAD_PATH, pdfFileName);
         pdfFile.transferTo(saveFile);
         return pdfFileName;

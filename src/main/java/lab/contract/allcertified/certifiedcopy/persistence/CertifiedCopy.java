@@ -1,6 +1,7 @@
 package lab.contract.allcertified.certifiedcopy.persistence;
 
 import lab.contract.allcontract.contract.persistence.Contract;
+import lab.contract.findout.certifiedcopy_content.persistence.CertifiedCopyContent;
 import lab.contract.user.persistence.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,17 +26,20 @@ public class CertifiedCopy {
     @JoinColumn(name = "contract_id")
     private Contract contract;
 
-    @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "user_id")
-    private User user;
-
     @CreatedDate
     @Column(nullable = false)
     private LocalDateTime created_at;
 
+    @OneToOne
+    @JoinColumn(name = "certifiedcopy_content_id")
+    private CertifiedCopyContent certifiedCopyContent;
+
+    public void setCertifiedCopyContent(CertifiedCopyContent certifiedCopyContent) {
+        this.certifiedCopyContent = certifiedCopyContent;
+    }
+
     @Builder
-    public CertifiedCopy(User user, Contract contract, LocalDateTime created_at) {
-        this.user = user;
+    public CertifiedCopy(Contract contract, LocalDateTime created_at) {
         this.contract = contract;
         this.created_at = created_at;
     }

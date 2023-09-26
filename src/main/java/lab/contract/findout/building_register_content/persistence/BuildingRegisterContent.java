@@ -47,7 +47,7 @@ public class BuildingRegisterContent {
     private String owner_address; // 소유자 주소
 
     @Column(nullable = false)
-    private String owner_part;  // 소유자 지분
+    private Double owner_part;  // 소유자 지분
 
     @Column(nullable = true)
     private String sharer_name;  // 공유자 성명
@@ -59,11 +59,11 @@ public class BuildingRegisterContent {
     private String sharer_address;  // 공유자 주소
 
     @Column(nullable = true)
-    private String sharer_part; // 공유자 지분
+    private Double sharer_part; // 공유자 지분
 
     @Builder
     public BuildingRegisterContent(BuildingRegister buildingRegister, String title, String ho_title, String location, String location_number, String street_address, String owner_name,
-                                   String owner_resident_number, String owner_address, String owner_part, String sharer_name, String sharer_resident_number, String sharer_address, String sharer_part) {
+                                   String owner_resident_number, String owner_address, Double owner_part, String sharer_name, String sharer_resident_number, String sharer_address, Double sharer_part) {
         this.buildingRegister = buildingRegister;
         this.title = title;
         this.ho_title = ho_title;

@@ -1,7 +1,12 @@
 package lab.contract.allbuilding.building_register.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lab.contract.allbuilding.building_register.persistence.BuildingRegister;
+import lab.contract.allbuilding.building_register.persistence.BuildingRegisterRepository;
 import lab.contract.allbuilding.building_register.service.BuildingRegisterService;
 import lab.contract.allbuilding.building_register_img.service.BuildingRegisterImgService;
+import lab.contract.findout.building_register_content.persistence.BuildingRegisterContent;
+import lab.contract.findout.building_register_content.service.BuildingRegisterContentService;
 import lab.contract.infrastructure.exception.DefaultRes;
 import lab.contract.infrastructure.exception.ResponseMessage;
 import lab.contract.infrastructure.exception.StatusCode;
@@ -21,6 +26,8 @@ import java.util.concurrent.ExecutionException;
 public class BuildingRegisterController {
     private final BuildingRegisterImgService buildingRegisterImgService;
     private final BuildingRegisterService buildingRegisterService;
+    private final BuildingRegisterContentService buildingRegisterContentService;
+    private final BuildingRegisterRepository buildingRegisterRepository;
 
     @PostMapping("/file/building-register")
     public ResponseEntity fileUpload(
@@ -28,7 +35,13 @@ public class BuildingRegisterController {
         Long saveId = buildingRegisterService.saveBuildingRegister(buildingUploadRequestDto.getContractId());
         String fileName = buildingRegisterService.saveBuildingRegisterPdfFile(buildingUploadRequestDto.getPdfFile());
         buildingRegisterImgService.convertPdfToPng(fileName);
-        buildingRegisterImgService.saveBuildingRegisterImg(saveId, fileName);
+        buildingRegisterContentService.saveBuildingRegisterContent(saveId, buildingRegisterImgService.saveBuildingRegisterImg(saveId, fileName));
+
+        //String JsonData[][] = buildingRegisterImgService.saveBuildingRegisterImg(saveId, fileName);
+
+        //BuildingRegister buildingRegister = buildingRegisterRepository.findById(saveId).orElseThrow(() -> new IllegalArgumentException("찾을 수 없습니다."));
+        //buildingRegisterContentService.saveBuildingRegisterContent(buildingRegister, JsonData);
+
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS), HttpStatus.OK);
     }
 }

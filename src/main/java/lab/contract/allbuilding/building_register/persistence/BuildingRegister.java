@@ -1,6 +1,7 @@
 package lab.contract.allbuilding.building_register.persistence;
 
 import lab.contract.allcontract.contract.persistence.Contract;
+import lab.contract.findout.building_register_content.persistence.BuildingRegisterContent;
 import lab.contract.user.persistence.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,17 +26,20 @@ public class BuildingRegister {
     @JoinColumn(name = "contract_id")
     private Contract contract;
 
-    @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "user_id")
-    private User user;
-
     @CreatedDate
     @Column(nullable = false)
     private LocalDateTime created_at;
 
+    @OneToOne
+    @JoinColumn(name = "building_register_content_id")
+    private BuildingRegisterContent buildingRegisterContent;
+
+    public void setBuildingRegisterContent(BuildingRegisterContent buildingRegisterContent) {
+        this.buildingRegisterContent = buildingRegisterContent;
+    }
+
     @Builder
-    public BuildingRegister(User user, Contract contract, LocalDateTime created_at) {
-        this.user = user;
+    public BuildingRegister(Contract contract, LocalDateTime created_at) {
         this.contract = contract;
         this.created_at = created_at;
     }

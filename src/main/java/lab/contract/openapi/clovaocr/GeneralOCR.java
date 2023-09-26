@@ -16,7 +16,6 @@ public class GeneralOCR {
         String apiURL = "https://eioype21ok.apigw.ntruss.com/custom/v1/24227/cc8321d6375c494d043fdd0260f21bc0ec51dacc9f6abb7f909cdcd3041b78bf/general";
         String secretKey = "";
 
-        //String imagename = "왜.png";
         String imagePath = Paths.get("C:/contract/savepng").toString();
         String imageFile = imagePath + "/" + imagename;
         StringBuilder sb = new StringBuilder();
@@ -66,13 +65,11 @@ public class GeneralOCR {
             }
             br.close();
 
-
             JSONObject jsonObject = new JSONObject(response.toString());
-            System.out.println(jsonObject);
+            //System.out.println(jsonObject);
             JSONArray imgArray = jsonObject.getJSONArray("images");
             JSONObject img = imgArray.getJSONObject(0);
             JSONArray fieldArray = img.getJSONArray("fields");
-            //StringBuilder sb = new StringBuilder();
             for (int i = 0; i < fieldArray.length(); i++) {
                 JSONObject object = fieldArray.getJSONObject(i);
                 String content = object.getString("inferText");

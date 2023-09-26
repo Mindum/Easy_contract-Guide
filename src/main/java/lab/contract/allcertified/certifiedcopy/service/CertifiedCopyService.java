@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
@@ -27,17 +28,17 @@ public class CertifiedCopyService {
     private static final String UPLOAD_PATH = "C:/contract/getpdf/";
 
     public Long saveCertifiedCopy(Long contractId){
-        Optional<Contract> contract = contractRepository.findById(contractId);
+        Contract contract = contractRepository.findById(contractId).orElseThrow(EntityNotFoundException::new);
         CertifiedCopy saveCertifiedCopy = CertifiedCopy.builder()
-                .contract(contract.get())
+                .contract(contract)
                 .build();
         certifiedCopyRepository.save(saveCertifiedCopy);
-
+        contract.setCertifiedCopy(saveCertifiedCopy);
         return saveCertifiedCopy.getId();
     }
 
     public String saveCertifiedCopyPdfFile(MultipartFile pdfFile) throws IOException {
-        String pdfFileName = UUID.randomUUID() + "_" + pdfFile.getOriginalFilename();
+        String pdfFileName = UUID.randomUUID() + "-" + pdfFile.getOriginalFilename();
         File saveFile = new File(UPLOAD_PATH, pdfFileName);
         pdfFile.transferTo(saveFile);
         return pdfFileName;
