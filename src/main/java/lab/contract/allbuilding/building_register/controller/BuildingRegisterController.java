@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 @CrossOrigin(originPatterns = "*")
@@ -29,8 +30,13 @@ public class BuildingRegisterController {
         Long saveId = buildingRegisterService.saveBuildingRegister(buildingRequestDto.getContractId());
         String fileName = buildingRegisterService.savePdfFile(buildingRequestDto.getPdfFile());
         buildingRegisterImgService.convertPdfToPng(fileName);
+        ArrayList<String[]> imgContent =buildingRegisterImgService.saveBuildingRegisterImg(saveId,fileName);
+        String[] url = imgContent.remove(0);
         buildingRegisterContentService.saveBuildingRegisterContent(saveId, buildingRegisterImgService.saveBuildingRegisterImg(saveId,fileName));
-        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS), HttpStatus.OK);
+        BuildingUploadResponse buildingUploadResponse = BuildingUploadResponse.builder()
+                .pages(url.length)
+                .urls(url).build();
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS, buildingUploadResponse), HttpStatus.OK);
     }
 
 }

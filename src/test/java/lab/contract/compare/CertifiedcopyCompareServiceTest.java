@@ -4,7 +4,7 @@ import lab.contract.allbuilding.building_register.persistence.BuildingRegister;
 import lab.contract.allcertified.certifiedcopy.persistence.Certifiedcopy;
 import lab.contract.allcontract.contract.persistence.Contract;
 import lab.contract.allcontract.contract.persistence.ContractRepository;
-import lab.contract.analysis_result.compare.Compare;
+import lab.contract.analysis_result.compare.CertifiedcopyCompareService;
 import lab.contract.findout.building_register_content.persistence.BuildingRegisterContent;
 import lab.contract.findout.certifiedcopy_content.persistence.CertifiedcopyContent;
 import lab.contract.findout.contract_content.persistence.ContractContent;
@@ -21,9 +21,9 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @Transactional
-public class CompareTest {
+public class CertifiedcopyCompareServiceTest {
     @Autowired
-    Compare compare;
+    CertifiedcopyCompareService certifiedcopyCompareService;
     @Autowired
     ContractRepository contractRepository;
 
@@ -60,7 +60,7 @@ public class CompareTest {
                 .street_address("서울특별시 송파구 올림픽로 300")
                 .build();
         certifiedcopy.setCertifiedcopyContent(certifiedcopyContent);
-        assertThat(compare.compareAddressWithCertified(contract).getResult()).isEqualTo("normal");
+        assertThat(certifiedcopyCompareService.compareAddressWithCertified(contract).getResult()).isEqualTo("normal");
     }
 
 //    @Test
@@ -108,7 +108,7 @@ public class CompareTest {
                 .build();
 
         certifiedcopy.setCertifiedcopyContent(certifiedcopyContent);
-        assertThat(compare.compareOwnerWithCertified(contract).getResult()).isEqualTo("normal");
+        assertThat(certifiedcopyCompareService.compareOwnerWithCertified(contract).getResult()).isEqualTo("normal");
     }
     @Test
     public void 등기부등본_공유자비교() {
@@ -137,7 +137,7 @@ public class CompareTest {
                 .build();
 
         certifiedcopy.setCertifiedcopyContent(certifiedcopyContent);
-        assertThat(compare.compareOwnerWithCertified(contract).getResult()).isEqualTo("normal");
+        assertThat(certifiedcopyCompareService.compareOwnerWithCertified(contract).getResult()).isEqualTo("normal");
     }
     @Test
     public void 건축물대장_소유자비교() {
@@ -160,6 +160,6 @@ public class CompareTest {
                 .owner_address("서울특별시 송파구 신천동")
                 .build();
         buildingRegister.setBuildingRegisterContent(buildingRegisterContent);
-        assertThat(compare.compareOwnerWithBuilding(contract)).isTrue();
+        assertThat(certifiedcopyCompareService.compareOwnerWithBuilding(contract)).isTrue();
     }
 }
