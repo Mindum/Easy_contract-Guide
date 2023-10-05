@@ -3,8 +3,6 @@ package lab.contract.user.controller;
 import lombok.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -20,7 +18,7 @@ public class UserResponse {
     private String privacy_agreement_yn;
 
     @Builder
-    public UserResponse(Long id, String username,String email,String password, String privacy_agreement_yn) {
+    public UserResponse(Long id, String username, String email, String password, String privacy_agreement_yn) {
         this.id = id;
         this.username = username;
         this.email = email;

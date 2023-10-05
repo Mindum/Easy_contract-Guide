@@ -1,7 +1,10 @@
 package lab.contract.allbuilding.building_register.persistence;
 
 import lab.contract.allcontract.contract.persistence.Contract;
+<<<<<<< HEAD
 import lab.contract.findout.building_register_content.persistence.BuildingRegisterContent;
+=======
+>>>>>>> 22d1b5188f1d96f23a6924f66dd37086cb08b8c7
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

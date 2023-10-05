@@ -1,9 +1,15 @@
 package lab.contract.allbuilding.building_register.service;
 
 import lab.contract.allbuilding.building_register.persistence.BuildingRegister;
+<<<<<<< HEAD
 import lab.contract.allcontract.contract.persistence.Contract;
 import lab.contract.allcontract.contract.persistence.ContractRepository;
 import lab.contract.allbuilding.building_register.persistence.BuildingRegisterRepository;
+=======
+import lab.contract.allbuilding.building_register.persistence.BuildingRegisterRepository;
+import lab.contract.allcontract.contract.persistence.Contract;
+import lab.contract.allcontract.contract.persistence.ContractRepository;
+>>>>>>> 22d1b5188f1d96f23a6924f66dd37086cb08b8c7
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

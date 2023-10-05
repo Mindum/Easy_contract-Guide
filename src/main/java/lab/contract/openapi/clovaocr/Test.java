@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> 22d1b5188f1d96f23a6924f66dd37086cb08b8c7
 package lab.contract.openapi.clovaocr;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -14,16 +6,17 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.UUID;
 
-@Service
-public class GeneralOCR {
-    public String ocrapi(String imagename) {
+import org.json.JSONObject;
+import org.json.JSONArray;
+import org.springframework.stereotype.Service;
+
+public class Test {
+
+    public static void main(String[] args) {
         String apiURL = "https://lvxcocb3a7.apigw.ntruss.com/custom/v1/22953/d1f1f9ab556b6371045222bdbb1d40bf937de8e078d40f656ba7601a6d50de22/general";
         String secretKey = "bWdZUnhOZ3dmaGZ1SHpicEJTdHhvcGRmbGt6bkFRQ0I=";
-
-        //String imagename = "왜.png";
-        String imagePath = Paths.get("C:/contract/savepng").toString();
-        String imageFile = imagePath + "/" + imagename;
-        StringBuilder sb = new StringBuilder();
+        String imageFile = "C:\\biz\\contract\\savepng\\비교할 임대차계약서.jpg";
+        String outputTextFile = "C:\\biz\\contract\\추출된_텍스트.txt";
 
         try {
             URL url = new URL(apiURL);
@@ -42,12 +35,11 @@ public class GeneralOCR {
             json.put("requestId", UUID.randomUUID().toString());
             json.put("timestamp", System.currentTimeMillis());
             JSONObject image = new JSONObject();
-            image.put("format", "png");
+            image.put("format", "jpg");
             image.put("name", "demo");
             JSONArray images = new JSONArray();
             images.put(image);
             json.put("images", images);
-            //json.put("enableTableDetection",true);
             String postParams = json.toString();
 
             con.connect();
@@ -68,35 +60,33 @@ public class GeneralOCR {
             StringBuffer response = new StringBuffer();
             while ((inputLine = br.readLine()) != null) {
                 response.append(inputLine);
+                System.out.println("\n");
             }
             br.close();
 
+            // JSON 응답 데이터에서 텍스트 필드만 추출하여 저장
+            JSONObject jsonResponse = new JSONObject(response.toString());
+            JSONArray imagesArray = jsonResponse.getJSONArray("images");
+            JSONObject firstImage = imagesArray.getJSONObject(0);
+            JSONArray fieldsArray = firstImage.getJSONArray("fields");
 
-            JSONObject jsonObject = new JSONObject(response.toString());
-            //System.out.println(jsonObject);
-            JSONArray imgArray = jsonObject.getJSONArray("images");
-            JSONObject img = imgArray.getJSONObject(0);
-            JSONArray fieldArray = img.getJSONArray("fields");
-            //StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < fieldArray.length(); i++) {
-                JSONObject object = fieldArray.getJSONObject(i);
-                String content = object.getString("inferText");
-                sb.append(content).append(" ");
+            StringBuilder extractedText = new StringBuilder();
+            for (int i = 0; i < fieldsArray.length(); i++) {
+                JSONObject field = fieldsArray.getJSONObject(i);
+                String inferText = field.getString("inferText");
+                extractedText.append(inferText).append(" ");
+                System.out.println(inferText);
             }
 
-            File textFile = new File("C:/contract/"+imagename+".txt");
-            if (!textFile.exists()) {
-                textFile.createNewFile();
-            }
-            FileWriter fw = new FileWriter(textFile);
-            BufferedWriter writer = new BufferedWriter(fw);
-            writer.write(sb.toString());
+            // 추출된 텍스트를 텍스트 파일에 저장
+            FileWriter writer = new FileWriter(outputTextFile);
+            writer.write(extractedText.toString());
             writer.close();
+
 
         } catch (Exception e) {
             System.out.println(e);
         }
-        return sb.toString();
     }
 
     private static void writeMultiPart(OutputStream out, String jsonMessage, File file, String boundary) throws
@@ -133,4 +123,5 @@ public class GeneralOCR {
         }
         out.flush();
     }
+
 }

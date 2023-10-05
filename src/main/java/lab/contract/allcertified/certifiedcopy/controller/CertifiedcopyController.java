@@ -1,8 +1,13 @@
 package lab.contract.allcertified.certifiedcopy.controller;
 
+<<<<<<< HEAD
 import lab.contract.allcertified.certifiedcopy.service.CertifiedcopyService;
 import lab.contract.allcertified.certifiedcopy_img.service.CertifiedcopyImgService;
 import lab.contract.findout.certifiedcopy_content.service.CertifiedcopyContentService;
+=======
+import lab.contract.allcertified.certifiedcopy_img.service.CertifiedcopyImgService;
+import lab.contract.allcertified.certifiedcopy.service.CertifiedcopyService;
+>>>>>>> 22d1b5188f1d96f23a6924f66dd37086cb08b8c7
 import lab.contract.infrastructure.exception.DefaultRes;
 import lab.contract.infrastructure.exception.ResponseMessage;
 import lab.contract.infrastructure.exception.StatusCode;

@@ -2,6 +2,10 @@ package lab.contract.user.service;
 
 import lab.contract.user.controller.UserRequestDto;
 import lab.contract.user.persistence.User;
+<<<<<<< HEAD:src/test/java/lab/contract/user/service/UserServiceTest.java
+=======
+import lab.contract.user.service.UserService;
+>>>>>>> 22d1b5188f1d96f23a6924f66dd37086cb08b8c7:src/test/java/lab/contract/biz/user/service/UserServiceTest.java
 import lab.contract.user.persistence.UserRepository;
 import lab.contract.infrastructure.exception.user.DuplicatedUserException;
 import lab.contract.user.service.UserService;

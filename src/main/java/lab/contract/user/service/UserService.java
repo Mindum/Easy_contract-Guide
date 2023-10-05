@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 package lab.contract.user.service;
 
+=======
+
+package lab.contract.user.service;
+
+>>>>>>> 22d1b5188f1d96f23a6924f66dd37086cb08b8c7
 import lab.contract.user.controller.UserRequestDto;
 import lab.contract.user.persistence.User;
 import lab.contract.user.persistence.UserRepository;
@@ -47,6 +53,3 @@ public class UserService {
         return findUser.get();
     }
 }
-
-
-

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package lab.contract.user.controller;
 
 import lab.contract.infrastructure.exception.user.SessionNullException;
@@ -10,6 +11,17 @@ import lab.contract.user.session.SessionManager;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
 import org.json.JSONObject;
+=======
+
+package lab.contract.user.controller;
+
+import lab.contract.user.persistence.User;
+import lab.contract.user.service.UserService;
+import lab.contract.user.session.SessionConstant;
+import lab.contract.infrastructure.exception.DefaultRes;
+import lab.contract.infrastructure.exception.ResponseMessage;
+import lab.contract.infrastructure.exception.StatusCode;
+>>>>>>> 22d1b5188f1d96f23a6924f66dd37086cb08b8c7
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -63,5 +75,7 @@ public class UserController {
         }
         return new ResponseEntity<>(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS, loginUser.getUsername()),HttpStatus.OK);
     }
+
+
 
 }

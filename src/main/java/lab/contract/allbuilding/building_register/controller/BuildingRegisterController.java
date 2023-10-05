@@ -2,7 +2,10 @@ package lab.contract.allbuilding.building_register.controller;
 
 import lab.contract.allbuilding.building_register.service.BuildingRegisterService;
 import lab.contract.allbuilding.building_register_img.service.BuildingRegisterImgService;
+<<<<<<< HEAD
 import lab.contract.findout.building_register_content.service.BuildingRegisterContentService;
+=======
+>>>>>>> 22d1b5188f1d96f23a6924f66dd37086cb08b8c7
 import lab.contract.infrastructure.exception.DefaultRes;
 import lab.contract.infrastructure.exception.ResponseMessage;
 import lab.contract.infrastructure.exception.StatusCode;
