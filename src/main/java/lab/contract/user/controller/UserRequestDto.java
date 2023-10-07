@@ -1,7 +1,9 @@
 package lab.contract.user.controller;
 
 import lab.contract.user.persistence.User;
+import lab.contract.user.security.Authority;
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
@@ -20,21 +22,13 @@ public class UserRequestDto {
     private String password;
     private String privacy_agreement_yn;
 
-    public User toEntity() {
+    public User toUser(PasswordEncoder passwordEncoder) {
         return User.builder()
                 .username(username)
                 .email(email)
-                .password(password)
+                .password(passwordEncoder.encode(password))
+                .authority(Authority.ROLE_USER)
                 .privacy_agreement_yn(privacy_agreement_yn)
                 .build();
-    }
-
-
-    @Builder
-    public UserRequestDto(String username,String email,String password, String privacy_agreement_yn) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.privacy_agreement_yn = privacy_agreement_yn;
     }
 }
