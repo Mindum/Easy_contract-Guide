@@ -1,6 +1,10 @@
 package lab.contract.findout.building_register_content.service;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> fef60a71732d959a9c113c490307bdb5402f4867
 import lab.contract.allbuilding.building_register.persistence.BuildingRegister;
 import lab.contract.allbuilding.building_register.persistence.BuildingRegisterRepository;
 import lab.contract.findout.building_register_content.persistence.BuildingRegisterContent;
@@ -11,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+<<<<<<< HEAD
 =======
 import lab.contract.findout.building_register_content.persistence.BuildingRegisterContent;
 import lab.contract.findout.building_register_content.persistence.BuildingRegisterContentRepository;
@@ -20,6 +25,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 >>>>>>> 22d1b5188f1d96f23a6924f66dd37086cb08b8c7
+=======
+import java.util.Arrays;
+>>>>>>> fef60a71732d959a9c113c490307bdb5402f4867
 
 @Service
 @Transactional
@@ -38,18 +46,20 @@ public class BuildingRegisterContentService {
         String location ="";
         String locationNumber = "";
         String streetAddress = "";
-        String ownerName ="";
-        String ownerRegisterNumber = "";
+        String ownerName = "";
+        String ownerResidentNumber = "";
         String ownerAddress = "";
         Double ownerPart = 0.0;
         String sharerName = "";
-        String sharerRegisterNumber = "";
+        String sharerResidentNumber = "";
         String sharerAddress = "";
         Double sharerPart = 0.0;
 
         for (int i = 0; i < buildingRegisterText.size(); i++) {
             String key = buildingRegisterText.get(i)[0];
             String content = buildingRegisterText.get(i)[1];
+            System.out.println("key = " + key);
+            System.out.println("content = " + content);
             switch (key) {
                 case "명칭":
                     title = extractContent("명칭", content);
@@ -78,12 +88,12 @@ public class BuildingRegisterContentService {
                     String[] extractedValues = NameWithNumber(lines);
                     ownerName = extractedValues[0];
                     System.out.println("ownerName = " + ownerName);
-                    ownerRegisterNumber = extractedValues[1];
-                    System.out.println("ownerRegisterNumber = " + ownerRegisterNumber);
+                    ownerResidentNumber = extractedValues[1];
+                    System.out.println("ownerResidentNumber = " + ownerResidentNumber);
                     sharerName = extractedValues[2];
                     System.out.println("sharerName = " + sharerName);
-                    sharerRegisterNumber = extractedValues[3];
-                    System.out.println("sharerRegisterNumber = " + sharerRegisterNumber);
+                    sharerResidentNumber = extractedValues[3];
+                    System.out.println("sharerResidentNumber = " + sharerResidentNumber);
                     break;
                 case "소유자 주소":
                     String alltext = content;
@@ -92,8 +102,12 @@ public class BuildingRegisterContentService {
                     System.out.println("ownerAddress = " + ownerAddress);
                     if (sharerName == null) {
                         sharerAddress = null;
-                    } else sharerAddress = findAsEndWordContainEndWord(alltext, ")", ")").trim();
-                    sharerAddress = sharerAddress.replace("\n", "");
+                    } else {
+                        sharerAddress = findAsEndWordContainEndWord(alltext, ")", ")").trim();
+                        if (sharerAddress != null) {
+                            sharerAddress = sharerAddress.replace("\n", "");
+                        }
+                    }
                     System.out.println("sharerAddress = " + sharerAddress);
 
                     break;
@@ -102,8 +116,13 @@ public class BuildingRegisterContentService {
                     ownerPart = Double.parseDouble(part[1]) / Double.parseDouble(part[0]);
                     System.out.println("ownerPart = " + ownerPart);
                     String[] part2 = extractContentAfterLineNumber(content, 3).split("/");
-                    sharerPart = Double.parseDouble(part2[1]) / Double.parseDouble(part2[0]);
-                    System.out.println("sharerPart = " + sharerPart);
+                    if (part2.length == 2) {
+                        sharerPart = Double.parseDouble(part2[1]) / Double.parseDouble(part2[0]);
+                        System.out.println("sharerPart = " + sharerPart);
+                    } else {
+                        sharerPart = 0.0; // 예외 처리: 올바른 형식의 데이터가 아닌 경우 기본값으로 설정
+                        System.out.println("sharerPart = " + sharerPart);
+                    }
                     break;
             }
         }
@@ -116,11 +135,11 @@ public class BuildingRegisterContentService {
                 .location_number(locationNumber)
                 .street_address(streetAddress)
                 .owner_name(ownerName)
-                .owner_resident_number(ownerRegisterNumber)
+                .owner_resident_number(ownerResidentNumber)
                 .owner_address(ownerAddress)
                 .owner_part(ownerPart)
                 .sharer_name(sharerName)
-                .sharer_resident_number(sharerRegisterNumber)
+                .sharer_resident_number(sharerResidentNumber)
                 .sharer_address(sharerAddress)
                 .sharer_part(sharerPart)
                 .build();
@@ -134,12 +153,40 @@ public class BuildingRegisterContentService {
     }
 
     public static String extractContentAfterLineNumber(String text, int afterLine) {
-        String[] lines = text.split("\n");
         String content = null;
 
-        if (afterLine >= 0 && afterLine < lines.length) {
-            content = lines[afterLine].trim();
+        if(text.contains(" ")) {
+            String[] check = text.split(" ");
+            for(int i=0; i< check.length; i++){
+                System.out.println(check[i]);
+            }
+            String lines = check[check.length-1];
+            String[] lines2 = lines.split("\n");
+            for(int i=0; i< lines2.length; i++){
+                System.out.println(lines2[i]);
+            }
+            String[] allText = new String[check.length-1 + lines2.length];
+            int index = 1;
+            allText[0] = check[0];
+            for(String num: lines2) {
+                allText[index++] = num;
+            }
+            System.out.println("newArray: " + Arrays.toString(allText));
+
+            if (afterLine >= 0 && afterLine < allText.length) {
+                content = allText[afterLine].trim();
+            }
+
+        } else {
+            String[] lines = text.split("\n");
+            for(int i=0; i<lines.length; i++){
+                System.out.println(lines[i]);
+            }
+            if (afterLine >= 0 && afterLine < lines.length) {
+                content = lines[afterLine].trim();
+            }
         }
+
         if (content == null) {
             return null;
         }
@@ -168,25 +215,26 @@ public class BuildingRegisterContentService {
 
     public static String[] NameWithNumber(String[] lines) {
         String ownerName = null;
-        String ownerRegisterNumber = null;
+        String ownerResidentNumber = null;
         String sharerName = null;
-        String sharerRegisterNumber = null;
+        String sharerResidentNumber = null;
 
         for (int i = 0; i < lines.length; i++) {
-            if (lines[i].matches("\\d{6}\\-[1-6]\\d{6} | \\d{6}\\-[1-6]\\*{6} | \\d{6}\\-[1-6]")) {  // 정규표현식
+            if (lines[i].matches("\\d{6}\\-[1-6]\\d{6}|\\d{6}\\-[1-6]\\*{6}|\\d{6}\\-[1-6]")) {  // 정규표현식
                 String prevLine = lines[i - 1];
                 if (ownerName == null) {
                     ownerName = prevLine;
-                    ownerRegisterNumber = lines[i].trim();
+                    ownerResidentNumber = lines[i].trim();
                 } else if (sharerName == null) {
                     sharerName = prevLine;
-                    sharerRegisterNumber = lines[i].trim();
+                    sharerResidentNumber = lines[i].trim();
                     break;
                 }
             }
         }
-        return new String[]{ownerName, ownerRegisterNumber, sharerName, sharerRegisterNumber};
+        return new String[]{ownerName, ownerResidentNumber, sharerName, sharerResidentNumber};
     }
+<<<<<<< HEAD
 }
 =======
     private final GeneralOCR generalOCR;
@@ -263,3 +311,6 @@ public class BuildingRegisterContentService {
 }
 
 >>>>>>> 22d1b5188f1d96f23a6924f66dd37086cb08b8c7
+=======
+}
+>>>>>>> fef60a71732d959a9c113c490307bdb5402f4867

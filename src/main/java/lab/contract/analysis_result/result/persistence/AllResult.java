@@ -3,6 +3,7 @@ package lab.contract.analysis_result.result.persistence;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lab.contract.allcontract.contract.persistence.Contract;
 import lab.contract.analysis_result.result.controller.ContractResultResponseDto;
+import lab.contract.analysis_result.result_field.persistence.BuildingRegisterResultField;
 import lab.contract.analysis_result.result_field.persistence.CertifiedResultField;
 import lab.contract.analysis_result.result_field.persistence.ResultField;
 import lombok.Builder;
@@ -33,7 +34,7 @@ public class AllResult {
     private List<ResultField> result_field = new ArrayList<>();
     @JsonIgnore
     @OneToMany(mappedBy = "all_result")
-    private List<ResultField> building_register_result = new ArrayList<>();
+    private List<BuildingRegisterResultField> building_register_result = new ArrayList<>();
     @JsonIgnore
     @OneToMany(mappedBy = "all_result")
     private List<CertifiedResultField> certifiedcopy_result = new ArrayList<>();
@@ -41,7 +42,7 @@ public class AllResult {
     private int rate;
 
     public void addResultField (ResultField resultField) { result_field.add(resultField);}
-    public void addBuildingRegisterResult (ResultField resultField) { building_register_result.add(resultField);}
+    public void addBuildingRegisterResult (BuildingRegisterResultField resultField) { building_register_result.add(resultField);}
     public void addCertifiedcopyResult (CertifiedResultField resultField) { certifiedcopy_result.add(resultField);}
     public void setRate (int rate) {this.rate = rate;}
 

@@ -2,12 +2,13 @@ package lab.contract.analysis_result.result.controller;
 
 import lab.contract.allcontract.contract.persistence.Contract;
 import lab.contract.allcontract.contract.persistence.ContractRepository;
+import lab.contract.analysis_result.compare.BuildingRegisterCompareService;
+import lab.contract.analysis_result.compare.CertifiedcopyCompareService;
 import lab.contract.analysis_result.compare.ContractCompareService;
-import lab.contract.analysis_result.result.persistence.AllResult;
 import lab.contract.analysis_result.result.service.AllResultService;
+import lab.contract.analysis_result.result_field.persistence.BuildingRegisterResultField;
 import lab.contract.analysis_result.result_field.persistence.CertifiedResultField;
 import lab.contract.analysis_result.result_field.persistence.ResultField;
-import lab.contract.analysis_result.result_field.service.ResultFieldService;
 import lab.contract.infrastructure.exception.DefaultRes;
 import lab.contract.infrastructure.exception.ResponseMessage;
 import lab.contract.infrastructure.exception.StatusCode;
@@ -31,8 +32,9 @@ import java.util.concurrent.ExecutionException;
 public class AllResultController {
     private final ContractRepository contractRepository;
     private final ContractCompareService contractCompareService;
+    private final CertifiedcopyCompareService certifiedcopyCompareService;
+    private final BuildingRegisterCompareService buildingRegisterCompareService;
     private final AllResultService allResultService;
-    private final ResultFieldService resultFieldService;
 
     @PostMapping("/result/contract")
     public ResponseEntity contractResult(
@@ -48,6 +50,7 @@ public class AllResultController {
             System.out.println("계약서 결과 리스트 비어있음");
         }
         int rate = contract.getAll_result().getRate();
+        System.out.println("rate = " + rate);
         ContractResultResponseDto resultResponseDto = ContractResultResponseDto.builder()
                 .rate(rate)
                 .resultFields(list.toArray())
@@ -56,21 +59,20 @@ public class AllResultController {
     }
     @PostMapping("/result/building-register")
     public ResponseEntity buildingRegisterResult(
-            ContractResultRequestDto contractResultRequestDto) throws IOException, ExecutionException, InterruptedException {
-        Long contractId = contractResultRequestDto.getContractId();
-        allResultService.saveAllResult(contractId);
-        resultFieldService.saveBuildingRegisterResult(contractId);
+            BuildingRegisterResultRequestDto buildingRegisterResultRequestDto) throws IOException, ExecutionException, InterruptedException {
+        Long contractId = buildingRegisterResultRequestDto.getContractId();
         Contract contract = contractRepository.findById(contractId).orElseThrow(EntityNotFoundException::new);
-        List<ResultField> list = contract.getAll_result().getBuilding_register_result();
-        /**
-         * 전체 (계약서 등기부 건축물) 합계 점수로 업데이트되도록 수정해야함
-         */
+        List<BuildingRegisterResultField> list = contract.getAll_result().getBuilding_register_result();
+        if (list.isEmpty()) {
+            buildingRegisterCompareService.saveBuildingRegisterResult(contractId);
+        }
         int rate = contract.getAll_result().getRate();
-        ContractResultResponseDto resultResponseDto = ContractResultResponseDto.builder()
+        BuildingRegisterResultResponseDto buildingRegisterResultResponseDto = BuildingRegisterResultResponseDto.builder()
                 .rate(rate)
                 .resultFields(list.toArray())
                 .build();
-        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS, resultResponseDto), HttpStatus.OK);
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS, buildingRegisterResultResponseDto), HttpStatus.OK);
+
     }
     @PostMapping("/result/certifiedcopy")
     public ResponseEntity certifiedcopyResult(
@@ -79,7 +81,7 @@ public class AllResultController {
         Contract contract = contractRepository.findById(contractId).orElseThrow(EntityNotFoundException::new);
         List<CertifiedResultField> list = contract.getAll_result().getCertifiedcopy_result();
         if (list.isEmpty()) {
-            resultFieldService.saveCertifiedcopyResult(contractId);
+            certifiedcopyCompareService.saveCertifiedcopyResult(contractId);
         }
         int rate = contract.getAll_result().getRate();
         CertifiedResultResponseDto resultResponseDto = CertifiedResultResponseDto.builder()
