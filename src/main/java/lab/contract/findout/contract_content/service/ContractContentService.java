@@ -48,23 +48,26 @@ public class ContractContentService {
 
     private String extractAddress() {
         String address = findAsNextWordReplace("소재지", "토 지", "토지").trim();
+        System.out.println(address);
         return address; // 매칭되지 않은 경우
     }
 
     private String extractPurpose() {
         String purpose = findAsNextWordReplace("용도", "면 적", "면적").trim();
+        System.out.println(purpose);
         return purpose;
     }
     private String extractRentalPart() {
         String rentalPart = findAsNextWordReplace("임대할부분","면 적", "면적").trim();
         if (rentalPart == "찾는 단어가 존재하지 않습니다.") rentalPart = findAsNextWordReplace("임차할부분", "면적", "면 적").trim();
-
+        System.out.println(rentalPart);
         return rentalPart;
     }
     private String extractDeposit() {
         String deposit = findAsEndWord("₩",")").trim();
         deposit = deposit.replace(",","");
         if (deposit.charAt(deposit.length()-1) == '원') deposit = deposit.replace("원","");
+        System.out.println(deposit);
 
         return deposit;
     }
@@ -72,18 +75,21 @@ public class ContractContentService {
     private String extractSpecialOption() {
         String specialOption = findAsNextWord("특약사항","본 계약을").trim();
         if (specialOption.contains("]")) specialOption = specialOption.replace("]","");
+        System.out.println(specialOption);
 
         return specialOption;
     }
 
     private String extractLessorAddress() {
         String lessorAddress = findAsNextWord("주 소", "임대인");
+        System.out.println(lessorAddress);
 
         return lessorAddress;
     }
     private String extractLessorResidentNumber() {
         String lessorResidentNumber = findAsNextWord("주민등록번호", "전 화");
         if (lessorResidentNumber == "찾는 단어가 존재하지 않습니다.") lessorResidentNumber = findAsNextWord("주민등록번호", "전화").trim();
+        System.out.println(lessorResidentNumber);
 
         return lessorResidentNumber;
     }
@@ -92,6 +98,7 @@ public class ContractContentService {
         String lessorName = findAsNextWord("성 명", "인 대리인");
         if (lessorName == "찾는 단어가 존재하지 않습니다.") lessorName = findAsNextWord("성명", "인 대리인").trim();
         if (lessorName.contains("날인")) lessorName = lessorName.replace(" 날인","");
+        System.out.println(lessorName);
 
         return lessorName;
     }

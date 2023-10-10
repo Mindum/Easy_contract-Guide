@@ -14,7 +14,7 @@ import java.util.UUID;
 public class GeneralOCR {
     public String ocrapi(String imagename) {
         String apiURL = "https://eioype21ok.apigw.ntruss.com/custom/v1/24227/cc8321d6375c494d043fdd0260f21bc0ec51dacc9f6abb7f909cdcd3041b78bf/general";
-        String secretKey = "";
+        String secretKey = "clROUWJ4U2lPaUlvaFRCdHFNUnJEZnlERUxJa09WZG8=";
 
         String imagePath = Paths.get("C:/contract/savepng").toString();
         String imageFile = imagePath + "/" + imagename;

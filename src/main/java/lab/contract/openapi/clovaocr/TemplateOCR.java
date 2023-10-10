@@ -17,7 +17,7 @@ import java.util.UUID;
 public class TemplateOCR {
     public ArrayList<String[]> ocrapi(String imagename) {
         String apiURL = "https://eioype21ok.apigw.ntruss.com/custom/v1/24232/79c0ddfd90257093efc591035359e7b510f32413be6da5fe9244e13476409807/infer";
-        String secretKey = "";
+        String secretKey = "S2RkRlFvamNTdFZoTWJkd3F5S29HSndiY1p6cUxYaFY=";
         //String[][] text = new String[20][2];
 
         String imagePath = Paths.get("C:/contract/savepng").toString();

@@ -15,10 +15,11 @@ public class ConvertAPI {
     private static final String DOWNLOAD_PATH = "C:/contract/savepng/";
 
     public void convertApi(String pdfname) throws IOException, ExecutionException, InterruptedException {
-        Config.setDefaultSecret("");
+        Config.setDefaultSecret("OKCUeuW3dxtahP3D");
         ConvertApi.convert("pdf", "png",
                 new Param("File", Paths.get(UPLOAD_PATH + pdfname)),
                 new Param("FileName", pdfname)
         ).get().saveFilesSync(Paths.get(DOWNLOAD_PATH));
     }
 }
+

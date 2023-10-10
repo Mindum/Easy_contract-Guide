@@ -1,9 +1,11 @@
 package lab.contract.allcontract.contract.persistence;
 
+
 import lab.contract.allbuilding.building_register.persistence.BuildingRegister;
 import lab.contract.allcertified.certifiedcopy.persistence.CertifiedCopy;
 import lab.contract.allcontract.contract_img.persistence.ContractImg;
 import lab.contract.analysis_result.result.persistence.AllResult;
+import lab.contract.encryption.Aes256Converter;
 import lab.contract.findout.contract_content.persistence.ContractContent;
 import lab.contract.user.persistence.User;
 import lombok.Builder;
@@ -37,6 +39,7 @@ public class Contract {
     private List<ContractImg> contract_imgs = new ArrayList<>();
 
     @Column(length = 10000)
+    @Convert(converter = Aes256Converter.class)
     private String contract_text;
 
     @CreatedDate

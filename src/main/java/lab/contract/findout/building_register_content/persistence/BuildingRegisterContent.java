@@ -1,6 +1,7 @@
 package lab.contract.findout.building_register_content.persistence;
 
 import lab.contract.allbuilding.building_register.persistence.BuildingRegister;
+import lab.contract.encryption.Aes256Converter;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,9 +24,11 @@ public class BuildingRegisterContent {
     private BuildingRegister buildingRegister;
 
     @Column(nullable = true)
+    @Convert(converter = Aes256Converter.class)
     private String title;  // 명칭
 
     @Column(nullable = true)
+    @Convert(converter = Aes256Converter.class)
     private String ho_title;  // 호명칭
 
     @Column(nullable = false)
@@ -41,9 +44,11 @@ public class BuildingRegisterContent {
     private String owner_name;  // 소유자 성명
 
     @Column(nullable = false)
+    @Convert(converter = Aes256Converter.class)
     private String owner_resident_number;  // 소유자 주민등록번호
 
     @Column(nullable = false)
+    @Convert(converter = Aes256Converter.class)
     private String owner_address; // 소유자 주소
 
     @Column(nullable = false)
@@ -53,9 +58,11 @@ public class BuildingRegisterContent {
     private String sharer_name;  // 공유자 성명
 
     @Column(nullable = true)
+    @Convert(converter = Aes256Converter.class)
     private String sharer_resident_number;  // 공유자 주민등록번호
 
     @Column(nullable = true)
+    @Convert(converter = Aes256Converter.class)
     private String sharer_address;  // 공유자 주소
 
     @Column(nullable = true)

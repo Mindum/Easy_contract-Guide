@@ -1,6 +1,7 @@
 package lab.contract.findout.contract_content.persistence;
 
 import lab.contract.allcontract.contract.persistence.Contract;
+import lab.contract.encryption.Aes256Converter;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,12 +26,14 @@ public class ContractContent {
     private Contract contract;
 
     @Column(nullable = false)
+    @Convert(converter = Aes256Converter.class)
     private String address;  // 주소
 
     @Column(nullable = false)
     private String purpose;  // 건물-구조 용도
 
     @Column(nullable = false)
+    @Convert(converter = Aes256Converter.class)
     private String rental_part;  // 임대할 부분
 
     @Column(nullable = false)
@@ -40,9 +43,11 @@ public class ContractContent {
     private String special_option;  // 특약사항
 
     @Column(nullable = false)
+    @Convert(converter = Aes256Converter.class)
     private String lessor_address;  // 임대인 주소
 
     @Column(nullable = false)
+    @Convert(converter = Aes256Converter.class)
     private String lessor_resident_number;  // 임대인 주민등록번호
 
     @Column(nullable = false)
