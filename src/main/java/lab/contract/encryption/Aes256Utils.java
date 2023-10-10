@@ -19,7 +19,7 @@ public class Aes256Utils {
     static final Decoder DECODER = Base64.getDecoder();
     static final Encoder ENCODER = Base64.getEncoder();
     private final SecretKeySpec keySpec;
-    private final byte[] iv; // 초기화 벡터
+    private final byte[] iv;
     //private static final byte[] IV = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     private final String encodedIv;
 
@@ -27,7 +27,7 @@ public class Aes256Utils {
         byte[] key = DECODER.decode("01234567890123456789012345678901");
         keySpec = new SecretKeySpec(key, ALGORITHM);
         SecureRandom random = new SecureRandom();
-        iv = new byte[16]; // 16바이트 IV (AES 블록의 크기)
+        iv = new byte[16];
         random.nextBytes(iv);
         this.encodedIv = ENCODER.encodeToString(iv);
     }
