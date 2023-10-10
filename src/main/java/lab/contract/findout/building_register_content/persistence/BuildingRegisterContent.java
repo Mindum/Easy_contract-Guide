@@ -1,76 +1,90 @@
 package lab.contract.findout.building_register_content.persistence;
 
 import lab.contract.allbuilding.building_register.persistence.BuildingRegister;
-import lab.contract.encryption.Aes256Converter;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @EntityListeners(AuditingEntityListener.class)
+@Entity
 @NoArgsConstructor
 @Getter
-@Entity
 public class BuildingRegisterContent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "building_register_content_id")
+    @Column(name = "building_register_content_id", nullable = false)
     private Long id;
 
     @OneToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "building_register_id")
+    @JoinColumn(name = "building_register_id", nullable = false)
     private BuildingRegister buildingRegister;
 
-    @Column(nullable = true)
-    @Convert(converter = Aes256Converter.class)
-    private String title;  // 명칭
+    @Column(name = "title")
+    private String title;
 
-    @Column(nullable = true)
-    @Convert(converter = Aes256Converter.class)
-    private String ho_title;  // 호명칭
+    @Column(name = "ho_title")
+    private String ho_title;
 
-    @Column(nullable = false)
-    private String location;  // 대지 위치
+    @Column(name = "location", nullable = false)
+    private String location;
 
-    @Column(nullable = false)
-    private String location_number;  // 지번
+    @Column(name = "location_number", nullable = false)
+    private String location_number;
 
-    @Column(nullable = false)
-    private String street_address;  // 도로명주소
+    @Column(name = "street_address", nullable = false)
+    private String street_address;
 
-    @Column(nullable = false)
-    private String owner_name;  // 소유자 성명
+    @Column(name = "owner_name", nullable = false)
+    private String owner_name;
 
-    @Column(nullable = false)
-    @Convert(converter = Aes256Converter.class)
-    private String owner_resident_number;  // 소유자 주민등록번호
+    @Column(name = "owner_resident_number", nullable = false)
+    private String owner_resident_number;
 
-    @Column(nullable = false)
-    @Convert(converter = Aes256Converter.class)
-    private String owner_address; // 소유자 주소
+    @Column(name = "owner_address", nullable = false)
+    private String owner_address;
 
-    @Column(nullable = false)
-    private Double owner_part;  // 소유자 지분
+    @Column(name = "owner_part", nullable = false)
+    private Double owner_part;
 
-    @Column(nullable = true)
-    private String sharer_name;  // 공유자 성명
+    @Column(name = "sharer_name")
+    private String sharer_name;
 
-    @Column(nullable = true)
-    @Convert(converter = Aes256Converter.class)
-    private String sharer_resident_number;  // 공유자 주민등록번호
+    @Column(name = "sharer_resident_number")
+    private String sharer_resident_number;
 
-    @Column(nullable = true)
-    @Convert(converter = Aes256Converter.class)
-    private String sharer_address;  // 공유자 주소
+    @Column(name = "sharer_address")
+    private String sharer_address;
 
-    @Column(nullable = true)
-    private Double sharer_part; // 공유자 지분
+    @Column(name = "sharer_part")
+    private Double sharer_part;
+
+    @CreatedDate
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
     @Builder
-    public BuildingRegisterContent(BuildingRegister buildingRegister, String title, String ho_title, String location, String location_number, String street_address, String owner_name,
-                                   String owner_resident_number, String owner_address, Double owner_part, String sharer_name, String sharer_resident_number, String sharer_address, Double sharer_part) {
+    public BuildingRegisterContent(
+            BuildingRegister buildingRegister,
+            String title,
+            String ho_title,
+            String location,
+            String location_number,
+            String street_address,
+            String owner_name,
+            String owner_resident_number,
+            String owner_address,
+            Double owner_part,
+            String sharer_name,
+            String sharer_resident_number,
+            String sharer_address,
+            Double sharer_part,
+            LocalDateTime createdAt
+    ) {
         this.buildingRegister = buildingRegister;
         this.title = title;
         this.ho_title = ho_title;
@@ -85,5 +99,6 @@ public class BuildingRegisterContent {
         this.sharer_resident_number = sharer_resident_number;
         this.sharer_address = sharer_address;
         this.sharer_part = sharer_part;
+        this.createdAt = createdAt;
     }
 }

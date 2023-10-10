@@ -2,6 +2,9 @@ package lab.contract.analysis_result.result.persistence;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lab.contract.allcontract.contract.persistence.Contract;
+import lab.contract.analysis_result.result.controller.ContractResultResponseDto;
+import lab.contract.analysis_result.result_field.persistence.BuildingRegisterResultField;
+import lab.contract.analysis_result.result_field.persistence.CertifiedResultField;
 import lab.contract.analysis_result.result_field.persistence.ResultField;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,28 +25,29 @@ public class AllResult {
     Long id;
 
     @OneToOne
+    @JsonIgnore
     @JoinColumn(name = "contract_id")
     private Contract contract;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "allResult")
+    @OneToMany(mappedBy = "all_result")
     private List<ResultField> result_field = new ArrayList<>();
-
     @JsonIgnore
-    @OneToMany(mappedBy = "allResult")
-    private List<ResultField> building_register_result = new ArrayList<>();
+    @OneToMany(mappedBy = "all_result")
+    private List<BuildingRegisterResultField> building_register_result = new ArrayList<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "all_result")
+    private List<CertifiedResultField> certifiedcopy_result = new ArrayList<>();
 
-    int rate;
+    private int rate;
 
-    public void addResultField (ResultField resultField) { result_field.add(resultField); }
-
-    public void addBuildingField (ResultField resultField) { result_field.add(resultField); }
-
+    public void addResultField (ResultField resultField) { result_field.add(resultField);}
+    public void addBuildingRegisterResult (BuildingRegisterResultField resultField) { building_register_result.add(resultField);}
+    public void addCertifiedcopyResult (CertifiedResultField resultField) { certifiedcopy_result.add(resultField);}
     public void setRate (int rate) {this.rate = rate;}
 
-
     @Builder
-    public AllResult(Contract contract){
+    public AllResult (Contract contract){
         this.contract = contract;
     }
 

@@ -1,5 +1,6 @@
 package lab.contract.findout.building_register_content.service;
 
+
 import lab.contract.allbuilding.building_register.persistence.BuildingRegister;
 import lab.contract.allbuilding.building_register.persistence.BuildingRegisterRepository;
 import lab.contract.findout.building_register_content.persistence.BuildingRegisterContent;
@@ -7,7 +8,6 @@ import lab.contract.findout.building_register_content.persistence.BuildingRegist
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -41,6 +41,8 @@ public class BuildingRegisterContentService {
         for (int i = 0; i < buildingRegisterText.size(); i++) {
             String key = buildingRegisterText.get(i)[0];
             String content = buildingRegisterText.get(i)[1];
+            System.out.println("key = " + key);
+            System.out.println("content = " + content);
             switch (key) {
                 case "명칭":
                     title = extractContent("명칭", content);

@@ -5,14 +5,16 @@ import lab.contract.allcontract.contract.persistence.ContractRepository;
 import lab.contract.findout.contract_content.persistence.ContractContent;
 import lab.contract.findout.contract_content.persistence.ContractContentRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 
-@Service
-@Transactional
 @RequiredArgsConstructor
+@Transactional
+@Service
+@Slf4j
 public class ContractContentService {
     private final ContractContentRepository contractContentRepository;
     private final ContractRepository contractRepository;
@@ -21,26 +23,27 @@ public class ContractContentService {
     public Long saveContractContent(Long contractId){
         Contract contract = contractRepository.findById(contractId).orElseThrow(EntityNotFoundException::new);
         Text = contract.getContract_text();
+        System.out.println(Text);
 
         String address = extractAddress();
         String purpose = extractPurpose();
-        String rental_part = extractRentalPart();
+        String rentalPart = extractRentalPart();
         String deposit = extractDeposit();
-        String special_option = extractSpecialOption();
-        String lessor_address = extractLessorAddress();
-        String lessor_resident_number = extractLessorResidentNumber();
-        String lessor_name = extractLessorName();
+        String specialOption = extractSpecialOption();
+        String lessorAddress = extractLessorAddress();
+        String lessorResidentNumber = extractLessorResidentNumber();
+        String lessorName = extractLessorName();
 
         ContractContent saveContractContent = ContractContent.builder()
                 .contract(contract)
                 .address(address)
                 .purpose(purpose)
-                .rental_part(rental_part)
+                .rental_part(rentalPart)
                 .deposit(deposit)
-                .special_option(special_option)
-                .lessor_address(lessor_address)
-                .lessor_resident_number(lessor_resident_number)
-                .lessor_name(lessor_name)
+                .special_option(specialOption)
+                .lessor_address(lessorAddress)
+                .lessor_resident_number(lessorResidentNumber)
+                .lessor_name(lessorName)
                 .build();
         contract.setContractContent(saveContractContent);
         return  contractContentRepository.save(saveContractContent).getId();
@@ -48,26 +51,23 @@ public class ContractContentService {
 
     private String extractAddress() {
         String address = findAsNextWordReplace("소재지", "토 지", "토지").trim();
-        System.out.println(address);
         return address; // 매칭되지 않은 경우
     }
 
     private String extractPurpose() {
         String purpose = findAsNextWordReplace("용도", "면 적", "면적").trim();
-        System.out.println(purpose);
         return purpose;
     }
     private String extractRentalPart() {
         String rentalPart = findAsNextWordReplace("임대할부분","면 적", "면적").trim();
         if (rentalPart == "찾는 단어가 존재하지 않습니다.") rentalPart = findAsNextWordReplace("임차할부분", "면적", "면 적").trim();
-        System.out.println(rentalPart);
+
         return rentalPart;
     }
     private String extractDeposit() {
         String deposit = findAsEndWord("₩",")").trim();
         deposit = deposit.replace(",","");
         if (deposit.charAt(deposit.length()-1) == '원') deposit = deposit.replace("원","");
-        System.out.println(deposit);
 
         return deposit;
     }
@@ -75,21 +75,18 @@ public class ContractContentService {
     private String extractSpecialOption() {
         String specialOption = findAsNextWord("특약사항","본 계약을").trim();
         if (specialOption.contains("]")) specialOption = specialOption.replace("]","");
-        System.out.println(specialOption);
 
         return specialOption;
     }
 
     private String extractLessorAddress() {
         String lessorAddress = findAsNextWord("주 소", "임대인");
-        System.out.println(lessorAddress);
 
         return lessorAddress;
     }
     private String extractLessorResidentNumber() {
         String lessorResidentNumber = findAsNextWord("주민등록번호", "전 화");
         if (lessorResidentNumber == "찾는 단어가 존재하지 않습니다.") lessorResidentNumber = findAsNextWord("주민등록번호", "전화").trim();
-        System.out.println(lessorResidentNumber);
 
         return lessorResidentNumber;
     }
@@ -98,7 +95,6 @@ public class ContractContentService {
         String lessorName = findAsNextWord("성 명", "인 대리인");
         if (lessorName == "찾는 단어가 존재하지 않습니다.") lessorName = findAsNextWord("성명", "인 대리인").trim();
         if (lessorName.contains("날인")) lessorName = lessorName.replace(" 날인","");
-        System.out.println(lessorName);
 
         return lessorName;
     }
@@ -126,11 +122,11 @@ public class ContractContentService {
     }
     public String findAsNextWord(String findKey,String nextWord) {
         if (!containCheck(Text,findKey)) {
-            //log.info(" 찾는 단어가 포함되어있지 않습니다.");
+            log.info(" 찾는 단어가 포함되어있지 않습니다.");
             return "찾는 단어가 존재하지 않습니다.";
         }
         if (!containCheck(Text,nextWord)) {
-            //log.info("다음 단어가 포함되어있지 않습니다.");
+            log.info("다음 단어가 포함되어있지 않습니다.");
             return "찾는 단어가 존재하지 않습니다.";
         }
 
@@ -144,17 +140,20 @@ public class ContractContentService {
         return findValue;
     }
     public String findAsNextWordReplace(String findKey,String nextWord, String replaceWord) {
-        if (!containCheck(Text,findKey)) return "찾는 단어가 존재하지 않습니다.";
-        if (!containCheck(Text,nextWord)) return "찾는 단어가 존재하지 않습니다.";
-
-        if(Text.indexOf(findKey)==-1) {
+        if (!containCheck(Text,findKey)) {
+            log.info(findKey + "를 찾을 수 없음");
             return "찾는 단어가 존재하지 않습니다.";
         }
+
         int startIndex = Text.indexOf(findKey);
 
         int endIndex = Text.indexOf(nextWord,startIndex+1);
         int replaceIndex = Text.indexOf(replaceWord,startIndex+1);
         if (endIndex == -1) {
+            if (replaceIndex == -1) {
+                log.info(findKey + "를 위한 다음단어를 찾을 수 없음");
+                return "찾는 단어가 존재하지 않습니다.";
+            }
             endIndex = replaceIndex;
         }
         if (endIndex !=-1 && replaceIndex !=-1){

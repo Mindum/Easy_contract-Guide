@@ -42,6 +42,7 @@ public class GeneralOCR {
             JSONArray images = new JSONArray();
             images.put(image);
             json.put("images", images);
+
             String postParams = json.toString();
 
             con.connect();
@@ -70,13 +71,15 @@ public class GeneralOCR {
             JSONArray imgArray = jsonObject.getJSONArray("images");
             JSONObject img = imgArray.getJSONObject(0);
             JSONArray fieldArray = img.getJSONArray("fields");
+
             for (int i = 0; i < fieldArray.length(); i++) {
                 JSONObject object = fieldArray.getJSONObject(i);
                 String content = object.getString("inferText");
                 sb.append(content).append(" ");
             }
 
-            File textFile = new File("C:/contract/writeFile.txt");
+            File textFile = new File("C:/contract/"+imagename+".txt");
+
             if (!textFile.exists()) {
                 textFile.createNewFile();
             }
@@ -84,7 +87,6 @@ public class GeneralOCR {
             BufferedWriter writer = new BufferedWriter(fw);
             writer.write(sb.toString());
             writer.close();
-            //return sb.toString();
 
         } catch (Exception e) {
             System.out.println(e);

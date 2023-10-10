@@ -11,20 +11,17 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.UUID;
 
-//import static lab.contract.openapi.clovaocr.GeneralOCR.writeMultiPart;
-
 @Service
 public class TemplateOCR {
-    public ArrayList<String[]> ocrapi(String imagename) {
-        String apiURL = "https://eioype21ok.apigw.ntruss.com/custom/v1/24232/79c0ddfd90257093efc591035359e7b510f32413be6da5fe9244e13476409807/infer";
-        String secretKey = "S2RkRlFvamNTdFZoTWJkd3F5S29HSndiY1p6cUxYaFY=";
-        //String[][] text = new String[20][2];
+    public ArrayList<String[]> ocr(String imagename) {
+        String apiURL = "https://lvxcocb3a7.apigw.ntruss.com/custom/v1/24325/5bf77f6a9ef3b4c215c5fee42e1743649634e1f002002d284595cfb696634a99/infer";
+        String secretKey = "T2ZaTUd0UkJ0YWx1RWtOSWpZWUlNa1dpUklXYlp6WUM=";
 
+        //String imagename = "5e7b701b-e91c-453d-9ae5-e2ee989fae1d_근저당권있는 등기부등본.pdf-4.png";
         String imagePath = Paths.get("C:/contract/savepng").toString();
         String imageFile = imagePath + "/" + imagename;
         ArrayList<String[]> text = new ArrayList<>();
-
-        StringBuilder sb = new StringBuilder();
+        //String[][] text = new String[20][2];
 
         try {
             URL url = new URL(apiURL);
@@ -48,6 +45,9 @@ public class TemplateOCR {
             JSONArray images = new JSONArray();
             images.put(image);
             json.put("images", images);
+            String[] template = {"25981","등기부등본2"};
+            json.put("templateIds",template);
+            json.put("enableTableDetection",true);
             String postParams = json.toString();
 
             con.connect();
@@ -71,8 +71,9 @@ public class TemplateOCR {
             }
             br.close();
 
+
             JSONObject jsonObject = new JSONObject(response.toString());
-            System.out.println("jsonObject = " + jsonObject);
+            //System.out.println("jsonObject = " + jsonObject);
             JSONArray imgArray = jsonObject.getJSONArray("images");
             JSONObject img = imgArray.getJSONObject(0);
             JSONArray fieldArray = img.getJSONArray("fields");
@@ -81,14 +82,11 @@ public class TemplateOCR {
                 String key = object.getString("name");
                 String content = object.getString("inferText");
                 text.add(new String[]{key,content});
-                //text[i][0] = key;
-                //text[i][1] = content;
-                //sb.append(content).append(" ");
             }
+
         } catch (Exception e) {
             System.out.println(e);
         }
-        //return (sb.toString());
         return text;
     }
 

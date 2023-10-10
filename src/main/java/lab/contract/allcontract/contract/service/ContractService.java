@@ -20,22 +20,21 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ContractService {
 
-    private final UserRepository userRepository;
     private final ContractRepository contractRepository;
+    private final UserRepository userRepository;
     private static final String UPLOAD_PATH = "C:/contract/getpdf/";
 
-    public Long saveContract(Long userId){
+    public Long saveContract(
+            Long userId) {
         User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         Contract saveContract = Contract.builder()
                 .user(user)
                 .contract_name("untitled")
                 .build();
-        contractRepository.save(saveContract);
-        return saveContract.getId();
+        return contractRepository.save(saveContract).getId();
     }
-
     public String savePdfFile(MultipartFile pdfFile) throws IOException {
-        String pdfFileName = UUID.randomUUID() + "-" + pdfFile.getOriginalFilename();
+        String pdfFileName = UUID.randomUUID() + "_" + pdfFile.getOriginalFilename();
         File saveFile = new File(UPLOAD_PATH, pdfFileName);
         pdfFile.transferTo(saveFile);
         return pdfFileName;

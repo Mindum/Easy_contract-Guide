@@ -1,11 +1,10 @@
 package lab.contract.allcontract.contract.persistence;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lab.contract.allbuilding.building_register.persistence.BuildingRegister;
-import lab.contract.allcertified.certifiedcopy.persistence.CertifiedCopy;
+import lab.contract.allcertified.certifiedcopy.persistence.Certifiedcopy;
 import lab.contract.allcontract.contract_img.persistence.ContractImg;
 import lab.contract.analysis_result.result.persistence.AllResult;
-import lab.contract.encryption.Aes256Converter;
 import lab.contract.findout.contract_content.persistence.ContractContent;
 import lab.contract.user.persistence.User;
 import lombok.Builder;
@@ -34,31 +33,30 @@ public class Contract {
 
     @Column(nullable = false)
     private String contract_name;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "contract")
     private List<ContractImg> contract_imgs = new ArrayList<>();
 
     @Column(length = 10000)
-    @Convert(converter = Aes256Converter.class)
     private String contract_text;
-
     @CreatedDate
     @Column(nullable = false)
     private LocalDateTime created_at;
 
     @OneToOne
+    @JsonIgnore
     @JoinColumn(name = "contract_content_id")
     private ContractContent contract_content;
-
     @OneToOne
+    @JsonIgnore
     @JoinColumn(name = "certifiedcopy_id")
-    private CertifiedCopy certifiedCopy;
-
+    private Certifiedcopy certifiedcopy;
     @OneToOne
+    @JsonIgnore
     @JoinColumn(name = "building_register_id")
     private BuildingRegister building_register;
-
     @OneToOne
+    @JsonIgnore
     @JoinColumn(name = "all_result_id")
     private AllResult all_result;
 
@@ -71,8 +69,8 @@ public class Contract {
     public void setContractContent (ContractContent contract_content) {
         this.contract_content = contract_content;
     }
-    public void setCertifiedCopy(CertifiedCopy certifiedCopy) {
-        this.certifiedCopy = certifiedCopy;
+    public void setCertifiedcopy(Certifiedcopy certifiedcopy) {
+        this.certifiedcopy = certifiedcopy;
     }
     public void setBuilding_register(BuildingRegister building_register) {
         this.building_register = building_register;
@@ -86,4 +84,5 @@ public class Contract {
         this.contract_text = contract_text;
         this.created_at = created_at;
     }
+
 }

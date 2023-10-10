@@ -7,10 +7,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BuildingRegisterResultResponseDto {
+    private int rate;
     private Object[] resultFields;
 
     @Builder
-    public BuildingRegisterResultResponseDto(Object[] resultFields) {
+    public BuildingRegisterResultResponseDto(int rate, Object[] resultFields) {
+        this.rate = rate;
         this.resultFields = resultFields;
     }
 }

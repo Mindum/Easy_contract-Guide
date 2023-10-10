@@ -6,9 +6,9 @@ import lab.contract.analysis_result.result.persistence.AllResult;
 import lab.contract.analysis_result.result.persistence.AllResultRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
 
 @Service
 @Transactional
@@ -23,4 +23,5 @@ public class AllResultService {
         contract.setAllResult(allResult);
         return allResultRepository.save(allResult).getId();
     }
+
 }

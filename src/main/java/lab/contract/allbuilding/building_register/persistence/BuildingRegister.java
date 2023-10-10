@@ -2,7 +2,6 @@ package lab.contract.allbuilding.building_register.persistence;
 
 import lab.contract.allcontract.contract.persistence.Contract;
 import lab.contract.findout.building_register_content.persistence.BuildingRegisterContent;
-import lab.contract.user.persistence.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,12 +16,11 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 public class BuildingRegister {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "building_register_id")
     private Long id;
 
-    @OneToOne(cascade = CascadeType.DETACH)
+    @OneToOne(mappedBy = "building_register", cascade = CascadeType.DETACH)
     @JoinColumn(name = "contract_id")
     private Contract contract;
 
@@ -37,7 +35,6 @@ public class BuildingRegister {
     public void setBuildingRegisterContent(BuildingRegisterContent buildingRegisterContent) {
         this.buildingRegisterContent = buildingRegisterContent;
     }
-
     @Builder
     public BuildingRegister(Contract contract, LocalDateTime created_at) {
         this.contract = contract;

@@ -13,7 +13,7 @@ public class Aes256Converter implements AttributeConverter<String, String> {
     }
 
     @Override
-    public String convertToDatabaseColumn(String attribute) {  // 암호화
+    public String convertToDatabaseColumn(String attribute) {
         if (!StringUtils.hasText(attribute)) {
             return attribute;
         }
@@ -25,7 +25,7 @@ public class Aes256Converter implements AttributeConverter<String, String> {
     }
 
     @Override
-    public String convertToEntityAttribute(String dbData) {  // 복호화
+    public String convertToEntityAttribute(String dbData) {
         try {
             return aes256Utils.decrypt(dbData);
         } catch (Exception e) {
