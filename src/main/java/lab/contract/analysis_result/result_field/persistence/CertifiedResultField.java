@@ -21,7 +21,8 @@ public class CertifiedResultField {
     @JsonIgnore
     @JoinColumn(name = "all_result_id")
     private AllResult all_result;
-
+    @Column(nullable = false)
+    private String title;
     @Column(nullable = false)
     private String type;
 
@@ -29,8 +30,9 @@ public class CertifiedResultField {
     private String comment;
 
     @Builder
-    public CertifiedResultField(AllResult allResult, String type, String comment) {
+    public CertifiedResultField(AllResult allResult,String title, String type, String comment) {
         this.all_result = allResult;
+        this.title=title;
         this.type = type;
         this.comment = comment;
     }

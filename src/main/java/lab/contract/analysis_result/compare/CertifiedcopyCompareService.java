@@ -42,6 +42,7 @@ public class CertifiedcopyCompareService {
         CertifiedcopyCompareService.Result result1 = compareAddressWithCertified(contract);
         if (result1.getResult()==STRONG) rate-=25;
         CertifiedResultField resultField1 = CertifiedResultField.builder()
+                .title(result1.title)
                 .comment(result1.getComment())
                 .type(result1.getResult())
                 .allResult(allResult)
@@ -52,6 +53,7 @@ public class CertifiedcopyCompareService {
         CertifiedcopyCompareService.Result result2 = compareOwnerWithCertified(contract);
         if (result2.getResult()==STRONG) rate-=25;
         CertifiedResultField resultField2 = CertifiedResultField.builder()
+                .title(result2.title)
                 .comment(result2.getComment())
                 .type(result2.getResult())
                 .allResult(allResult)
@@ -62,6 +64,7 @@ public class CertifiedcopyCompareService {
         CertifiedcopyCompareService.Result result3 = compareRegisterPurpose(contract);
         if (result3.getResult()==STRONG) rate-=25;
         CertifiedResultField resultField3 = CertifiedResultField.builder()
+                .title(result3.title)
                 .comment(result3.getComment())
                 .type(result3.getResult())
                 .allResult(allResult)
@@ -72,6 +75,7 @@ public class CertifiedcopyCompareService {
         CertifiedcopyCompareService.Result result4 = compareMortgage(contract);
         if (result4.getResult()==STRONG) rate-=25;
         CertifiedResultField resultField4 = CertifiedResultField.builder()
+                .title(result4.title)
                 .comment(result4.getComment())
                 .type(result4.getResult())
                 .allResult(allResult)
@@ -99,7 +103,7 @@ public class CertifiedcopyCompareService {
         CertifiedcopyContent certifiedcopyContent = certifiedcopy.getCertifiedcopyContent();
         Result result = new Result();
         StringBuilder comment = new StringBuilder();
-        comment.append("<b>주소 분석 결과</b>\n\n");
+        result.setTitle("<b>주소 분석 결과</b>\n\n");
         /**
          * 소재지 비교
          * 지번인 경우 - 등기부등본 전체지번에 포함여부 확인
@@ -190,7 +194,7 @@ public class CertifiedcopyCompareService {
 
         Result result = new Result();
         StringBuilder comment = new StringBuilder();
-        comment.append("<b>소유자 정보 분석 결과</b>\n\n");
+        result.setTitle("<b>소유자 정보 분석 결과</b>\n\n");
 
         comment.append("임대인 성명: " +contractContent.getLessor_name()).append("\n");
         comment.append("임대인 주소: " +contractContent.getLessor_address()).append("\n");
@@ -263,7 +267,7 @@ public class CertifiedcopyCompareService {
         String registerPurpose = certifiedcopyContent.getRegister_purpose();
         Result result = new Result();
         StringBuilder comment = new StringBuilder();
-        comment.append("<b>위험단어 분석 결과</b>\n\n");
+        result.setTitle("<b>위험단어 분석 결과</b>\n\n");
         result.setResult(NORMAL);
         if (registerPurpose.contains("가등기")) {
             result.setResult(STRONG);
@@ -310,7 +314,7 @@ public class CertifiedcopyCompareService {
         System.out.println("mortgage = " + mortgage);
         Result result = new Result();
         StringBuilder comment = new StringBuilder();
-        comment.append("<b>근저당권 분석 결과</b>\n\n");
+        result.setTitle("<b>근저당권 분석 결과</b>\n\n");
         if (mortgage == null) {
             result.setResult(NORMAL);
             comment.append("근저당권이 설정되어 있지 않습니다.\n");
@@ -350,6 +354,7 @@ public class CertifiedcopyCompareService {
     @Getter
     @Setter
     public class Result {
+        private String title;
         private String result;
         private String comment;
     }
