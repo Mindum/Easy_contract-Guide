@@ -1,6 +1,7 @@
 package lab.contract.findout.certifiedcopy_content.persistence;
 
 import lab.contract.allcertified.certifiedcopy.persistence.Certifiedcopy;
+import lab.contract.encryption.Aes256Converter;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,11 +25,15 @@ public class CertifiedcopyContent {
     String street_address;
     String register_purpose;
     String owner_name;
+    @Convert(converter = Aes256Converter.class)
     String owner_resident_number;
+    @Convert(converter = Aes256Converter.class)
     String owner_address;
     Double owner_part;
     String sharer_name;
+    @Convert(converter = Aes256Converter.class)
     String sharer_resident_number;
+    @Convert(converter = Aes256Converter.class)
     String sharer_address;
     Double sharer_part;
     Long mortgage;
