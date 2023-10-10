@@ -38,6 +38,7 @@ public class ContractCompareService {
         Result result1 = checkFloorAndHo(contract); // 1번
 
         ResultField resultField = ResultField.builder()
+                .title(result1.title)
                 .comment(result1.comment)
                 .type(result1.result)
                 .allResult(allResult)
@@ -47,6 +48,7 @@ public class ContractCompareService {
 
         Result result2 = checkPurpose(contract); // 2번
         ResultField resultField2 = ResultField.builder()
+                .title(result2.title)
                 .comment(result2.comment)
                 .type(result2.result)
                 .allResult(allResult)
@@ -56,6 +58,7 @@ public class ContractCompareService {
 
         Result result3 = checkLessor(contract); // 3번
         ResultField resultField3 = ResultField.builder()
+                .title(result3.title)
                 .comment(result3.comment)
                 .type(result3.result)
                 .allResult(allResult)
@@ -66,6 +69,7 @@ public class ContractCompareService {
 
         Result result4 = checkRepair(contract);  // 4번
         ResultField resultField4 = ResultField.builder()
+                .title(result4.title)
                 .comment(result4.comment)
                 .type(result4.result)
                 .allResult(allResult)
@@ -88,7 +92,7 @@ public class ContractCompareService {
 
         Result result = new Result();
         StringBuilder comment = new StringBuilder();
-        comment.append("<b>주소 분석 결과</b>\n\n");
+        result.setTitle("<b>주소 분석 결과</b>\n\n");
         comment.append(rentalPart + "\n");
 
         if (check1.contains("층") || check1.contains("호")) {
@@ -112,7 +116,7 @@ public class ContractCompareService {
         ContractContent contractContent = contract.getContract_content();
         Result result = new Result();
         StringBuilder comment = new StringBuilder();
-        comment.append("<b>임대인 분석 결과</b>\n\n");
+        result.setTitle("<b>임대인 분석 결과</b>\n\n");
         comment.append(contractContent.getLessor_name()).append("\n\n");
         comment.append(contractContent.getLessor_resident_number()).append("\n\n");
         comment.append(contractContent.getLessor_address()).append("\n\n");
@@ -128,7 +132,7 @@ public class ContractCompareService {
         ContractContent contractContent = contract.getContract_content();
         Result result = new Result();
         StringBuilder comment = new StringBuilder();
-        comment.append("<b>건물 용도에 따른 결과</b>\n\n");
+        result.setTitle("<b>건물 용도에 따른 결과</b>\n\n");
         comment.append(contractContent.getPurpose()).append("\n\n");
         comment.append(contractContent.getDeposit()).append("\n\n");
         comment.append("등기부등본 을구에 '채권최고액'이 설정되어있을 경우\n\n" +
@@ -148,7 +152,7 @@ public class ContractCompareService {
 
         Result result = new Result();
         StringBuilder comment = new StringBuilder();
-        comment.append("<b>특약사항</b>\n\n");
+        result.setTitle("<b>특약사항</b>\n\n");
         comment.append(specialOption + "\n\n");
 
         if (specialOption.contains("수리")) {
@@ -178,6 +182,7 @@ public class ContractCompareService {
     @Getter
     @Setter
     public class Result {
+        private String title;
         private String result;
         private String comment;
     }

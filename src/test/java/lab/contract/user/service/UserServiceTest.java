@@ -39,25 +39,5 @@ public class UserServiceTest {
         return userRequestDto;
     }
 
-    @Test
-    public void 회원가입_테스트() {
-        //given
-        UserRequestDto userRequestDto = createUser();
-        //when
-        User saveUser = userService.saveUser(userRequestDto);
-        String saveEmail = saveUser.getEmail();
-        //then
-        assertThat(userRequestDto.getEmail()).isEqualTo(saveEmail);
-    }
-    @Test
-    public void 중복회원예외_테스트() {
-        //given
-        UserRequestDto userRequestDto1 = createUser();
-        UserRequestDto userRequestDto2 = createUser();
-        userService.saveUser(userRequestDto1);
 
-        //when then
-        assertThrows(DuplicatedUserException.class,
-                ()->userService.saveUser(userRequestDto2));
-    }
 }

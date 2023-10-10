@@ -37,6 +37,7 @@ public class BuildingRegisterCompareService {
 
         BuildingRegisterCompareService.Result result1 = compareAddress(contract); // 1번
         BuildingRegisterResultField resultField = BuildingRegisterResultField.builder()
+                .title(result1.title)
                 .comment(result1.getComment())
                 .type(result1.getResult())
                 .allResult(allResult)
@@ -46,6 +47,7 @@ public class BuildingRegisterCompareService {
 
         BuildingRegisterCompareService.Result result2 = compareRentalPart(contract); // 2번
         BuildingRegisterResultField resultField2 = BuildingRegisterResultField.builder()
+                .title(result2.title)
                 .comment(result2.getComment())
                 .type(result2.getResult())
                 .allResult(allResult)
@@ -55,6 +57,7 @@ public class BuildingRegisterCompareService {
 
         BuildingRegisterCompareService.Result result3 = checkLessor(contract); // 3번
         BuildingRegisterResultField resultField3 = BuildingRegisterResultField.builder()
+                .title(result3.title)
                 .comment(result3.getComment())
                 .type(result3.getResult())
                 .allResult(allResult)
@@ -95,7 +98,7 @@ public class BuildingRegisterCompareService {
 
         Result result = new Result();
         StringBuilder comment = new StringBuilder();
-        comment.append("<b>소재지 분석 결과</b>\n\n");
+        result.setTitle("<b>소재지 분석 결과</b>\n\n");
         comment.append("소재지 : " + contractAddress + "\n");
 
         // "로" 또는 "길" 다음에 숫자가 모두 있는지 확인하는 정규 표현식 패턴
@@ -166,7 +169,7 @@ public class BuildingRegisterCompareService {
 
         Result result = new Result();
         StringBuilder comment = new StringBuilder();
-        comment.append("<b>임대할부분 분석 결과</b>\n\n");
+        result.setTitle("<b>임대할부분 분석 결과</b>\n\n");
         comment.append("임대할부분 : " + contractRentalPart + "\n\n");
 
         // "로" 또는 "길" 다음에 숫자가 모두 있는지 확인하는 정규 표현식 패턴
@@ -299,7 +302,7 @@ public class BuildingRegisterCompareService {
 
         Result result = new Result();
         StringBuilder comment = new StringBuilder();
-        comment.append("<b>소유자 정보 분석 결과</b>\n\n");
+        result.setTitle("<b>소유자 정보 분석 결과</b>\n\n");
 
 
         if(sharerPart == 0 || ownerPart > sharerPart){
@@ -403,6 +406,7 @@ public class BuildingRegisterCompareService {
     @Getter
     @Setter
     public class Result {
+        private String title;
         private String result;
         private String comment;
     }
