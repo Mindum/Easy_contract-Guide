@@ -328,6 +328,7 @@ public class CertifiedcopyCompareService {
                     "채권최고액과 보증금을 합친 금액인 "+ forCalculate + "원이 집 시세의 70%미만일 경우 안전합니다.\n" +
                     "금액이 70%를 이상일 경우 집이 경매로 넘어갈 경우 보증금을 돌려받지 못할 수 있습니다.\n\n\n");
         }
+        result.setComment(comment.toString());
         return result;
 
     }
