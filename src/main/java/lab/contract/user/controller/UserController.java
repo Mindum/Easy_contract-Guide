@@ -1,25 +1,21 @@
 package lab.contract.user.controller;
 
-import lab.contract.infrastructure.exception.user.SessionNullException;
-import lab.contract.user.persistence.User;
 import lab.contract.user.security.AuthService;
 import lab.contract.infrastructure.exception.DefaultRes;
 import lab.contract.infrastructure.exception.ResponseMessage;
 import lab.contract.infrastructure.exception.StatusCode;
 import lab.contract.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.json.JSONException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @CrossOrigin(originPatterns = "*")
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
     private final AuthService authService;
     private final UserService userService;
@@ -40,5 +36,10 @@ public class UserController {
                 .build();
 
         return new ResponseEntity<>(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS, loginResponse), HttpStatus.OK);
+    }
+
+    @PostMapping("/reissue")
+    public ResponseEntity<?> reissue(@RequestBody Reissue reissue) {
+        return authService.reissue(reissue);
     }
 }

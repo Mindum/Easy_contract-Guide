@@ -25,6 +25,7 @@ public class TokenProvider {
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "bearer";
     private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000*60*30;
+    private static final long REFRESH_TOKEN_EXPIRE_TIME = 7 * 24 * 60 * 60 * 1000L;
     private final Key key;
 
     public TokenProvider(@Value("${jwt.secret}") String secretKey) {
@@ -46,13 +47,19 @@ public class TokenProvider {
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
                 .setExpiration(tokenExpiresIn)
-                .signWith(key, SignatureAlgorithm.HS512)
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+
+        String refreshToken = Jwts.builder()
+                .setExpiration(new Date(now + REFRESH_TOKEN_EXPIRE_TIME))
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
         return TokenDto.builder()
                 .grantType(BEARER_TYPE)
                 .accessToken(accessToken)
-                .tokenExpiresIn(tokenExpiresIn.getTime())
+                .refreshToken(refreshToken)
+                .tokenExpiresIn(REFRESH_TOKEN_EXPIRE_TIME)
                 .build();
     }
 
@@ -95,4 +102,12 @@ public class TokenProvider {
             return e.getClaims();
         }
     }
+    public Long getExpiration(String accessToken) {
+        // accessToken 남은 유효시간
+        Date expiration = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody().getExpiration();
+        // 현재 시간
+        Long now = new Date().getTime();
+        return (expiration.getTime() - now);
+    }
+
 }

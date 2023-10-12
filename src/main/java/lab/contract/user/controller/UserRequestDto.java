@@ -15,9 +15,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Valid
 public class UserRequestDto {
-    @Size(min = 2,max = 10,message = "최소 2자 이상, 10자 이하의 문자를 입력하세요.")
     private String username;
-    @Email
     private String email;
     private String password;
     private String privacy_agreement_yn;

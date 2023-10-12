@@ -7,6 +7,7 @@ import lab.contract.user.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -23,6 +24,7 @@ public class SecurityConfig {
     private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final RedisTemplate redisTemplate;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -44,10 +46,12 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
+                .antMatchers("/file/**").access("hasRole('ROLE_USER')")
+                //.antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
-                .apply(new JwtSecurityConfig(tokenProvider));
+                .apply(new JwtSecurityConfig(tokenProvider, redisTemplate));
 
         return http.build();
     }
