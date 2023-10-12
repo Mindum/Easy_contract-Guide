@@ -1,6 +1,7 @@
 package lab.contract.findout.contract_content.persistence;
 
 import lab.contract.allcontract.contract.persistence.Contract;
+import lab.contract.encryption.Aes256Converter;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +26,9 @@ public class ContractContent {
     String deposit;
     @Column(length = 1000)
     String special_option;
+    @Convert(converter = Aes256Converter.class)
     String lessor_address;
+    @Convert(converter = Aes256Converter.class)
     String lessor_resident_number;
     String lessor_name;
 

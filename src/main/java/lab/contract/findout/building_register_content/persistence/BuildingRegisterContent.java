@@ -1,6 +1,7 @@
 package lab.contract.findout.building_register_content.persistence;
 
 import lab.contract.allbuilding.building_register.persistence.BuildingRegister;
+import lab.contract.encryption.Aes256Converter;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,10 +42,10 @@ public class BuildingRegisterContent {
 
     @Column(name = "owner_name", nullable = false)
     private String owner_name;
-
+    @Convert(converter = Aes256Converter.class)
     @Column(name = "owner_resident_number", nullable = false)
     private String owner_resident_number;
-
+    @Convert(converter = Aes256Converter.class)
     @Column(name = "owner_address", nullable = false)
     private String owner_address;
 
@@ -53,10 +54,10 @@ public class BuildingRegisterContent {
 
     @Column(name = "sharer_name")
     private String sharer_name;
-
+    @Convert(converter = Aes256Converter.class)
     @Column(name = "sharer_resident_number")
     private String sharer_resident_number;
-
+    @Convert(converter = Aes256Converter.class)
     @Column(name = "sharer_address")
     private String sharer_address;
 
