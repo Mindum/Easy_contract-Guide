@@ -12,6 +12,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Value;
 
 public class Aes256Utils {
     private static final String ALGORITHM = "AES";
@@ -20,11 +21,13 @@ public class Aes256Utils {
     static final Encoder ENCODER = Base64.getEncoder();
     private final SecretKeySpec keySpec;
     private final byte[] iv;
-    //private static final byte[] IV = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     private final String encodedIv;
 
+    @Value("${aes256.secret-key}")
+    private String secret;
+
     public Aes256Utils() {
-        byte[] key = DECODER.decode("01234567890123456789012345678901");
+        byte[] key = DECODER.decode(secret);
         keySpec = new SecretKeySpec(key, ALGORITHM);
         SecureRandom random = new SecureRandom();
         iv = new byte[16];
