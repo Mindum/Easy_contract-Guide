@@ -37,77 +37,81 @@ public class BuildingRegisterContentService {
         String sharerResidentNumber = "";
         String sharerAddress = "";
         Double sharerPart = 0.0;
+        try {
+            for (int i = 0; i < buildingRegisterText.size(); i++) {
+                String key = buildingRegisterText.get(i)[0];
+                String content = buildingRegisterText.get(i)[1];
+                System.out.println("key = " + key);
+                System.out.println("content = " + content);
+                switch (key) {
+                    case "명칭":
+                        title = extractContent("명칭", content);
+                        System.out.println("title = " + title);
+                        break;
+                    case "호명칭":
+                        hoTitle = extractContent("호명칭", content);
+                        System.out.println("hoTitle = " + hoTitle);
+                        break;
+                    case "대지위치":
+                        location = extractContent("대지위치", content);
+                        System.out.println("location = " + location);
+                        break;
+                    case "지번":
+                        locationNumber = extractContent("지번", content);
+                        System.out.println("locationNumber = " + locationNumber);
+                        break;
+                    case "도로명주소":
+                        streetAddress = extractContent("도로명주소", content);
+                        System.out.println("streetAddress = " + streetAddress);
+                        break;
+                    case "소유자 성명":
+                        String text = content;
+                        String[] lines = text.split("\n");
 
-        for (int i = 0; i < buildingRegisterText.size(); i++) {
-            String key = buildingRegisterText.get(i)[0];
-            String content = buildingRegisterText.get(i)[1];
-            System.out.println("key = " + key);
-            System.out.println("content = " + content);
-            switch (key) {
-                case "명칭":
-                    title = extractContent("명칭", content);
-                    System.out.println("title = " + title);
-                    break;
-                case "호명칭":
-                    hoTitle = extractContent("호명칭", content);
-                    System.out.println("hoTitle = " + hoTitle);
-                    break;
-                case "대지위치":
-                    location = extractContent("대지위치", content);
-                    System.out.println("location = " + location);
-                    break;
-                case "지번":
-                    locationNumber = extractContent("지번", content);
-                    System.out.println("locationNumber = " + locationNumber);
-                    break;
-                case "도로명주소":
-                    streetAddress = extractContent("도로명주소", content);
-                    System.out.println("streetAddress = " + streetAddress);
-                    break;
-                case "소유자 성명":
-                    String text = content;
-                    String[] lines = text.split("\n");
-
-                    String[] extractedValues = NameWithNumber(lines);
-                    ownerName = extractedValues[0];
-                    System.out.println("ownerName = " + ownerName);
-                    ownerResidentNumber = extractedValues[1];
-                    System.out.println("ownerResidentNumber = " + ownerResidentNumber);
-                    sharerName = extractedValues[2];
-                    System.out.println("sharerName = " + sharerName);
-                    sharerResidentNumber = extractedValues[3];
-                    System.out.println("sharerResidentNumber = " + sharerResidentNumber);
-                    break;
-                case "소유자 주소":
-                    String alltext = content;
-                    ownerAddress = findAsEndWordContainEndWord(alltext, "주소", ")").trim();
-                    ownerAddress = ownerAddress.replace("\n", "");
-                    System.out.println("ownerAddress = " + ownerAddress);
-                    if (sharerName == null) {
-                        sharerAddress = null;
-                    } else {
-                        sharerAddress = findAsEndWordContainEndWord(alltext, ")", ")").trim();
-                        if (sharerAddress != null) {
-                            sharerAddress = sharerAddress.replace("\n", "");
+                        String[] extractedValues = NameWithNumber(lines);
+                        ownerName = extractedValues[0];
+                        System.out.println("ownerName = " + ownerName);
+                        ownerResidentNumber = extractedValues[1];
+                        System.out.println("ownerResidentNumber = " + ownerResidentNumber);
+                        sharerName = extractedValues[2];
+                        System.out.println("sharerName = " + sharerName);
+                        sharerResidentNumber = extractedValues[3];
+                        System.out.println("sharerResidentNumber = " + sharerResidentNumber);
+                        break;
+                    case "소유자 주소":
+                        String alltext = content;
+                        ownerAddress = findAsEndWordContainEndWord(alltext, "주소", ")").trim();
+                        ownerAddress = ownerAddress.replace("\n", "");
+                        System.out.println("ownerAddress = " + ownerAddress);
+                        if (sharerName == null) {
+                            sharerAddress = null;
+                        } else {
+                            sharerAddress = findAsEndWordContainEndWord(alltext, ")", ")").trim();
+                            if (sharerAddress != null) {
+                                sharerAddress = sharerAddress.replace("\n", "");
+                            }
                         }
-                    }
-                    System.out.println("sharerAddress = " + sharerAddress);
+                        System.out.println("sharerAddress = " + sharerAddress);
 
-                    break;
-                case "소유권 지분":
-                    String[] part = extractContentAfterLineNumber(content, 2).split("/");
-                    ownerPart = Double.parseDouble(part[1]) / Double.parseDouble(part[0]);
-                    System.out.println("ownerPart = " + ownerPart);
-                    String[] part2 = extractContentAfterLineNumber(content, 3).split("/");
-                    if (part2.length == 2) {
-                        sharerPart = Double.parseDouble(part2[1]) / Double.parseDouble(part2[0]);
-                        System.out.println("sharerPart = " + sharerPart);
-                    } else {
-                        sharerPart = 0.0; // 예외 처리: 올바른 형식의 데이터가 아닌 경우 기본값으로 설정
-                        System.out.println("sharerPart = " + sharerPart);
-                    }
-                    break;
-            }
+                        break;
+                    case "소유권 지분":
+                        String[] part = extractContentAfterLineNumber(content, 2).split("/");
+                        ownerPart = Double.parseDouble(part[1]) / Double.parseDouble(part[0]);
+                        System.out.println("ownerPart = " + ownerPart);
+                        String[] part2 = extractContentAfterLineNumber(content, 3).split("/");
+                        if (part2.length == 2) {
+                            sharerPart = Double.parseDouble(part2[1]) / Double.parseDouble(part2[0]);
+                            System.out.println("sharerPart = " + sharerPart);
+                        } else {
+                            sharerPart = 0.0; // 예외 처리: 올바른 형식의 데이터가 아닌 경우 기본값으로 설정
+                            System.out.println("sharerPart = " + sharerPart);
+                        }
+                        break;
+                }
+
+        }
+        } catch(NullPointerException ex) {
+            throw new IllegalArgumentException("파일을 다시 업로드 해주세요");
         }
 
         BuildingRegisterContent saveBuildingRegisterContent = BuildingRegisterContent.builder()
