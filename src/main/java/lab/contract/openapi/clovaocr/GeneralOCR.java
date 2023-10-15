@@ -1,5 +1,6 @@
 package lab.contract.openapi.clovaocr;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -12,9 +13,11 @@ import java.util.UUID;
 
 @Service
 public class GeneralOCR {
+    @Value("${ocr.general.secret-key}")
+    private String secret;
     public String ocrapi(String imagename) {
         String apiURL = "https://eioype21ok.apigw.ntruss.com/custom/v1/24227/cc8321d6375c494d043fdd0260f21bc0ec51dacc9f6abb7f909cdcd3041b78bf/general";
-        String secretKey = "clROUWJ4U2lPaUlvaFRCdHFNUnJEZnlERUxJa09WZG8=";
+        String secretKey = secret;
 
         String imagePath = Paths.get("C:/contract/savepng").toString();
         String imageFile = imagePath + "/" + imagename;
