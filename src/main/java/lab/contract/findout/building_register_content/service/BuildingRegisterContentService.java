@@ -221,4 +221,5 @@ public class BuildingRegisterContentService {
         }
         return new String[]{ownerName, ownerResidentNumber, sharerName, sharerResidentNumber};
     }
+
 }
