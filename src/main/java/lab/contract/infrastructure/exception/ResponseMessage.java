@@ -8,4 +8,6 @@ public class ResponseMessage {
     public static final String FILE_SIZE_LIMIT = "파일 크기가 너무 큽니다.";
     public static final String SESSION_NULL = "로그인 사용자가 존재하지 않습니다.";
     public static final String ID_NULL = "아이디 값이 없습니다.";
+
+    public static final String ENTITY_NULL = "파일을 다시 업로드 해주세요.";
 }
