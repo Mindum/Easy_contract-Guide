@@ -38,5 +38,4 @@ public class BuildingRegisterController {
                 .urls(url).build();
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS, buildingUploadResponse), HttpStatus.OK);
     }
-
 }
