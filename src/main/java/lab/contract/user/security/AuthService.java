@@ -4,10 +4,10 @@ import lab.contract.infrastructure.exception.DefaultRes;
 import lab.contract.infrastructure.exception.ResponseMessage;
 import lab.contract.infrastructure.exception.StatusCode;
 import lab.contract.infrastructure.exception.user.DuplicatedUserException;
-import lab.contract.user.controller.LoginForm;
-import lab.contract.user.controller.Reissue;
-import lab.contract.user.controller.UserRequestDto;
-import lab.contract.user.controller.UserResponseDto;
+import lab.contract.infrastructure.exception.user.TokenMismatchException;
+import lab.contract.infrastructure.exception.user.TokenNotExistException;
+import lab.contract.infrastructure.exception.user.TokenNotValidException;
+import lab.contract.user.controller.*;
 import lab.contract.user.jwt.TokenDto;
 import lab.contract.user.jwt.TokenProvider;
 import lab.contract.user.persistence.User;
@@ -60,8 +60,7 @@ public class AuthService {
         // 1. Refresh Token 검증
         if (!tokenProvider.validateToken(reissue.getRefreshToken())) {
             log.info("refresh token 검증 실패");
-            return new ResponseEntity<>("Refresh Token 정보가 유효하지 않습니다.", HttpStatus.BAD_REQUEST);
-            //"Refresh Token 정보가 유효하지 않습니다.", HttpStatus.BAD_REQUEST);
+            throw new TokenNotValidException("TokenNotValidException",ResponseMessage.TOKEN_NOT_VALID);
         }
 
         // 2. Access Token 에서 User email 을 가져옵니다.
@@ -72,42 +71,40 @@ public class AuthService {
         String refreshToken = (String)redisTemplate.opsForValue().get("RT:" + authentication.getName());
         if(ObjectUtils.isEmpty(refreshToken)) {
             log.info("refresh token이 존재하지 않음");
-            return new ResponseEntity<>("잘못된 요청입니다.",HttpStatus.BAD_REQUEST);
+            throw new TokenNotExistException("TokenNotExistExcepion",ResponseMessage.TOKEN_NOT_EXIST);
         }
         if(!refreshToken.equals(reissue.getRefreshToken())) {
             log.info("refresh token 정보가 잘못됨");
-            return new ResponseEntity<>("Refresh Token 정보가 일치하지 않습니다.",HttpStatus.BAD_REQUEST);
+            throw new TokenMismatchException("TokenMismatchException",ResponseMessage.TOKEN_MISMATCH);
         }
-
         // 4. 새로운 토큰 생성
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
 
         // 5. RefreshToken Redis 업데이트
         redisTemplate.opsForValue()
                 .set("RT:" + authentication.getName(), tokenDto.getRefreshToken(), tokenDto.getTokenExpiresIn(), TimeUnit.MILLISECONDS);
-        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS), HttpStatus.OK);
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS, tokenDto), HttpStatus.OK);
     }
 
-//    public ResponseEntity<?> logout(UserRequestDto.Logout logout) {
-//        // 1. Access Token 검증
-//        if (!jwtTokenProvider.validateToken(logout.getAccessToken())) {
-//            return response.fail("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
-//        }
-//
-//        // 2. Access Token 에서 User email 을 가져옵니다.
-//        Authentication authentication = jwtTokenProvider.getAuthentication(logout.getAccessToken());
-//
-//        // 3. Redis 에서 해당 User email 로 저장된 Refresh Token 이 있는지 여부를 확인 후 있을 경우 삭제합니다.
-//        if (redisTemplate.opsForValue().get("RT:" + authentication.getName()) != null) {
-//            // Refresh Token 삭제
-//            redisTemplate.delete("RT:" + authentication.getName());
-//        }
-//
-//        // 4. 해당 Access Token 유효시간 가지고 와서 BlackList 로 저장하기
-//        Long expiration = jwtTokenProvider.getExpiration(logout.getAccessToken());
-//        redisTemplate.opsForValue()
-//                .set(logout.getAccessToken(), "logout", expiration, TimeUnit.MILLISECONDS);
-//
-//        return response.success("로그아웃 되었습니다.");
-//    }
+    public ResponseEntity<?> logout(Logout logout) {
+        // 1. Access Token 검증
+        if (!tokenProvider.validateToken(logout.getAccessToken())) {
+            throw new TokenNotValidException("TokenNotValidException",ResponseMessage.TOKEN_NOT_VALID);
+        }
+
+        // 2. Access Token 에서 User email 을 가져옵니다.
+        Authentication authentication = tokenProvider.getAuthentication(logout.getAccessToken());
+
+        // 3. Redis 에서 해당 User email 로 저장된 Refresh Token 이 있는지 여부를 확인 후 있을 경우 삭제합니다.
+        if (redisTemplate.opsForValue().get("RT:" + authentication.getName()) != null) {
+            // Refresh Token 삭제
+            redisTemplate.delete("RT:" + authentication.getName());
+        }
+
+        // 4. 해당 Access Token 유효시간 가지고 와서 BlackList 로 저장하기
+        Long expiration = tokenProvider.getExpiration(logout.getAccessToken());
+        redisTemplate.opsForValue()
+                .set(logout.getAccessToken(), "logout", expiration, TimeUnit.MILLISECONDS);
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.SUCCESS), HttpStatus.OK);
+    }
 }
