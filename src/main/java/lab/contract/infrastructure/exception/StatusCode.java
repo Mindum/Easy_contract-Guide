@@ -8,7 +8,10 @@ public class StatusCode {
     public static final int DOES_NOT_EXIST_USER =  401;
     public static final int PASSWORD_MISMATCH =  404;
     public static final int SESSION_NULL = 405;
-
     public static final int FILE_SIZE_LIMIT = 412;
     public static final int ID_NULL = 444;
+    public static final int TOKEN_MISMATCH = 401;
+    public static final int TOKEN_NOT_EXIST = 401;
+    public static final int TOKEN_NOT_VALID = 401;
+
 }

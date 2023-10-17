@@ -23,6 +23,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Entity
+@Table(name = "contracts")
 public class Contract {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "contract_id")

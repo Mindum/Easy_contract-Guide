@@ -37,14 +37,4 @@ public class User {
         this.privacy_agreement_yn = privacy_agreement_yn;
     }
 
-    public UserResponseDto toResponse() {
-        return UserResponseDto.builder()
-                .id(id)
-                .username(username)
-                .email(email)
-                .password(password)
-                .privacy_agreement_yn(privacy_agreement_yn)
-                .build();
-    }
-
 }
