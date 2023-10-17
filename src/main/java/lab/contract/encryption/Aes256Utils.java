@@ -13,7 +13,9 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
+@Service
 public class Aes256Utils {
     private static final String ALGORITHM = "AES";
     private static final String TRANSFORMATION = "AES/CBC/PKCS5PADDING";
@@ -23,11 +25,11 @@ public class Aes256Utils {
     private final byte[] iv;
     private final String encodedIv;
 
-    @Value("${aes256.secret-key}")
-    private String secret;
+    //@Value("${aes256.secret-key}")
+    //private String secretKey;
 
     public Aes256Utils() {
-        byte[] key = DECODER.decode(secret);
+        byte[] key = DECODER.decode("a1s2d3f4g5h6j7k8l9z0xcvbnmqwerty");
         keySpec = new SecretKeySpec(key, ALGORITHM);
         SecureRandom random = new SecureRandom();
         iv = new byte[16];
