@@ -1,5 +1,6 @@
 package lab.contract.openapi.clovaocr;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -12,11 +13,12 @@ import java.util.UUID;
 
 @Service
 public class GeneralOCR {
+    @Value("${ocr.general.secret-key}")
+    private String secret;
     public String ocrapi(String imagename) {
-        String apiURL = "https://lvxcocb3a7.apigw.ntruss.com/custom/v1/22953/d1f1f9ab556b6371045222bdbb1d40bf937de8e078d40f656ba7601a6d50de22/general";
-        String secretKey = "bWdZUnhOZ3dmaGZ1SHpicEJTdHhvcGRmbGt6bkFRQ0I=";
+        String apiURL = "https://eioype21ok.apigw.ntruss.com/custom/v1/24227/cc8321d6375c494d043fdd0260f21bc0ec51dacc9f6abb7f909cdcd3041b78bf/general";
+        String secretKey = secret;
 
-        //String imagename = "왜.png";
         String imagePath = Paths.get("C:/contract/savepng").toString();
         String imageFile = imagePath + "/" + imagename;
         StringBuilder sb = new StringBuilder();
@@ -43,7 +45,7 @@ public class GeneralOCR {
             JSONArray images = new JSONArray();
             images.put(image);
             json.put("images", images);
-            //json.put("enableTableDetection",true);
+
             String postParams = json.toString();
 
             con.connect();
@@ -67,13 +69,12 @@ public class GeneralOCR {
             }
             br.close();
 
-
             JSONObject jsonObject = new JSONObject(response.toString());
             //System.out.println(jsonObject);
             JSONArray imgArray = jsonObject.getJSONArray("images");
             JSONObject img = imgArray.getJSONObject(0);
             JSONArray fieldArray = img.getJSONArray("fields");
-            //StringBuilder sb = new StringBuilder();
+
             for (int i = 0; i < fieldArray.length(); i++) {
                 JSONObject object = fieldArray.getJSONObject(i);
                 String content = object.getString("inferText");
@@ -81,6 +82,7 @@ public class GeneralOCR {
             }
 
             File textFile = new File("C:/contract/"+imagename+".txt");
+
             if (!textFile.exists()) {
                 textFile.createNewFile();
             }
@@ -129,4 +131,5 @@ public class GeneralOCR {
         }
         out.flush();
     }
+
 }

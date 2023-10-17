@@ -12,3 +12,4 @@ public class DuplicatedUserException extends RuntimeException{
         this.responseMessage = responseMessage;
     }
 }
+

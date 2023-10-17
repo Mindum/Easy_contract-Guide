@@ -4,6 +4,7 @@ import lab.contract.allcertified.certifiedcopy.persistence.Certifiedcopy;
 import lab.contract.allcertified.certifiedcopy.persistence.CertifiedcopyRepository;
 import lab.contract.findout.certifiedcopy_content.persistence.CertifiedcopyContent;
 import lab.contract.findout.certifiedcopy_content.persistence.CertifiedcopyContentRepository;
+import lab.contract.findout.contract_content.persistence.ContractContent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -36,36 +37,40 @@ public class CertifiedcopyContentService {
         Double sharerPart = 0.0;
         long mortgage=0;
 
-        for (int i=0;i<certifiedcopyText.size();i++) {
-            String key = certifiedcopyText.get(i)[0];
-            String content = certifiedcopyText.get(i)[1];
-            switch (key) {
-                case "전체 지번" :
-                    if (!totalAddress.isBlank()) break;
-                    totalAddress = content;
-                    System.out.println("totalAddress = " + totalAddress);
-                    break;
-                case "소재지번과 도로명주소" :
-                    streetAddress = extractStreetAddress(content);
-                    System.out.println("streetAddress = " + streetAddress);
-                    break;
-                case "등기목적" :
-                    registerPurpose += content;
-                    //System.out.println("registerPurpose = " + registerPurpose);
-                    break;
-                case "권리자 및 기타사항" :
-                    Object[] owner = extractOwner(content);
-                    ownerName = (String) owner[0];
-                    ownerResidentNumber = (String) owner[1];
-                    ownerAddress = (String) owner[2];
-                    ownerPart = (Double) owner[3];
-                    sharerName = (String) owner[4];
-                    sharerResidentNumber = (String) owner[5];
-                    sharerAddress = (String) owner[6];
-                    sharerPart = (Double) owner[7];
-                    mortgage = extractMortgage(content);
-                    break;
+        try {
+            for (int i = 0; i < certifiedcopyText.size(); i++) {
+                String key = certifiedcopyText.get(i)[0];
+                String content = certifiedcopyText.get(i)[1];
+                switch (key) {
+                    case "전체 지번":
+                        if (!totalAddress.isBlank()) break;
+                        totalAddress = content;
+                        System.out.println("totalAddress = " + totalAddress);
+                        break;
+                    case "소재지번과 도로명주소":
+                        streetAddress = extractStreetAddress(content);
+                        System.out.println("streetAddress = " + streetAddress);
+                        break;
+                    case "등기목적":
+                        registerPurpose += content;
+                        //System.out.println("registerPurpose = " + registerPurpose);
+                        break;
+                    case "권리자 및 기타사항":
+                        Object[] owner = extractOwner(content);
+                        ownerName = (String) owner[0];
+                        ownerResidentNumber = (String) owner[1];
+                        ownerAddress = (String) owner[2];
+                        ownerPart = (Double) owner[3];
+                        sharerName = (String) owner[4];
+                        sharerResidentNumber = (String) owner[5];
+                        sharerAddress = (String) owner[6];
+                        sharerPart = (Double) owner[7];
+                        mortgage = extractMortgage(content);
+                        break;
+                }
             }
+        } catch(NullPointerException ex){
+            throw new IllegalArgumentException("파일을 다시 업로드 해주세요");
         }
 
         CertifiedcopyContent saveCertifiedcopyContent = CertifiedcopyContent.builder()

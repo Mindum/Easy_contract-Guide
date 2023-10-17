@@ -20,9 +20,11 @@ public class Certifiedcopy {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "certifiedcopy_id")
     private Long id;
+
     @OneToOne(mappedBy = "certifiedcopy", cascade = CascadeType.DETACH)
     @JoinColumn(name = "contract_id")
     private Contract contract;
+
     @CreatedDate
     @Column(nullable = false)
     private LocalDateTime created_at;

@@ -25,28 +25,34 @@ public class ContractContentService {
         Text = contract.getContract_text();
         System.out.println(Text);
 
-        String address = extractAddress();
-        String purpose = extractPurpose();
-        String rentalPart = extractRentalPart();
-        String deposit = extractDeposit();
-        String specialOption = extractSpecialOption();
-        String lessorAddress = extractLessorAddress();
-        String lessorResidentNumber = extractLessorResidentNumber();
-        String lessorName = extractLessorName();
+        try {
+            String address = extractAddress();
+            String purpose = extractPurpose();
+            String rentalPart = extractRentalPart();
+            String deposit = extractDeposit();
+            String specialOption = extractSpecialOption();
+            String lessorAddress = extractLessorAddress();
+            String lessorResidentNumber = extractLessorResidentNumber();
+            String lessorName = extractLessorName();
 
-        ContractContent saveContractContent = ContractContent.builder()
-                .contract(contract)
-                .address(address)
-                .purpose(purpose)
-                .rental_part(rentalPart)
-                .deposit(deposit)
-                .special_option(specialOption)
-                .lessor_address(lessorAddress)
-                .lessor_resident_number(lessorResidentNumber)
-                .lessor_name(lessorName)
-                .build();
-        contract.setContractContent(saveContractContent);
-        return  contractContentRepository.save(saveContractContent).getId();
+            ContractContent saveContractContent = ContractContent.builder()
+                    .contract(contract)
+                    .address(address)
+                    .purpose(purpose)
+                    .rental_part(rentalPart)
+                    .deposit(deposit)
+                    .special_option(specialOption)
+                    .lessor_address(lessorAddress)
+                    .lessor_resident_number(lessorResidentNumber)
+                    .lessor_name(lessorName)
+                    .build();
+            contract.setContractContent(saveContractContent);
+            return  contractContentRepository.save(saveContractContent).getId();
+
+        } catch(NullPointerException ex) {
+            throw new IllegalArgumentException("파일을 다시 업로드 해주세요");
+        }
+
     }
 
     private String extractAddress() {

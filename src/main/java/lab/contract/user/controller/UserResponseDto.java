@@ -14,13 +14,14 @@ public class UserResponseDto {
     private Long id;
     private String username;
     private String email;
-    private String password;
     private String privacy_agreement_yn;
 
     public static UserResponseDto of(User user) {
         return UserResponseDto.builder()
                 .id(user.getId())
                 .username(user.getUsername())
+                .email(user.getEmail())
+                .privacy_agreement_yn(user.getPrivacy_agreement_yn())
                 .build();
     }
 }

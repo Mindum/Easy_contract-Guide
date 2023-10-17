@@ -2,6 +2,7 @@ package lab.contract.openapi.clovaocr;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -13,9 +14,11 @@ import java.util.UUID;
 
 @Service
 public class TemplateOCR {
+    @Value("${ocr.template.secret-key}")
+    private String secret;
     public ArrayList<String[]> ocr(String imagename) {
-        String apiURL = "https://lvxcocb3a7.apigw.ntruss.com/custom/v1/24325/5bf77f6a9ef3b4c215c5fee42e1743649634e1f002002d284595cfb696634a99/infer";
-        String secretKey = "T2ZaTUd0UkJ0YWx1RWtOSWpZWUlNa1dpUklXYlp6WUM=";
+        String apiURL = "https://eioype21ok.apigw.ntruss.com/custom/v1/24232/79c0ddfd90257093efc591035359e7b510f32413be6da5fe9244e13476409807/infer";
+        String secretKey = secret;
 
         //String imagename = "5e7b701b-e91c-453d-9ae5-e2ee989fae1d_근저당권있는 등기부등본.pdf-4.png";
         String imagePath = Paths.get("C:/contract/savepng").toString();
